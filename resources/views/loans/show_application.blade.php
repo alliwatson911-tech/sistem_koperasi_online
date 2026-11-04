@@ -311,6 +311,82 @@
                 </div>
             </div>
 
+            <!-- Card 5: Profil & Foto Tempat Usaha (Modal Usaha / UMKM) -->
+            @if($application->isBusinessLoan() || $application->business_photo_path)
+            <div class="bg-white rounded-2xl shadow-sm border border-emerald-200 p-6 space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                    <div class="flex items-center gap-2">
+                        <span class="p-2 rounded-xl bg-emerald-100 text-emerald-800">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                        </span>
+                        <div>
+                            <h2 class="text-base font-bold text-slate-800">Profil & Foto Tempat Usaha (Modal Usaha)</h2>
+                            <p class="text-xs text-slate-500">Bukti fisik operasional usaha untuk pinjaman produktif modal kerja</p>
+                        </div>
+                    </div>
+                    <span class="badge badge-success text-[10px]">Pinjaman Produktif UMKM</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="space-y-2">
+                        <div>
+                            <span class="text-slate-400 block">Nama Usaha / Toko:</span>
+                            <strong class="text-slate-800 text-sm">{{ $application->business_name ?? 'Usaha Anggota' }}</strong>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 block">Jenis / Bidang Usaha:</span>
+                            <span class="text-slate-700 font-medium">{{ $application->business_type ?? '-' }}</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 block">Lama Beroperasi & Estimasi Omset:</span>
+                            <span class="text-slate-700 font-semibold">{{ $application->business_duration_years ?? 1 }} Tahun &bull; Rp {{ number_format($application->business_monthly_revenue ?? 0, 0, ',', '.') }}/bulan</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 block">Alamat Lokasi Usaha:</span>
+                            <p class="text-slate-700 leading-relaxed">{{ $application->business_address ?? '-' }}</p>
+                        </div>
+                    </div>
+
+                    {{-- Foto Tempat Usaha --}}
+                    <div class="space-y-2">
+                        <span class="text-slate-400 block font-semibold">Foto Tempat Usaha (Dari Pemohon):</span>
+                        @if($application->business_photo_path)
+                            <a href="{{ asset('storage/' . $application->business_photo_path) }}" target="_blank" class="block group relative rounded-xl overflow-hidden border border-slate-300 shadow-xs max-w-xs">
+                                <img src="{{ asset('storage/' . $application->business_photo_path) }}" alt="Foto Tempat Usaha" class="h-36 w-full object-cover group-hover:scale-105 transition-transform duration-200">
+                                <span class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-xs font-bold transition-opacity">
+                                    Klik untuk Memperbesar
+                                </span>
+                            </a>
+                        @else
+                            <div class="h-28 rounded-xl bg-slate-100 border border-dashed border-slate-300 flex items-center justify-center text-slate-400 text-xs italic">
+                                Foto usaha belum diunggah pemohon
+                            </div>
+                        @endif
+
+                        {{-- Foto Survei Lapangan Analis --}}
+                        @if($application->survey_photo_path)
+                        <div class="pt-2 border-t border-slate-100">
+                            <span class="text-slate-400 block font-semibold">Foto Bukti Survei Lokasi (Oleh Analis Kredit):</span>
+                            <a href="{{ asset('storage/' . $application->survey_photo_path) }}" target="_blank" class="block group relative rounded-xl overflow-hidden border border-emerald-300 shadow-xs max-w-xs mt-1">
+                                <img src="{{ asset('storage/' . $application->survey_photo_path) }}" alt="Foto Hasil Survei" class="h-32 w-full object-cover group-hover:scale-105 transition">
+                                <span class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-xs font-bold transition-opacity">
+                                    Lihat Foto Survei Lapangan
+                                </span>
+                            </a>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+
+                @if($application->survey_notes)
+                <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-xs">
+                    <span class="font-bold text-emerald-900 block mb-0.5">Catatan Hasil Kunjungan Survei Lokasi Usaha:</span>
+                    <p class="text-emerald-800 leading-relaxed italic">"{{ $application->survey_notes }}"</p>
+                </div>
+                @endif
+            </div>
+            @endif
+
         </div>
 
         <!-- Kolom Kanan: Aksi Petugas & Lini Masa Timeline -->
@@ -431,7 +507,7 @@
                     <span class="w-3 h-3 rounded-full bg-blue-500"></span>
                     <h2 class="text-base font-bold text-slate-800">Analisis Kredit (5C)</h2>
                 </div>
-                <form action="{{ route('loans.applications.review', $application->id) }}" method="POST" class="space-y-3">
+                <form action="{{ route('loans.applications.review', $application->id) }}" method="POST" enctype="multipart/form-data" class="space-y-3">
                     @csrf
                     <div>
                         <label class="block text-[11px] font-bold text-slate-700 mb-1">Keputusan Analis <span class="text-rose-500">*</span></label>
@@ -456,6 +532,21 @@
                         <label class="block text-[11px] font-bold text-slate-700 mb-1">Rekomendasi Plafon & Catatan Khusus</label>
                         <input type="text" name="recommendations" class="w-full text-xs border border-slate-300 rounded-lg p-2" placeholder="Contoh: Disetujui penuh Rp 10.000.000, tenor 6 bulan">
                     </div>
+
+                    {{-- Form Tambahan Survei Tempat Usaha --}}
+                    @if($application->isBusinessLoan())
+                    <div class="p-3 bg-blue-50 rounded-xl border border-blue-200 space-y-2">
+                        <span class="text-xs font-bold text-blue-900 block">Hasil Survei Lokasi Usaha (Analisis Lapangan):</span>
+                        <div>
+                            <label class="block text-[11px] text-slate-600 mb-0.5">Catatan Survei Lapangan:</label>
+                            <textarea name="survey_notes" rows="2" class="w-full text-xs border border-slate-300 rounded-lg p-1.5 bg-white" placeholder="Kondisi riil toko, keramaian pelanggan, stok barang saat dikunjungi..."></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] text-slate-600 mb-0.5">Unggah Foto Bukti Survei Lapangan (Opsional):</label>
+                            <input type="file" name="survey_photo" accept="image/*" class="w-full text-xs file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-blue-100 file:text-blue-800">
+                        </div>
+                    </div>
+                    @endif
 
                     <button type="submit" class="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition shadow">
                         Kirim Hasil Analisis

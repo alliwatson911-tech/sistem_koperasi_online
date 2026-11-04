@@ -94,6 +94,124 @@
     </div>
     @endif
 
+    {{-- Banner Peringatan Keterlambatan / Jatuh Tempo (Overdue / Due Soon Alert) --}}
+    @php
+        $maxOverdueDays = $loan->getMaxDaysOverdue();
+        $isOverdue = ($loan->status === 'overdue' || $maxOverdueDays > 0);
+    @endphp
+    @if($isOverdue)
+    <div class="rounded-2xl p-5 bg-gradient-to-r from-red-50 to-rose-50 border border-rose-300 shadow-sm">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-3">
+                <div class="p-2.5 rounded-xl bg-red-600 text-white shadow-sm shrink-0 mt-0.5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                </div>
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                        <h2 class="text-sm font-bold text-red-950">Peringatan: Pinjaman Ini Sedang Menunggak (Overdue)</h2>
+                        <span class="badge {{ $loan->collectibility_badge_class }} text-[10px]">
+                            {{ $loan->collectibility_label }}
+                        </span>
+                    </div>
+                    <p class="text-xs text-red-800 leading-relaxed">
+                        Terdapat keterlambatan pembayaran hingga <strong>{{ $maxOverdueDays }} hari</strong> dengan akumulasi denda berjalan sebesar <strong>Rp {{ number_format($loan->outstanding_penalty, 0, ',', '.') }}</strong>. Tahapan penagihan: <strong>{{ strtoupper($loan->collection_stage ?? 'sp1') }}</strong>.
+                    </p>
+                    @if($loan->promised_payment_date)
+                    <div class="text-[11px] font-semibold text-amber-900 bg-amber-100/80 px-2.5 py-1 rounded-md inline-block mt-1">
+                        Komitmen Janji Bayar Tercatat: {{ Carbon\Carbon::parse($loan->promised_payment_date)->format('d/m/Y') }} @if($loan->promised_payment_amount) &bull; Est: Rp {{ number_format($loan->promised_payment_amount, 0, ',', '.') }} @endif
+                    </div>
+                    @endif
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 shrink-0">
+                @if(auth()->user()->isMember())
+                    <button type="button" onclick="document.getElementById('modal-request-restructuring').classList.remove('hidden')" class="btn btn-secondary btn-sm text-xs border border-rose-300 text-rose-900 bg-white hover:bg-rose-50">
+                        Ajukan Keringanan Denda
+                    </button>
+                    <a href="{{ route('loans.pay', $loan->id) }}" class="btn btn-primary btn-sm text-xs bg-red-600 hover:bg-red-700">
+                        Bayar Angsuran Sekarang
+                    </a>
+                @else
+                    <button type="button" onclick="document.getElementById('modal-record-collection').classList.remove('hidden')" class="btn btn-primary btn-sm text-xs bg-red-700 hover:bg-red-800">
+                        Catat Aksi Penagihan (SP/Kunjungan)
+                    </button>
+                    <button type="button" onclick="document.getElementById('modal-request-restructuring').classList.remove('hidden')" class="btn btn-secondary btn-sm text-xs border border-rose-300">
+                        Rekomendasi Keringanan
+                    </button>
+                @endif
+            </div>
+        </div>
+    </div>
+    @endif
+
+    {{-- KARTU PROFIL & FOTO TEMPAT USAHA (MODAL USAHA / UMKM) --}}
+    @if($loan->isBusinessLoan() || $loan->business_photo_path)
+    <div class="bg-white rounded-2xl shadow-sm border border-emerald-200 p-6 space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                </div>
+                <div>
+                    <h2 class="text-base font-bold text-slate-800">Data & Foto Tempat Usaha Anggota (Modal Usaha)</h2>
+                    <p class="text-xs text-slate-500">Dokumentasi fisik tempat usaha anggota untuk transparansi dan pemantauan perputaran usaha</p>
+                </div>
+            </div>
+            <span class="badge badge-success text-[10px]">Pembiayaan Produktif</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <div class="space-y-2 p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                <div>
+                    <span class="text-slate-400 block">Nama Usaha / Toko:</span>
+                    <strong class="text-slate-800 text-sm">{{ $loan->business_name ?? 'Usaha Anggota' }}</strong>
+                </div>
+                <div>
+                    <span class="text-slate-400 block">Jenis / Bidang Usaha:</span>
+                    <span class="text-slate-700 font-medium">{{ $loan->business_type ?? '-' }}</span>
+                </div>
+                <div>
+                    <span class="text-slate-400 block">Lama Berjalan & Omset Rata-rata:</span>
+                    <span class="text-slate-700 font-semibold">{{ $loan->business_duration_years ?? 1 }} Tahun &bull; Rp {{ number_format($loan->business_monthly_revenue ?? 0, 0, ',', '.') }}/bln</span>
+                </div>
+                <div>
+                    <span class="text-slate-400 block">Alamat Tempat Usaha:</span>
+                    <p class="text-slate-700 leading-relaxed">{{ $loan->business_address ?? '-' }}</p>
+                </div>
+            </div>
+
+            <div class="space-y-2 p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                <span class="text-slate-400 block font-semibold">Foto Tempat Usaha:</span>
+                @if($loan->business_photo_path)
+                    <a href="{{ asset('storage/' . $loan->business_photo_path) }}" target="_blank" class="block group relative rounded-xl overflow-hidden border border-slate-300 shadow-xs max-w-xs">
+                        <img src="{{ asset('storage/' . $loan->business_photo_path) }}" alt="Foto Tempat Usaha" class="h-32 w-full object-cover group-hover:scale-105 transition duration-200">
+                        <span class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-xs font-bold transition">
+                            Lihat Foto Beresolusi Penuh
+                        </span>
+                    </a>
+                @else
+                    <div class="h-28 rounded-xl bg-white border border-dashed border-slate-300 flex items-center justify-center text-slate-400 text-xs italic">
+                        Foto usaha tidak tersedia
+                    </div>
+                @endif
+
+                @if($loan->survey_photo_path)
+                <div class="pt-2 border-t border-slate-200">
+                    <span class="text-slate-400 block font-semibold">Foto Verifikasi Lapangan Analis:</span>
+                    <a href="{{ asset('storage/' . $loan->survey_photo_path) }}" target="_blank" class="block group relative rounded-xl overflow-hidden border border-emerald-300 shadow-xs max-w-xs mt-1">
+                        <img src="{{ asset('storage/' . $loan->survey_photo_path) }}" alt="Foto Survei Lapangan" class="h-28 w-full object-cover group-hover:scale-105 transition">
+                        <span class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-xs font-bold transition">
+                            Lihat Foto Survei Lapangan
+                        </span>
+                    </a>
+                </div>
+                @endif
+            </div>
+        </div>
+    </div>
+    @endif
+
     <!-- Ringkasan Statistik Finansial Pinjaman -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
@@ -389,9 +507,201 @@
     </div>
     @endif
 
+    {{-- RIWAYAT PENAGIHAN & PEMBINAAN ANGGOTA (COLLECTION LOGS) --}}
+    @if(!auth()->user()->isMember() || $loan->collectionLogs->isNotEmpty())
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 gap-2">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-rose-600 text-white flex items-center justify-center shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                </div>
+                <div>
+                    <h2 class="text-base font-bold text-slate-800">Riwayat Penagihan & Pendampingan Debitur</h2>
+                    <p class="text-xs text-slate-500">Jejak komunikasi, surat peringatan (SP), komitmen janji bayar, dan kunjungan lapangan</p>
+                </div>
+            </div>
+
+            @if(!auth()->user()->isMember())
+            <button type="button" onclick="document.getElementById('modal-record-collection').classList.remove('hidden')" class="btn btn-primary btn-sm text-xs self-start sm:self-auto">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                Catat Aktivitas Penagihan
+            </button>
+            @endif
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200 font-bold text-slate-600 uppercase tracking-wider">
+                        <th class="py-3 px-3">Waktu & Petugas</th>
+                        <th class="py-3 px-3">Tindakan</th>
+                        <th class="py-3 px-3">Hasil / Respon</th>
+                        <th class="py-3 px-3">Komitmen Janji Bayar</th>
+                        <th class="py-3 px-3">Catatan / Bukti</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    @forelse($loan->collectionLogs as $log)
+                    <tr class="hover:bg-slate-50/75 transition">
+                        <td class="py-3 px-3">
+                            <div class="font-bold text-slate-800">{{ $log->created_at->format('d/m/Y H:i') }}</div>
+                            <div class="text-[11px] text-slate-500">{{ $log->collector->name ?? 'Petugas' }} ({{ ucfirst($log->collector->role ?? 'staf') }})</div>
+                        </td>
+                        <td class="py-3 px-3">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-800 border border-slate-300">
+                                {{ $log->action_type_label }}
+                            </span>
+                        </td>
+                        <td class="py-3 px-3">
+                            @php
+                                $resBadge = match($log->result_status) {
+                                    'promised', 'paid' => 'bg-emerald-100 text-emerald-800 border-emerald-300',
+                                    'connected' => 'bg-blue-100 text-blue-800 border-blue-300',
+                                    'refusal', 'uncontactable' => 'bg-rose-100 text-rose-800 border-rose-300',
+                                    default => 'bg-slate-100 text-slate-700 border-slate-300',
+                                };
+                            @endphp
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold border {{ $resBadge }}">
+                                {{ $log->result_status_label }}
+                            </span>
+                        </td>
+                        <td class="py-3 px-3">
+                            @if($log->promised_date)
+                                <div class="font-bold text-amber-900">{{ Carbon\Carbon::parse($log->promised_date)->format('d/m/Y') }}</div>
+                                @if($log->promised_amount)
+                                    <div class="font-mono text-[11px] text-slate-600">Rp {{ number_format($log->promised_amount, 0, ',', '.') }}</div>
+                                @endif
+                            @else
+                                <span class="text-slate-400 italic">-</span>
+                            @endif
+                        </td>
+                        <td class="py-3 px-3">
+                            <p class="text-slate-700 leading-relaxed">{{ $log->notes ?: '-' }}</p>
+                            @if($log->proof_photo_path)
+                                <a href="{{ asset('storage/' . $log->proof_photo_path) }}" target="_blank" class="inline-flex items-center gap-1 text-[11px] text-emerald-700 hover:underline font-semibold mt-1">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                    Lihat Foto Bukti
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" class="py-6 text-center text-slate-400 italic">
+                            Belum ada catatan aktivitas penagihan untuk rekening pinjaman ini.
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @endif
+
+    {{-- RESTRUKTURISASI & PERMOHONAN KERINGANAN (RESTRUCTURING REQUESTS) --}}
+    @if(!auth()->user()->isMember() || $loan->restructuringRequests->isNotEmpty())
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 gap-2">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-amber-600 text-white flex items-center justify-center shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z"></path></svg>
+                </div>
+                <div>
+                    <h2 class="text-base font-bold text-slate-800">Permohonan Keringanan & Restrukturisasi Pinjaman</h2>
+                    <p class="text-xs text-slate-500">Pengajuan pembebasan denda, perpanjangan tenor, atau restrukturisasi pola angsuran</p>
+                </div>
+            </div>
+
+            <button type="button" onclick="document.getElementById('modal-request-restructuring').classList.remove('hidden')" class="btn btn-secondary btn-sm text-xs self-start sm:self-auto border border-amber-300 text-amber-900 bg-amber-50/50 hover:bg-amber-100">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                Ajukan Permohonan Keringanan
+            </button>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-200 font-bold text-slate-600 uppercase tracking-wider">
+                        <th class="py-3 px-3">Tanggal & Pemohon</th>
+                        <th class="py-3 px-3">Jenis Permohonan</th>
+                        <th class="py-3 px-3">Keringanan Diminta</th>
+                        <th class="py-3 px-3">Alasan Debitur</th>
+                        <th class="py-3 px-3">Status Putusan</th>
+                        <th class="py-3 px-3">Catatan Putusan</th>
+                        @if(in_array(auth()->user()->role, ['manager', 'admin']))
+                        <th class="py-3 px-3 text-right">Aksi Manajer</th>
+                        @endif
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    @forelse($loan->restructuringRequests as $req)
+                    <tr class="hover:bg-slate-50/75 transition">
+                        <td class="py-3 px-3">
+                            <div class="font-bold text-slate-800">{{ $req->created_at->format('d/m/Y H:i') }}</div>
+                            <div class="text-[11px] text-slate-500">{{ $req->requester->name ?? 'Pemohon' }}</div>
+                        </td>
+                        <td class="py-3 px-3">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-900 border border-amber-200">
+                                {{ $req->type_label }}
+                            </span>
+                        </td>
+                        <td class="py-3 px-3">
+                            @if($req->requested_waiver_amount > 0)
+                                <div class="font-bold font-mono text-slate-900">Rp {{ number_format($req->requested_waiver_amount, 0, ',', '.') }}</div>
+                                @if($req->status === 'approved')
+                                    <div class="text-[11px] text-emerald-700 font-bold font-mono">Disetujui: Rp {{ number_format($req->approved_waiver_amount, 0, ',', '.') }}</div>
+                                @endif
+                            @else
+                                <span class="text-slate-500">-</span>
+                            @endif
+                        </td>
+                        <td class="py-3 px-3">
+                            <p class="text-slate-700 max-w-xs">{{ $req->reason }}</p>
+                        </td>
+                        <td class="py-3 px-3">
+                            <span class="badge {{ $req->status_badge_class }}">
+                                {{ $req->status_label }}
+                            </span>
+                        </td>
+                        <td class="py-3 px-3">
+                            @if($req->decider)
+                                <div class="text-[11px] font-semibold text-slate-700">Oleh: {{ $req->decider->name }}</div>
+                                <div class="text-[11px] text-slate-500">{{ $req->decided_at?->format('d/m/Y H:i') }}</div>
+                                @if($req->manager_notes)
+                                    <p class="text-[11px] text-slate-600 italic mt-0.5">"{{ $req->manager_notes }}"</p>
+                                @endif
+                            @else
+                                <span class="text-slate-400 italic">Menunggu review</span>
+                            @endif
+                        </td>
+                        @if(in_array(auth()->user()->role, ['manager', 'admin']))
+                        <td class="py-3 px-3 text-right">
+                            @if($req->status === 'pending')
+                                <button type="button" onclick="openDecideModalSingle('{{ $req->id }}', '{{ $loan->loan_no }}', '{{ $req->requested_waiver_amount }}', '{{ addslashes($req->reason) }}')" class="btn btn-primary btn-sm text-xs bg-amber-600 hover:bg-amber-700">
+                                    Putuskan
+                                </button>
+                            @else
+                                <span class="text-slate-400 text-xs">Selesai</span>
+                            @endif
+                        </td>
+                        @endif
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="{{ in_array(auth()->user()->role, ['manager', 'admin']) ? 7 : 6 }}" class="py-6 text-center text-slate-400 italic">
+                            Belum ada permohonan keringanan / restrukturisasi untuk pinjaman ini.
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @endif
+
     {{-- Modal Pelunasan Dipercepat --}}
     @if(in_array($loan->status, ['active', 'overdue']))
-    <div id="modal-early-repay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div id="modal-early-repay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="earlyRepayModalTitle">
         <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
             <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div class="flex items-center gap-2">
@@ -399,11 +709,11 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-extrabold text-slate-900">Pelunasan Dipercepat</h3>
+                        <h3 id="earlyRepayModalTitle" class="text-base font-extrabold text-slate-900">Pelunasan Dipercepat</h3>
                         <p class="text-2xs text-slate-400">Pembebasan beban bunga masa depan</p>
                     </div>
                 </div>
-                <button type="button" onclick="document.getElementById('modal-early-repay').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 text-lg font-bold">&times;</button>
+                <button type="button" onclick="document.getElementById('modal-early-repay').classList.add('hidden')" aria-label="Tutup modal" class="text-slate-400 hover:text-slate-600 text-lg font-bold">&times;</button>
             </div>
 
             <div class="space-y-2 p-3.5 rounded-2xl bg-indigo-50/60 border border-indigo-100 text-xs">
@@ -428,15 +738,15 @@
             <form action="{{ route('loans.early_repay', $loan->id) }}" method="POST" class="space-y-3">
                 @csrf
                 <div class="form-group">
-                    <label class="form-label text-xs">Metode Pembayaran <span class="text-rose-500">*</span></label>
-                    <select name="payment_method" class="form-control text-xs" required>
+                    <label for="early_repay_method" class="form-label text-xs">Metode Pembayaran <span class="text-rose-500">*</span></label>
+                    <select name="payment_method" id="early_repay_method" class="form-control text-xs" required>
                         <option value="cash">Kas Tunai Teller</option>
                         <option value="transfer">Transfer Bank Koperasi</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label class="form-label text-xs">Catatan Tambahan (Opsional)</label>
-                    <input type="text" name="notes" class="form-control text-xs" placeholder="Contoh: Pelunasan dipercepat dari hasil panen/usaha">
+                    <label for="early_repay_notes" class="form-label text-xs">Catatan Tambahan (Opsional)</label>
+                    <input type="text" name="notes" id="early_repay_notes" class="form-control text-xs" placeholder="Contoh: Pelunasan dipercepat dari hasil panen/usaha">
                 </div>
 
                 <div class="flex items-center gap-2 pt-2">
@@ -446,6 +756,199 @@
             </form>
         </div>
     </div>
+    @endif
+
+    {{-- MODAL CATAT PENAGIHAN (UNTUK STAF: TELLER, ANALIS, MANAJER, ADMIN) --}}
+    @if(!auth()->user()->isMember())
+    <div id="modal-record-collection" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="collectionModalTitle">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div class="flex items-center gap-2">
+                    <div class="p-2 rounded-xl bg-rose-50 text-rose-700 font-bold">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 id="collectionModalTitle" class="text-base font-extrabold text-slate-900">Catat Aktivitas Penagihan</h3>
+                        <p class="text-2xs text-slate-500">Pinjaman #{{ $loan->loan_no }} &bull; {{ $loan->member->user->name }}</p>
+                    </div>
+                </div>
+                <button type="button" onclick="document.getElementById('modal-record-collection').classList.add('hidden')" aria-label="Tutup modal" class="text-slate-400 hover:text-slate-600 text-lg font-bold">&times;</button>
+            </div>
+
+            <form action="{{ route('loans.collection.record', $loan->id) }}" method="POST" enctype="multipart/form-data" class="space-y-3.5">
+                @csrf
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="form-group">
+                        <label for="action_type" class="form-label text-xs font-bold text-slate-700">Jenis Tindakan *</label>
+                        <select name="action_type" id="action_type" class="form-control text-xs" required>
+                            <option value="phone">Panggilan Telepon</option>
+                            <option value="whatsapp">Pesan WhatsApp / SMS</option>
+                            <option value="field_visit">Kunjungan Langsung (Visit Usaha/Rumah)</option>
+                            <option value="letter_sp1">Penerbitan Surat Peringatan 1 (SP-1)</option>
+                            <option value="letter_sp2">Penerbitan Surat Peringatan 2 (SP-2)</option>
+                            <option value="letter_sp3">Penerbitan Surat Peringatan 3 (SP-3)</option>
+                            <option value="mediation">Somasi Hukum / Mediasi</option>
+                            <option value="promise_to_pay">Follow Up Komitmen Janji Bayar</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="result_status" class="form-label text-xs font-bold text-slate-700">Hasil Komunikasi *</label>
+                        <select name="result_status" id="result_status" class="form-control text-xs" required>
+                            <option value="promise_to_pay">Debitur Sepakat Komitmen Janji Bayar</option>
+                            <option value="cooperative">Tersambung & Kooperatif</option>
+                            <option value="partial_paid">Bayar Sebagian Angsuran</option>
+                            <option value="unreachable">Tidak Menjawab / Alamat Tidak Ditemukan</option>
+                            <option value="uncooperative">Menolak Membayar / Tidak Kooperatif</option>
+                            <option value="dispute">Sengketa / Keberatan Perhitungan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 rounded-xl bg-amber-50/60 border border-amber-200">
+                    <div class="form-group">
+                        <label for="promised_date" class="form-label text-xs font-bold text-amber-950">Tanggal Janji Bayar</label>
+                        <input type="date" name="promised_date" id="promised_date" class="form-control text-xs bg-white" min="{{ date('Y-m-d') }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="promised_amount" class="form-label text-xs font-bold text-amber-950">Nominal Janji Bayar (Rp)</label>
+                        <input type="number" name="promised_amount" id="promised_amount" class="form-control text-xs bg-white" placeholder="Contoh: 500000" min="0" step="10000">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes" class="form-label text-xs font-bold text-slate-700">Catatan Hasil Kunjungan / Pembicaraan *</label>
+                    <textarea name="notes" id="notes" rows="3" class="form-control text-xs" placeholder="Tuliskan poin hasil komunikasi, kendala usaha anggota, atau komitmen pelunasan..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="proof_photo" class="form-label text-xs font-bold text-slate-700">Unggah Foto Bukti Kunjungan / Dokumen SP (Opsional)</label>
+                    <input type="file" name="proof_photo" id="proof_photo" accept="image/*" class="form-control text-xs">
+                    <span class="text-[11px] text-slate-500">Maksimal 5MB (JPG/PNG).</span>
+                </div>
+
+                <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+                    <button type="button" onclick="document.getElementById('modal-record-collection').classList.add('hidden')" class="btn btn-secondary btn-sm text-xs">Batal</button>
+                    <button type="submit" class="btn btn-primary btn-sm text-xs font-bold">Simpan Catatan Penagihan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    @endif
+
+    {{-- MODAL AJUKAN KERINGANAN / RESTRUKTURISASI --}}
+    <div id="modal-request-restructuring" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="restructuringModalTitle">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div class="flex items-center gap-2">
+                    <div class="p-2 rounded-xl bg-amber-50 text-amber-700 font-bold">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 id="restructuringModalTitle" class="text-base font-extrabold text-slate-900">Ajukan Keringanan Pinjaman</h3>
+                        <p class="text-2xs text-slate-500">Pinjaman #{{ $loan->loan_no }}</p>
+                    </div>
+                </div>
+                <button type="button" onclick="document.getElementById('modal-request-restructuring').classList.add('hidden')" aria-label="Tutup modal" class="text-slate-400 hover:text-slate-600 text-lg font-bold">&times;</button>
+            </div>
+
+            <form action="{{ route('loans.restructuring.request', $loan->id) }}" method="POST" class="space-y-3.5">
+                @csrf
+                <div class="form-group">
+                    <label for="request_type" class="form-label text-xs font-bold text-slate-700">Bentuk Keringanan *</label>
+                    <select name="request_type" id="request_type" class="form-control text-xs" required>
+                        <option value="penalty_waiver">Pembebasan / Diskon Sebagian Denda</option>
+                        <option value="payment_reschedule">Penjadwalan Ulang Jatuh Tempo (Rescheduling)</option>
+                        <option value="tenor_extension">Perpanjangan Tenor Pinjaman</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="requested_waiver_amount" class="form-label text-xs font-bold text-slate-700">Nominal Pengurangan Denda yang Dimohonkan (Rp)</label>
+                    <input type="number" name="requested_waiver_amount" id="requested_waiver_amount" class="form-control text-xs font-mono font-bold" value="{{ $loan->outstanding_penalty }}" min="0" max="{{ max(1, $loan->outstanding_penalty) }}" step="1000">
+                    <span class="text-[11px] text-slate-500">Denda berjalan saat ini: Rp {{ number_format($loan->outstanding_penalty, 0, ',', '.') }}.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="restructure_reason" class="form-label text-xs font-bold text-slate-700">Alasan Permohonan Debitur *</label>
+                    <textarea name="reason" id="restructure_reason" rows="3" class="form-control text-xs" placeholder="Jelaskan alasan kendala ekonomi, musibah, atau rencana perputaran kas usaha yang dihadapi..." required></textarea>
+                </div>
+
+                <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+                    <button type="button" onclick="document.getElementById('modal-request-restructuring').classList.add('hidden')" class="btn btn-secondary btn-sm text-xs">Batal</button>
+                    <button type="submit" class="btn btn-primary btn-sm text-xs font-bold">Kirim Permohonan ke Manajer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {{-- MODAL KEPUTUSAN RESTRUKTURISASI (HANYA MANAJER / ADMIN) --}}
+    @if(in_array(auth()->user()->role, ['manager', 'admin']))
+    <div id="modal-decide-restructuring-single" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="decideModalTitle">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div class="flex items-center gap-2">
+                    <div class="p-2 rounded-xl bg-amber-50 text-amber-700 font-bold">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 id="decideModalTitle" class="text-base font-extrabold text-slate-900">Putusan Keringanan Pinjaman</h3>
+                        <p class="text-2xs text-slate-500" id="decideSingleSubtitle">Pinjaman #{{ $loan->loan_no }}</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeDecideModalSingle()" aria-label="Tutup modal" class="text-slate-400 hover:text-slate-600 text-lg font-bold">&times;</button>
+            </div>
+
+            <form id="decideRestructuringFormSingle" method="POST" class="space-y-3.5">
+                @csrf
+                <div>
+                    <span class="text-xs font-semibold text-slate-500">Alasan Permohonan Debitur:</span>
+                    <p id="decideSingleReason" class="text-xs text-slate-800 bg-slate-50 p-2.5 rounded-lg border border-slate-200 mt-1 italic"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="decide_single_decision" class="form-label text-xs font-bold text-slate-700">Keputusan Manajer *</label>
+                    <select name="decision" id="decide_single_decision" class="form-control text-xs" required>
+                        <option value="approved">SETUJUI Keringanan</option>
+                        <option value="rejected">TOLAK Permohonan</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="decide_single_approved_amount" class="form-label text-xs font-bold text-slate-700">Nominal Pembebasan Denda yang Disetujui (Rp)</label>
+                    <input type="number" name="approved_waiver_amount" id="decide_single_approved_amount" min="0" step="1000" class="form-control text-xs font-bold text-emerald-800">
+                    <span class="text-[11px] text-slate-500">Denda berjalan pinjaman ini akan dipotong otomatis sebesar nominal yang disetujui.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="decide_single_notes" class="form-label text-xs font-bold text-slate-700">Catatan Putusan Manajer</label>
+                    <textarea name="manager_notes" id="decide_single_notes" rows="2" class="form-control text-xs" placeholder="Contoh: Disetujui pembebasan denda 100% karena kondisi darurat kesehatan anggota"></textarea>
+                </div>
+
+                <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+                    <button type="button" onclick="closeDecideModalSingle()" class="btn btn-secondary btn-sm text-xs">Batal</button>
+                    <button type="submit" class="btn btn-primary btn-sm text-xs font-bold">Simpan Putusan Manajer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openDecideModalSingle(restructureId, loanNo, requestedAmount, reason) {
+            const modal = document.getElementById('modal-decide-restructuring-single');
+            const form = document.getElementById('decideRestructuringFormSingle');
+            form.action = '/kelola-tunggakan/' + restructureId + '/putusan';
+            document.getElementById('decideSingleSubtitle').innerText = 'Pinjaman #' + loanNo;
+            document.getElementById('decideSingleReason').innerText = reason || 'Tidak ada keterangan rinci';
+            document.getElementById('decide_single_approved_amount').value = requestedAmount;
+            modal.classList.remove('hidden');
+        }
+
+        function closeDecideModalSingle() {
+            document.getElementById('modal-decide-restructuring-single').classList.add('hidden');
+        }
+    </script>
     @endif
 </div>
 @endsection

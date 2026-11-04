@@ -46,6 +46,14 @@ class LoanApplication extends Model
         'reception_status',
         'revision_requested_at',
         'revision_notes',
+        'business_name',
+        'business_type',
+        'business_address',
+        'business_duration_years',
+        'business_monthly_revenue',
+        'business_photo_path',
+        'survey_photo_path',
+        'survey_notes',
     ];
 
     protected $casts = [
@@ -56,12 +64,23 @@ class LoanApplication extends Model
         'interest_rate_per_period' => 'decimal:2',
         'admin_fee' => 'integer',
         'monthly_installment_estimate' => 'integer',
+        'business_duration_years' => 'integer',
+        'business_monthly_revenue' => 'integer',
         'submitted_at' => 'datetime',
         'assigned_at' => 'datetime',
         'received_at' => 'datetime',
         'revision_requested_at' => 'datetime',
         'reception_checklist' => 'array',
     ];
+
+    public function isBusinessLoan(): bool
+    {
+        if ($this->loanProduct && in_array($this->loanProduct->code, ['PRD-MDR', 'PRD-MGN'])) {
+            return true;
+        }
+        $purpose = strtolower((string) $this->purpose);
+        return str_contains($purpose, 'modal') || str_contains($purpose, 'usaha') || str_contains($purpose, 'dagang') || !empty($this->business_name);
+    }
 
     public function isWeekly(): bool
     {

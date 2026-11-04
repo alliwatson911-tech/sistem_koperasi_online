@@ -5,16 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\AuditLog;
 use App\Models\Loan;
 use App\Models\LoanApplication;
+use App\Models\LoanCollectionLog;
 use App\Models\LoanPayment;
 use App\Models\LoanProduct;
+use App\Models\LoanRestructuringRequest;
 use App\Models\LoanSchedule;
 use App\Models\Member;
 use App\Models\User;
 use App\Services\LoanCalculationService;
 use App\Services\LoanService;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class LoanController extends Controller
 {
@@ -91,11 +95,22 @@ class LoanController extends Controller
         $product = LoanProduct::findOrFail($request->loan_product_id);
         $tenor = (int) ($request->tenor_count ?? $request->tenor_months ?? $request->tenor);
 
+        $isBusinessProduct = in_array($product->code, ['PRD-MDR', 'PRD-MGN']) 
+            || str_contains(strtolower((string) $request->purpose), 'modal') 
+            || str_contains(strtolower((string) $request->purpose), 'usaha');
+
         $request->validate([
             'loan_product_id' => 'required|exists:loan_products,id',
             'amount' => "required|numeric|min:{$product->min_amount}|max:{$product->max_amount}",
             'purpose' => 'required|string|max:500',
             'agree_terms' => 'required|accepted',
+            'business_name' => 'nullable|string|max:150',
+            'business_type' => 'nullable|string|max:100',
+            'business_address' => 'nullable|string|max:500',
+            'business_duration_years' => 'nullable|numeric|min:0',
+            'business_monthly_revenue' => 'nullable|numeric|min:0',
+            'business_photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'business_photo_camera' => 'nullable|string',
         ], [
             'agree_terms.accepted' => 'Anda wajib menyetujui prinsip transparansi dan syarat pengajuan pinjaman.',
         ]);
@@ -107,13 +122,43 @@ class LoanController extends Controller
             return back()->with('error', "Tenor pinjaman harus antara {$minTenor} hingga {$maxTenor} {$unitLabel}.")->withInput();
         }
 
+        // Proses penyimpanan Foto Usaha (baik dari file upload maupun kamera capture)
+        $businessPhotoPath = null;
+        if ($request->hasFile('business_photo')) {
+            $businessPhotoPath = $request->file('business_photo')->store('business_photos', 'public');
+        } elseif ($request->filled('business_photo_camera')) {
+            $dataUrl = $request->business_photo_camera;
+            if (preg_match('/^data:image\/(\w+);base64,/', $dataUrl, $typeMatches)) {
+                $rawBase64 = substr($dataUrl, strpos($dataUrl, ',') + 1);
+                $ext = strtolower($typeMatches[1]);
+                if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
+                    $binaryData = base64_decode($rawBase64);
+                    if ($binaryData !== false) {
+                        $filename = 'business_' . uniqid() . '.' . ($ext === 'jpeg' ? 'jpg' : $ext);
+                        Storage::disk('public')->put('business_photos/' . $filename, $binaryData);
+                        $businessPhotoPath = 'business_photos/' . $filename;
+                    }
+                }
+            }
+        }
+
+        $businessData = [
+            'business_name' => $request->business_name,
+            'business_type' => $request->business_type,
+            'business_address' => $request->business_address,
+            'business_duration_years' => $request->business_duration_years,
+            'business_monthly_revenue' => $request->business_monthly_revenue,
+            'business_photo_path' => $businessPhotoPath,
+        ];
+
         try {
             $application = $this->loanService->apply(
                 $member,
                 $product,
                 (int) $request->amount,
                 $tenor,
-                $request->purpose
+                $request->purpose,
+                $businessData
             );
 
             return redirect()->route('loans.my')
@@ -145,7 +190,17 @@ class LoanController extends Controller
             abort(403);
         }
 
-        $loan->load(['member.user', 'loanProduct', 'schedules.loan', 'payments', 'loanApplication.receivedBy', 'disburser']);
+        $loan->load([
+            'member.user',
+            'loanProduct',
+            'schedules.loan',
+            'payments',
+            'loanApplication.receivedBy',
+            'disburser',
+            'collectionLogs.collector',
+            'restructuringRequests.requester',
+            'restructuringRequests.decider',
+        ]);
         $timeline = $this->loanService->getTimeline($loan);
 
         return view('loans.show', compact('loan', 'timeline'));
@@ -437,11 +492,22 @@ class LoanController extends Controller
             'action' => 'required|in:recommend,reject',
             'notes' => 'required|string|max:1000',
             'recommendations' => 'nullable|string|max:1000',
+            'survey_notes' => 'nullable|string|max:1000',
+            'survey_photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
         ]);
 
         try {
+            if ($request->hasFile('survey_photo')) {
+                $surveyPath = $request->file('survey_photo')->store('survey_photos', 'public');
+                $application->survey_photo_path = $surveyPath;
+            }
+            if ($request->filled('survey_notes')) {
+                $application->survey_notes = $request->survey_notes;
+            }
+            $application->save();
+
             $this->loanService->reviewByAnalyst($application, $request->action, $request->notes, $request->recommendations);
-            return redirect()->route('loans.applications')->with('success', 'Hasil analisis kredit berhasil disimpan.');
+            return redirect()->route('loans.applications')->with('success', 'Hasil analisis kredit dan survei usaha berhasil disimpan.');
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -474,6 +540,209 @@ class LoanController extends Controller
         try {
             $this->loanService->disburse($loan, $request->payment_method ?? 'cash');
             return back()->with('success', "Dana pinjaman {$loan->loan_no} berhasil dicairkan! Jadwal angsuran dan jurnal keuangan telah otomatis dibuat.");
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    /**
+     * Dashboard & Pengelolaan Pinjaman Menunggak & Jatuh Tempo (Lintas Stakeholder).
+     */
+    public function manageOverdue(Request $request)
+    {
+        $today = Carbon::today()->toDateString();
+        $dueSoonDate = Carbon::today()->addDays(7)->toDateString();
+
+        $query = Loan::with(['member.user', 'loanProduct', 'schedules', 'collectionLogs.user', 'restructuringRequests'])
+            ->where(function ($q) use ($today, $dueSoonDate) {
+                $q->where('status', Loan::STATUS_OVERDUE)
+                  ->orWhere(function ($sq) use ($today, $dueSoonDate) {
+                      $sq->where('status', Loan::STATUS_ACTIVE)
+                         ->whereHas('schedules', function ($schedQ) use ($today, $dueSoonDate) {
+                             $schedQ->whereIn('status', [LoanSchedule::STATUS_UNPAID, LoanSchedule::STATUS_PARTIAL])
+                                    ->whereBetween('due_date', [$today, $dueSoonDate]);
+                         });
+                  });
+            });
+
+        // Filter status kolektibilitas
+        if ($request->filled('collectibility')) {
+            if ($request->collectibility === 'due_soon') {
+                $query->where('status', Loan::STATUS_ACTIVE);
+            } else {
+                $query->where('collectibility_status', $request->collectibility);
+            }
+        }
+
+        // Filter tahapan penagihan
+        if ($request->filled('stage')) {
+            $query->where('collection_stage', $request->stage);
+        }
+
+        // Filter pencarian anggota / nomor pinjaman
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('loan_no', 'like', "%{$search}%")
+                  ->orWhereHas('member.user', fn($uq) => $uq->where('name', 'like', "%{$search}%"))
+                  ->orWhereHas('member', fn($mq) => $mq->where('member_no', 'like', "%{$search}%"));
+            });
+        }
+
+        $loans = $query->orderBy('outstanding_penalty', 'desc')
+            ->orderBy('id', 'desc')
+            ->paginate(15)
+            ->withQueryString();
+
+        // Statistik Ringkasan Portofolio Tunggakan
+        $allOverdue = Loan::where('status', Loan::STATUS_OVERDUE)->get();
+        $dueSoonCount = Loan::where('status', Loan::STATUS_ACTIVE)
+            ->whereHas('schedules', function ($q) use ($today, $dueSoonDate) {
+                $q->whereIn('status', [LoanSchedule::STATUS_UNPAID, LoanSchedule::STATUS_PARTIAL])
+                  ->whereBetween('due_date', [$today, $dueSoonDate]);
+            })->count();
+
+        $stats = [
+            'total_overdue' => $allOverdue->count(),
+            'total_due_soon' => $dueSoonCount,
+            'total_penalty' => (int) $allOverdue->sum('outstanding_penalty'),
+            'total_outstanding' => (int) $allOverdue->sum('outstanding_principal'),
+            'dpk_count' => $allOverdue->where('collectibility_status', 'dpk')->count(),
+            'kurang_lancar_count' => $allOverdue->where('collectibility_status', 'kurang_lancar')->count(),
+            'diragukan_count' => $allOverdue->where('collectibility_status', 'diragukan')->count(),
+            'macet_count' => $allOverdue->where('collectibility_status', 'macet')->count(),
+            'pending_restructuring' => LoanRestructuringRequest::where('status', LoanRestructuringRequest::STATUS_PENDING)->count(),
+        ];
+
+        $pendingRestructurings = LoanRestructuringRequest::with(['loan.member.user', 'requestedBy'])
+            ->where('status', LoanRestructuringRequest::STATUS_PENDING)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('loans.overdue_manage', compact('loans', 'stats', 'pendingRestructurings'));
+    }
+
+    /**
+     * Mencatat tindakan penagihan (telepon, kunjungan, SP-1/2/3, janji bayar) oleh Analis/Petugas.
+     */
+    public function recordCollection(Request $request, Loan $loan)
+    {
+        $user = Auth::user();
+        if (!in_array($user->role, ['teller', 'analyst', 'manager', 'admin'])) {
+            abort(403, 'Anda tidak berwenang mencatat riwayat penagihan.');
+        }
+
+        $request->validate([
+            'action_type' => 'required|in:phone,whatsapp,field_visit,letter_sp1,letter_sp2,letter_sp3,mediation,promise_to_pay',
+            'result_status' => 'required|in:promise_to_pay,partial_paid,unreachable,uncooperative,dispute,cooperative',
+            'promised_date' => 'nullable|date|after_or_equal:today',
+            'promised_amount' => 'nullable|numeric|min:0',
+            'notes' => 'required|string|max:1000',
+            'proof_photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'proof_photo_camera' => 'nullable|string',
+        ]);
+
+        $proofPath = null;
+        if ($request->hasFile('proof_photo')) {
+            $proofPath = $request->file('proof_photo')->store('collection_proofs', 'public');
+        } elseif ($request->filled('proof_photo_camera')) {
+            $dataUrl = $request->proof_photo_camera;
+            if (preg_match('/^data:image\/(\w+);base64,/', $dataUrl, $typeMatches)) {
+                $rawBase64 = substr($dataUrl, strpos($dataUrl, ',') + 1);
+                $ext = strtolower($typeMatches[1]);
+                if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
+                    $binaryData = base64_decode($rawBase64);
+                    if ($binaryData !== false) {
+                        $filename = 'proof_' . uniqid() . '.' . ($ext === 'jpeg' ? 'jpg' : $ext);
+                        Storage::disk('public')->put('collection_proofs/' . $filename, $binaryData);
+                        $proofPath = 'collection_proofs/' . $filename;
+                    }
+                }
+            }
+        }
+
+        try {
+            $this->loanService->recordCollectionAction($loan, $user, [
+                'action_type' => $request->action_type,
+                'result_status' => $request->result_status,
+                'promised_date' => $request->promised_date,
+                'promised_amount' => $request->promised_amount,
+                'notes' => $request->notes,
+                'proof_photo_path' => $proofPath,
+            ]);
+
+            return back()->with('success', "Aktivitas penagihan untuk pinjaman #{$loan->loan_no} berhasil dicatat!");
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage())->withInput();
+        }
+    }
+
+    /**
+     * Mengajukan permohonan keringanan / restrukturisasi denda (Anggota atau Analis).
+     */
+    public function requestRestructuring(Request $request, Loan $loan)
+    {
+        $user = Auth::user();
+        if ($user->isMember() && $loan->member->user_id !== $user->id) {
+            abort(403, 'Anda tidak berhak mengajukan permohonan untuk pinjaman ini.');
+        }
+
+        $request->validate([
+            'request_type' => 'required|in:penalty_waiver,tenor_extension,payment_reschedule',
+            'requested_waiver_amount' => 'nullable|numeric|min:0|max:' . max(1, $loan->outstanding_penalty),
+            'reason' => 'required|string|max:1000',
+        ]);
+
+        try {
+            $waiverAmount = (int) ($request->requested_waiver_amount ?? 0);
+            $this->loanService->requestRestructuring($loan, $user, $request->request_type, $waiverAmount, $request->reason);
+
+            return back()->with('success', 'Permohonan keringanan pinjaman berhasil dikirim! Menunggu keputusan Manajer.');
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage())->withInput();
+        }
+    }
+
+    /**
+     * Memutuskan permohonan keringanan denda (Hanya Manajer / Admin).
+     */
+    public function decideRestructuring(Request $request, LoanRestructuringRequest $restructure)
+    {
+        $user = Auth::user();
+        if (!in_array($user->role, ['manager', 'admin'])) {
+            abort(403, 'Hanya Manajer atau Administrator yang berwenang memutuskan permohonan keringanan.');
+        }
+
+        $request->validate([
+            'decision' => 'required|in:approved,rejected',
+            'approved_waiver_amount' => 'nullable|numeric|min:0|max:' . max(1, $restructure->loan->outstanding_penalty),
+            'manager_notes' => 'nullable|string|max:1000',
+        ]);
+
+        try {
+            $approvedWaiver = (int) ($request->approved_waiver_amount ?? $restructure->requested_waiver_amount);
+            $this->loanService->decideRestructuring($restructure, $user, $request->decision, $approvedWaiver, $request->manager_notes);
+
+            $actionText = ($request->decision === 'approved') ? 'DISETUJUI' : 'DITOLAK';
+            return back()->with('success', "Permohonan keringanan berhasil diputuskan: {$actionText}.");
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    /**
+     * Eksekusi pembaruan status keterlambatan & kalkulasi denda harian manual.
+     */
+    public function syncOverdue()
+    {
+        $user = Auth::user();
+        if (!in_array($user->role, ['teller', 'analyst', 'manager', 'admin'])) {
+            abort(403, 'Akses terbatas untuk staf koperasi.');
+        }
+
+        try {
+            $count = $this->loanService->updateOverdueAndPenalties();
+            return back()->with('success', "Sinkronisasi denda dan status tunggakan selesai! Sebanyak {$count} jadwal angsuran diperbarui.");
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }

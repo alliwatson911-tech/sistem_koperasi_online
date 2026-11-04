@@ -38,6 +38,18 @@ class Loan extends Model
         'disbursed_at',
         'disbursed_by',
         'maturity_date',
+        'business_name',
+        'business_type',
+        'business_address',
+        'business_duration_years',
+        'business_monthly_revenue',
+        'business_photo_path',
+        'survey_photo_path',
+        'collectibility_status',
+        'collection_stage',
+        'last_collected_at',
+        'promised_payment_date',
+        'promised_payment_amount',
     ];
 
     protected $casts = [
@@ -50,11 +62,16 @@ class Loan extends Model
         'outstanding_penalty' => 'integer',
         'tenor_months' => 'integer',
         'tenor_count' => 'integer',
+        'business_duration_years' => 'integer',
+        'business_monthly_revenue' => 'integer',
+        'promised_payment_amount' => 'integer',
         'interest_rate_monthly' => 'decimal:2',
         'interest_rate_per_period' => 'decimal:2',
         'agreed_at' => 'datetime',
         'disbursed_at' => 'datetime',
+        'last_collected_at' => 'datetime',
         'maturity_date' => 'date',
+        'promised_payment_date' => 'date',
     ];
 
     public function isWeekly(): bool
@@ -155,5 +172,68 @@ class Loan extends Model
     public function getTellerDisplayAttribute(): ?string
     {
         return $this->loanApplication?->teller_display;
+    }
+
+    public function collectionLogs()
+    {
+        return $this->hasMany(LoanCollectionLog::class)->orderBy('action_date', 'desc');
+    }
+
+    public function restructuringRequests()
+    {
+        return $this->hasMany(LoanRestructuringRequest::class)->orderBy('id', 'desc');
+    }
+
+    public function isBusinessLoan(): bool
+    {
+        if ($this->loanProduct && in_array($this->loanProduct->code, ['PRD-MDR', 'PRD-MGN'])) {
+            return true;
+        }
+        return !empty($this->business_name) || !empty($this->business_photo_path);
+    }
+
+    public function getMaxDaysOverdue(): int
+    {
+        return (int) $this->schedules()->where('status', LoanSchedule::STATUS_OVERDUE)->max('days_overdue');
+    }
+
+    public function calculateCollectibility(): string
+    {
+        $maxDays = $this->getMaxDaysOverdue();
+        if ($maxDays <= 0) {
+            return 'lancar'; // Kol 1
+        } elseif ($maxDays <= 30) {
+            return 'dpk'; // Kol 2: Dalam Perhatian Khusus
+        } elseif ($maxDays <= 60) {
+            return 'kurang_lancar'; // Kol 3
+        } elseif ($maxDays <= 90) {
+            return 'diragukan'; // Kol 4
+        } else {
+            return 'macet'; // Kol 5 (NPL)
+        }
+    }
+
+    public function getCollectibilityLabelAttribute(): string
+    {
+        return match ($this->collectibility_status ?? $this->calculateCollectibility()) {
+            'lancar' => 'Kol-1: Lancar',
+            'dpk' => 'Kol-2: Dalam Perhatian Khusus (DPK)',
+            'kurang_lancar' => 'Kol-3: Kurang Lancar (1-60 Hari)',
+            'diragukan' => 'Kol-4: Diragukan (61-90 Hari)',
+            'macet' => 'Kol-5: Macet / NPL (>90 Hari)',
+            default => 'Lancar',
+        };
+    }
+
+    public function getCollectibilityBadgeClassAttribute(): string
+    {
+        return match ($this->collectibility_status ?? $this->calculateCollectibility()) {
+            'lancar' => 'badge-success',
+            'dpk' => 'badge-warning',
+            'kurang_lancar' => 'badge-warning',
+            'diragukan' => 'badge-danger',
+            'macet' => 'badge-danger',
+            default => 'badge-gray',
+        };
     }
 }

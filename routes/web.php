@@ -69,6 +69,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/pinjaman/{loan}/bayar-gateway', [PaymentGatewayController::class, 'checkoutLoan'])->name('loans.pay.gateway')->middleware('throttle:30,1');
     Route::post('/simpanan/{account}/setor-gateway', [PaymentGatewayController::class, 'checkoutSavings'])->name('savings.deposit.gateway')->middleware('throttle:30,1');
     Route::post('/pinjaman/{loan}/pelunasan-dipercepat', [LoanController::class, 'earlyRepay'])->name('loans.early_repay');
+    Route::post('/pinjaman/{loan}/ajukan-keringanan', [LoanController::class, 'requestRestructuring'])->name('loans.restructuring.request');
 
     // Modul Tagihan & Pembayaran Gateway (Anggota)
     Route::get('/pembayaran/invoice/{orderId}', [PaymentGatewayController::class, 'showInvoice'])->name('payments.invoice');
@@ -99,6 +100,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/pengajuan-pinjaman/{application}/persetujuan', [LoanController::class, 'approveApplication'])->name('loans.applications.approve');
         Route::post('/pinjaman/{loan}/cairkan', [LoanController::class, 'disburse'])->name('loans.disburse');
 
+        // Modul Manajemen Tunggakan & Jatuh Tempo (Kolektibilitas & Penagihan)
+        Route::get('/kelola-tunggakan', [LoanController::class, 'manageOverdue'])->name('loans.overdue.manage');
+        Route::post('/kelola-tunggakan/sinkronkan', [LoanController::class, 'syncOverdue'])->name('loans.overdue.sync');
+        Route::post('/pinjaman/{loan}/catat-penagihan', [LoanController::class, 'recordCollection'])->name('loans.collection.record');
+
         // Laporan Operasional
         Route::get('/laporan/simpanan', [ReportController::class, 'savings'])->name('reports.savings');
         Route::get('/laporan/pinjaman', [ReportController::class, 'loans'])->name('reports.loans');
@@ -117,6 +123,7 @@ Route::middleware(['auth'])->group(function () {
     |--------------------------------------------------------------------------
     */
     Route::middleware(['role:manager,admin'])->group(function () {
+        Route::post('/kelola-tunggakan/{restructure}/putusan', [LoanController::class, 'decideRestructuring'])->name('loans.restructuring.decide');
         Route::post('/kelola-pembayaran/settlement', [PaymentGatewayController::class, 'staffCreateSettlement'])->name('payments.settlement');
         Route::get('/akuntansi/jurnal', [AccountingController::class, 'journals'])->name('accounting.journals');
         Route::get('/akuntansi/buku-besar', [AccountingController::class, 'ledger'])->name('accounting.ledger');

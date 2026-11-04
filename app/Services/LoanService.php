@@ -6,8 +6,10 @@ use App\Models\AuditLog;
 use App\Models\Loan;
 use App\Models\LoanApplication;
 use App\Models\LoanApproval;
+use App\Models\LoanCollectionLog;
 use App\Models\LoanPayment;
 use App\Models\LoanProduct;
+use App\Models\LoanRestructuringRequest;
 use App\Models\LoanSchedule;
 use App\Models\Member;
 use App\Models\Notification;
@@ -30,7 +32,7 @@ class LoanService
     /**
      * Pengajuan pinjaman online oleh anggota.
      */
-    public function apply(Member $member, LoanProduct $product, int $amount, int $tenor, string $purpose): LoanApplication
+    public function apply(Member $member, LoanProduct $product, int $amount, int $tenor, string $purpose, array $businessData = []): LoanApplication
     {
         if ($member->status !== Member::STATUS_ACTIVE) {
             throw new Exception("Hanya anggota aktif yang berhak mengajukan pinjaman koperasi.");
@@ -94,6 +96,12 @@ class LoanService
             'submitted_at' => now(),
             'assigned_to' => $assignedTellerId,
             'assigned_at' => $assignedTellerId ? now() : null,
+            'business_name' => $businessData['business_name'] ?? null,
+            'business_type' => $businessData['business_type'] ?? null,
+            'business_address' => $businessData['business_address'] ?? null,
+            'business_duration_years' => !empty($businessData['business_duration_years']) ? (int) $businessData['business_duration_years'] : null,
+            'business_monthly_revenue' => !empty($businessData['business_monthly_revenue']) ? (int) $businessData['business_monthly_revenue'] : null,
+            'business_photo_path' => $businessData['business_photo_path'] ?? null,
         ]);
 
         AuditLog::log('applied', $application, null, $application->toArray());
@@ -527,6 +535,15 @@ class LoanService
                     'interest_rate_per_period' => $app->interest_rate_per_period,
                     'calculation_method' => $app->calculation_method,
                     'status' => Loan::STATUS_AWAITING_DISBURSEMENT,
+                    'business_name' => $app->business_name,
+                    'business_type' => $app->business_type,
+                    'business_address' => $app->business_address,
+                    'business_duration_years' => $app->business_duration_years,
+                    'business_monthly_revenue' => $app->business_monthly_revenue,
+                    'business_photo_path' => $app->business_photo_path,
+                    'survey_photo_path' => $app->survey_photo_path,
+                    'collectibility_status' => 'lancar',
+                    'collection_stage' => 'normal',
                 ]);
 
                 // Notifikasi ke anggota untuk menandatangani akad digital
@@ -948,10 +965,36 @@ class LoanService
                 );
             }
 
-            // Tandai pinjaman berstatus overdue & perbarui outstanding_penalty
+            // Tandai pinjaman berstatus overdue & perbarui outstanding_penalty dan kolektibilitas
             $loan = $schedule->loan;
             $loan->outstanding_penalty = (int) $loan->schedules()->sum('penalty_amount');
             $loan->status = Loan::STATUS_OVERDUE;
+
+            $maxDays = (int) $loan->schedules()->where('status', LoanSchedule::STATUS_OVERDUE)->max('days_overdue');
+            if ($maxDays <= 0) {
+                $loan->collectibility_status = 'lancar';
+            } elseif ($maxDays <= 30) {
+                $loan->collectibility_status = 'dpk';
+                if ($loan->collection_stage === 'normal') {
+                    $loan->collection_stage = 'reminder';
+                }
+            } elseif ($maxDays <= 60) {
+                $loan->collectibility_status = 'kurang_lancar';
+                if (in_array($loan->collection_stage, ['normal', 'reminder'])) {
+                    $loan->collection_stage = 'sp1';
+                }
+            } elseif ($maxDays <= 90) {
+                $loan->collectibility_status = 'diragukan';
+                if (in_array($loan->collection_stage, ['normal', 'reminder', 'sp1'])) {
+                    $loan->collection_stage = 'sp2';
+                }
+            } else {
+                $loan->collectibility_status = 'macet';
+                if (in_array($loan->collection_stage, ['normal', 'reminder', 'sp1', 'sp2'])) {
+                    $loan->collection_stage = 'sp3';
+                }
+            }
+
             $loan->save();
 
             $updatedCount++;
@@ -1200,6 +1243,162 @@ class LoanService
         });
 
         return $items;
+    }
+
+    /**
+     * Mencatat tindakan penagihan pinjaman menunggak / jatuh tempo.
+     */
+    public function recordCollectionAction(Loan $loan, User $user, array $data): LoanCollectionLog
+    {
+        return DB::transaction(function () use ($loan, $user, $data) {
+            $log = LoanCollectionLog::create([
+                'loan_id' => $loan->id,
+                'user_id' => $user->id,
+                'action_type' => $data['action_type'],
+                'action_date' => now(),
+                'result_status' => $data['result_status'],
+                'promised_date' => $data['promised_date'] ?? null,
+                'promised_amount' => !empty($data['promised_amount']) ? (int) $data['promised_amount'] : null,
+                'notes' => $data['notes'] ?? '-',
+                'proof_photo_path' => $data['proof_photo_path'] ?? null,
+            ]);
+
+            $loan->last_collected_at = now();
+
+            if (!empty($data['promised_date'])) {
+                $loan->promised_payment_date = $data['promised_date'];
+                $loan->promised_payment_amount = !empty($data['promised_amount']) ? (int) $data['promised_amount'] : null;
+            }
+
+            if ($data['action_type'] === LoanCollectionLog::ACTION_LETTER_SP1) {
+                $loan->collection_stage = 'sp1';
+            } elseif ($data['action_type'] === LoanCollectionLog::ACTION_LETTER_SP2) {
+                $loan->collection_stage = 'sp2';
+            } elseif ($data['action_type'] === LoanCollectionLog::ACTION_LETTER_SP3) {
+                $loan->collection_stage = 'sp3';
+            }
+
+            $loan->save();
+
+            AuditLog::log('collection_recorded', $loan, null, [
+                'collector' => $user->name,
+                'action_type' => $data['action_type'],
+                'result_status' => $data['result_status'],
+                'promised_date' => $data['promised_date'] ?? null,
+            ]);
+
+            // Kirim notifikasi jika surat peringatan atau janji bayar
+            if ($loan->member && $loan->member->user) {
+                $stageText = match ($data['action_type']) {
+                    LoanCollectionLog::ACTION_LETTER_SP1 => 'Penerbitan Surat Peringatan 1 (SP-1)',
+                    LoanCollectionLog::ACTION_LETTER_SP2 => 'Penerbitan Surat Peringatan 2 (SP-2)',
+                    LoanCollectionLog::ACTION_LETTER_SP3 => 'Penerbitan Surat Peringatan 3 / Somasi (SP-3)',
+                    LoanCollectionLog::ACTION_FIELD_VISIT => 'Pemberitahuan Kunjungan Penagihan Lapangan',
+                    default => 'Catatan Penagihan Pinjaman',
+                };
+
+                $this->sendNotification(
+                    $loan->member->user,
+                    "Informasi Penagihan Pinjaman: {$stageText}",
+                    "Petugas koperasi telah mencatat tindak lanjut penagihan untuk pinjaman #{$loan->loan_no}. Silakan segera lakukan penyelesaian pembayaran angsuran Anda.",
+                    'warning',
+                    route('loans.show', $loan->id)
+                );
+            }
+
+            return $log;
+        });
+    }
+
+    /**
+     * Mengajukan permohonan keringanan / restrukturisasi denda pinjaman.
+     */
+    public function requestRestructuring(Loan $loan, User $user, string $type, int $requestedWaiver, string $reason): LoanRestructuringRequest
+    {
+        return DB::transaction(function () use ($loan, $user, $type, $requestedWaiver, $reason) {
+            $req = LoanRestructuringRequest::create([
+                'loan_id' => $loan->id,
+                'requested_by_user_id' => $user->id,
+                'request_type' => $type,
+                'requested_waiver_amount' => $requestedWaiver,
+                'reason' => $reason,
+                'status' => LoanRestructuringRequest::STATUS_PENDING,
+            ]);
+
+            AuditLog::log('restructuring_requested', $loan, null, [
+                'requested_by' => $user->name,
+                'type' => $type,
+                'requested_waiver' => $requestedWaiver,
+                'reason' => $reason,
+            ]);
+
+            // Notifikasi ke Manajer
+            $managers = User::where('role', User::ROLE_MANAGER)->where('is_active', true)->get();
+            foreach ($managers as $mgr) {
+                $this->sendNotification(
+                    $mgr,
+                    "Permohonan Keringanan / Restrukturisasi Pinjaman #{$loan->loan_no}",
+                    "Terdapat permohonan {$req->type_label} dari {$user->name} untuk pinjaman #{$loan->loan_no}. Menunggu persetujuan Manajer.",
+                    'info',
+                    route('loans.overdue.manage')
+                );
+            }
+
+            return $req;
+        });
+    }
+
+    /**
+     * Memutuskan permohonan keringanan denda (Hanya Manajer / Admin).
+     */
+    public function decideRestructuring(LoanRestructuringRequest $request, User $manager, string $decision, int $approvedWaiver = 0, ?string $notes = null): LoanRestructuringRequest
+    {
+        return DB::transaction(function () use ($request, $manager, $decision, $approvedWaiver, $notes) {
+            $isApproved = ($decision === 'approved');
+            $request->status = $isApproved ? LoanRestructuringRequest::STATUS_APPROVED : LoanRestructuringRequest::STATUS_REJECTED;
+            $request->approved_by_user_id = $manager->id;
+            $request->approved_waiver_amount = $isApproved ? $approvedWaiver : 0;
+            $request->manager_notes = $notes;
+            $request->decided_at = now();
+            $request->save();
+
+            $loan = $request->loan;
+
+            if ($isApproved && $request->request_type === LoanRestructuringRequest::TYPE_PENALTY_WAIVER && $approvedWaiver > 0) {
+                // Potong denda berjalan dari schedules
+                $remainingWaiver = $approvedWaiver;
+                foreach ($loan->schedules()->where('penalty_amount', '>', 0)->get() as $sch) {
+                    if ($remainingWaiver <= 0) break;
+                    $deduct = min($sch->penalty_amount, $remainingWaiver);
+                    $sch->penalty_amount -= $deduct;
+                    $sch->save();
+                    $remainingWaiver -= $deduct;
+                }
+                $loan->outstanding_penalty = max(0, $loan->outstanding_penalty - $approvedWaiver);
+                $loan->collection_stage = 'restructured';
+                $loan->save();
+            }
+
+            AuditLog::log('restructuring_decided', $loan, null, [
+                'manager' => $manager->name,
+                'decision' => $decision,
+                'approved_waiver' => $approvedWaiver,
+                'notes' => $notes,
+            ]);
+
+            if ($loan->member && $loan->member->user) {
+                $statusMsg = $isApproved ? "DISETUJUI (Keringanan: Rp " . number_format($approvedWaiver, 0, ',', '.') . ")" : "DITOLAK";
+                $this->sendNotification(
+                    $loan->member->user,
+                    "Hasil Permohonan Keringanan Pinjaman: {$statusMsg}",
+                    "Permohonan keringanan untuk pinjaman #{$loan->loan_no} telah diputuskan oleh Manajer: {$statusMsg}. Catatan: {$notes}",
+                    $isApproved ? 'success' : 'warning',
+                    route('loans.show', $loan->id)
+                );
+            }
+
+            return $request;
+        });
     }
 
     /**
