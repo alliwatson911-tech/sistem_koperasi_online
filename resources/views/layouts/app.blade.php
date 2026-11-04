@@ -381,7 +381,7 @@
                         <a href="{{ route('loans.manage') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('loans.manage*') || request()->routeIs('loans.index') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
                             Daftar Pinjaman
                         </a>
-                        <a href="{{ route('loans.overdue.manage') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('loans.overdue*') ? 'bg-amber-50 text-amber-900 font-bold border border-amber-200' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                        <a href="{{ Route::has('loans.overdue.manage') ? route('loans.overdue.manage') : url('/kelola-tunggakan') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('loans.overdue*') ? 'bg-amber-50 text-amber-900 font-bold border border-amber-200' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
                             Kelola Tunggakan
                         </a>
                         <a href="{{ route('payments.dashboard') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('payments.*') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
@@ -498,7 +498,7 @@
                     <a href="{{ route('loans.manage') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('loans.manage*') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
                         Daftar Pinjaman
                     </a>
-                    <a href="{{ route('loans.overdue.manage') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('loans.overdue*') ? 'bg-amber-50 text-amber-900 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
+                    <a href="{{ Route::has('loans.overdue.manage') ? route('loans.overdue.manage') : url('/kelola-tunggakan') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('loans.overdue*') ? 'bg-amber-50 text-amber-900 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
                         Kelola Tunggakan & Kolektibilitas
                     </a>
                     @if(in_array(auth()->user()->role, ['admin', 'manager']))

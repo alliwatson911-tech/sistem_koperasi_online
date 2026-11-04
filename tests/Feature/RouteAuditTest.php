@@ -53,6 +53,8 @@ class RouteAuditTest extends TestCase
             ['role' => 'teller', 'user' => $teller, 'url' => '/kelola-pinjaman'],
             ['role' => 'teller', 'user' => $teller, 'url' => '/pengajuan-pinjaman'],
             ['role' => 'teller', 'user' => $teller, 'url' => "/pengajuan-pinjaman/{$application->id}"],
+            ['role' => 'teller', 'user' => $teller, 'url' => '/kelola-tunggakan'],
+            ['role' => 'analyst', 'user' => $analyst, 'url' => '/kelola-tunggakan'],
             ['role' => 'teller', 'user' => $teller, 'url' => '/laporan/simpanan'],
             ['role' => 'teller', 'user' => $teller, 'url' => '/laporan/pinjaman'],
             ['role' => 'teller', 'user' => $teller, 'url' => '/laporan/tunggakan'],
