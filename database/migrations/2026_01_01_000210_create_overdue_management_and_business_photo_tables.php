@@ -11,70 +11,70 @@ return new class extends Migration
         // 1. Tambah kolom Foto Usaha & Data Usaha pada tabel loan_applications
         Schema::table('loan_applications', function (Blueprint $table) {
             if (!Schema::hasColumn('loan_applications', 'business_name')) {
-                $table->string('business_name', 150)->nullable()->after('purpose');
+                $table->string('business_name', 150)->nullable();
             }
             if (!Schema::hasColumn('loan_applications', 'business_type')) {
-                $table->string('business_type', 100)->nullable()->after('business_name');
+                $table->string('business_type', 100)->nullable();
             }
             if (!Schema::hasColumn('loan_applications', 'business_address')) {
-                $table->text('business_address')->nullable()->after('business_type');
+                $table->text('business_address')->nullable();
             }
             if (!Schema::hasColumn('loan_applications', 'business_duration_years')) {
-                $table->unsignedInteger('business_duration_years')->nullable()->after('business_address');
+                $table->unsignedInteger('business_duration_years')->nullable();
             }
             if (!Schema::hasColumn('loan_applications', 'business_monthly_revenue')) {
-                $table->unsignedBigInteger('business_monthly_revenue')->nullable()->after('business_duration_years');
+                $table->unsignedBigInteger('business_monthly_revenue')->nullable();
             }
             if (!Schema::hasColumn('loan_applications', 'business_photo_path')) {
-                $table->string('business_photo_path', 255)->nullable()->after('business_monthly_revenue');
+                $table->string('business_photo_path', 255)->nullable();
             }
             if (!Schema::hasColumn('loan_applications', 'survey_photo_path')) {
-                $table->string('survey_photo_path', 255)->nullable()->after('business_photo_path');
+                $table->string('survey_photo_path', 255)->nullable();
             }
             if (!Schema::hasColumn('loan_applications', 'survey_notes')) {
-                $table->text('survey_notes')->nullable()->after('survey_photo_path');
+                $table->text('survey_notes')->nullable();
             }
         });
 
         // 2. Tambah kolom Foto Usaha & Status Kolektibilitas pada tabel loans
         Schema::table('loans', function (Blueprint $table) {
             if (!Schema::hasColumn('loans', 'business_name')) {
-                $table->string('business_name', 150)->nullable()->after('notes');
+                $table->string('business_name', 150)->nullable();
             }
             if (!Schema::hasColumn('loans', 'business_type')) {
-                $table->string('business_type', 100)->nullable()->after('business_name');
+                $table->string('business_type', 100)->nullable();
             }
             if (!Schema::hasColumn('loans', 'business_address')) {
-                $table->text('business_address')->nullable()->after('business_type');
+                $table->text('business_address')->nullable();
             }
             if (!Schema::hasColumn('loans', 'business_duration_years')) {
-                $table->unsignedInteger('business_duration_years')->nullable()->after('business_address');
+                $table->unsignedInteger('business_duration_years')->nullable();
             }
             if (!Schema::hasColumn('loans', 'business_monthly_revenue')) {
-                $table->unsignedBigInteger('business_monthly_revenue')->nullable()->after('business_duration_years');
+                $table->unsignedBigInteger('business_monthly_revenue')->nullable();
             }
             if (!Schema::hasColumn('loans', 'business_photo_path')) {
-                $table->string('business_photo_path', 255)->nullable()->after('business_monthly_revenue');
+                $table->string('business_photo_path', 255)->nullable();
             }
             if (!Schema::hasColumn('loans', 'survey_photo_path')) {
-                $table->string('survey_photo_path', 255)->nullable()->after('business_photo_path');
+                $table->string('survey_photo_path', 255)->nullable();
             }
 
             // Manajemen Kolektibilitas & Penagihan
             if (!Schema::hasColumn('loans', 'collectibility_status')) {
-                $table->string('collectibility_status', 30)->default('lancar')->after('status');
+                $table->string('collectibility_status', 30)->default('lancar');
             }
             if (!Schema::hasColumn('loans', 'collection_stage')) {
-                $table->string('collection_stage', 30)->default('normal')->after('collectibility_status');
+                $table->string('collection_stage', 30)->default('normal');
             }
             if (!Schema::hasColumn('loans', 'last_collected_at')) {
-                $table->dateTime('last_collected_at')->nullable()->after('collection_stage');
+                $table->dateTime('last_collected_at')->nullable();
             }
             if (!Schema::hasColumn('loans', 'promised_payment_date')) {
-                $table->date('promised_payment_date')->nullable()->after('last_collected_at');
+                $table->date('promised_payment_date')->nullable();
             }
             if (!Schema::hasColumn('loans', 'promised_payment_amount')) {
-                $table->unsignedBigInteger('promised_payment_amount')->nullable()->after('promised_payment_date');
+                $table->unsignedBigInteger('promised_payment_amount')->nullable();
             }
         });
 
