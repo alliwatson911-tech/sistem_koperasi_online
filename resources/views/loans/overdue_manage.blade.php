@@ -111,10 +111,10 @@
                 <tbody>
                     @foreach($pendingRestructurings as $pr)
                     <tr>
-                        <td><strong>{{ $pr->loan->loan_no }}</strong></td>
+                        <td><strong>{{ $pr->loan?->loan_no ?? '-' }}</strong></td>
                         <td>
-                            <div class="font-bold text-slate-800">{{ $pr->loan->member->user->name }}</div>
-                            <div class="text-[11px] text-slate-500">{{ $pr->loan->member->member_no }}</div>
+                            <div class="font-bold text-slate-800">{{ $pr->loan?->member?->user?->name ?? 'Anggota' }}</div>
+                            <div class="text-[11px] text-slate-500">{{ $pr->loan?->member?->member_no ?? '-' }}</div>
                         </td>
                         <td><span class="badge badge-info">{{ $pr->type_label }}</span></td>
                         <td>
@@ -126,12 +126,12 @@
                         </td>
                         <td class="max-w-xs text-xs text-slate-700">{{ $pr->reason }}</td>
                         <td>
-                            <span class="text-xs font-semibold text-slate-800">{{ $pr->requestedBy->name }}</span>
-                            <span class="block text-[10px] text-slate-500">({{ $pr->requestedBy->role }})</span>
+                            <span class="text-xs font-semibold text-slate-800">{{ $pr->requestedBy?->name ?? 'Pemohon' }}</span>
+                            <span class="block text-[10px] text-slate-500">({{ ucfirst($pr->requestedBy?->role ?? 'staf') }})</span>
                         </td>
                         <td>
                             @if(in_array(auth()->user()->role, ['manager', 'admin']))
-                                <button type="button" onclick="openDecideModal({{ $pr->id }}, '{{ $pr->loan->loan_no }}', {{ $pr->requested_waiver_amount }}, '{{ addslashes($pr->reason) }}')" class="btn btn-primary btn-sm text-xs">
+                                <button type="button" onclick="openDecideModal({{ $pr->id }}, '{{ $pr->loan?->loan_no ?? '' }}', {{ $pr->requested_waiver_amount }}, '{{ addslashes($pr->reason) }}')" class="btn btn-primary btn-sm text-xs">
                                     Putuskan
                                 </button>
                             @else
@@ -214,11 +214,11 @@
                             @endif
                         </td>
                         <td>
-                            <div class="font-bold text-slate-800">{{ $l->member->user->name }}</div>
-                            <div class="text-[11px] text-slate-500 font-mono">{{ $l->member->member_no }} &bull; {{ $l->member->user->phone }}</div>
+                            <div class="font-bold text-slate-800">{{ $l->member?->user?->name ?? 'Anggota' }}</div>
+                            <div class="text-[11px] text-slate-500 font-mono">{{ $l->member?->member_no ?? '-' }} &bull; {{ $l->member?->user?->phone ?? '-' }}</div>
                         </td>
                         <td>
-                            <div class="text-xs text-slate-700 font-medium">{{ $l->loanProduct->name }}</div>
+                            <div class="text-xs text-slate-700 font-medium">{{ $l->loanProduct?->name ?? 'Pinjaman' }}</div>
                             <div class="text-[10px] text-slate-500">{{ $l->tenor_display }}</div>
                         </td>
                         <td>
@@ -247,7 +247,7 @@
                         <td class="text-xs">
                             @if($l->promised_payment_date)
                                 <div class="bg-amber-100 text-amber-900 p-1.5 rounded-md font-semibold text-[11px]">
-                                    Janji Bayar: {{ Carbon\Carbon::parse($l->promised_payment_date)->format('d/m/Y') }}
+                                    Janji Bayar: {{ \Carbon\Carbon::parse($l->promised_payment_date)->format('d/m/Y') }}
                                     @if($l->promised_payment_amount)
                                         <div class="text-[10px] font-normal">Est: Rp {{ number_format($l->promised_payment_amount, 0, ',', '.') }}</div>
                                     @endif
@@ -260,7 +260,7 @@
                         </td>
                         <td>
                             <div class="flex items-center gap-1.5">
-                                <button type="button" onclick="openCollectionModal({{ $l->id }}, '{{ $l->loan_no }}', '{{ addslashes($l->member->user->name) }}', '{{ $l->member->user->phone }}')" class="btn btn-primary btn-sm text-[11px] py-1 px-2" title="Catat interaksi telepon, kunjungan, SP, atau janji bayar">
+                                <button type="button" onclick="openCollectionModal({{ $l->id }}, '{{ $l->loan_no }}', '{{ addslashes($l->member?->user?->name ?? 'Anggota') }}', '{{ $l->member?->user?->phone ?? '-' }}')" class="btn btn-primary btn-sm text-[11px] py-1 px-2" title="Catat interaksi telepon, kunjungan, SP, atau janji bayar">
                                     Catat Aksi
                                 </button>
                                 <a href="{{ route('loans.show', $l->id) }}" class="btn btn-secondary btn-sm text-[11px] py-1 px-2" title="Lihat rincian lengkap pinjaman">

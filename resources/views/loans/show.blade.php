@@ -118,7 +118,7 @@
                     </p>
                     @if($loan->promised_payment_date)
                     <div class="text-[11px] font-semibold text-amber-900 bg-amber-100/80 px-2.5 py-1 rounded-md inline-block mt-1">
-                        Komitmen Janji Bayar Tercatat: {{ Carbon\Carbon::parse($loan->promised_payment_date)->format('d/m/Y') }} @if($loan->promised_payment_amount) &bull; Est: Rp {{ number_format($loan->promised_payment_amount, 0, ',', '.') }} @endif
+                        Komitmen Janji Bayar Tercatat: {{ \Carbon\Carbon::parse($loan->promised_payment_date)->format('d/m/Y') }} @if($loan->promised_payment_amount) &bull; Est: Rp {{ number_format($loan->promised_payment_amount, 0, ',', '.') }} @endif
                     </div>
                     @endif
                 </div>
@@ -567,7 +567,7 @@
                         </td>
                         <td class="py-3 px-3">
                             @if($log->promised_date)
-                                <div class="font-bold text-amber-900">{{ Carbon\Carbon::parse($log->promised_date)->format('d/m/Y') }}</div>
+                                <div class="font-bold text-amber-900">{{ \Carbon\Carbon::parse($log->promised_date)->format('d/m/Y') }}</div>
                                 @if($log->promised_amount)
                                     <div class="font-mono text-[11px] text-slate-600">Rp {{ number_format($log->promised_amount, 0, ',', '.') }}</div>
                                 @endif
