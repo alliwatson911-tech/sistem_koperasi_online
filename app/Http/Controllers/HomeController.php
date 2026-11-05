@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BillboardAnnouncement;
 use App\Models\Loan;
 use App\Models\LoanProduct;
 use App\Models\Member;
@@ -65,6 +66,8 @@ class HomeController extends Controller
             'product_count' => $products->count(),
         ];
 
+        $billboards = BillboardAnnouncement::where('is_active', true)->orderBy('order', 'asc')->get();
+
         return view('home', compact(
             'products',
             'selectedProduct',
@@ -72,7 +75,8 @@ class HomeController extends Controller
             'stats',
             'amount',
             'tenor',
-            'method'
+            'method',
+            'billboards'
         ));
     }
 }

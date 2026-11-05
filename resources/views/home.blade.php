@@ -140,91 +140,140 @@
                             <svg class="w-5 h-5 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
                         </div>
                         <div>
-                            <span class="text-2xs font-bold text-amber-800 uppercase tracking-wider block">Papan Informasi Resmi</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-2xs font-bold text-amber-800 uppercase tracking-wider block">Papan Informasi Resmi</span>
+                                @if(auth()->check() && auth()->user()->isAdmin())
+                                    <a href="{{ route('admin.billboards.index') }}" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-100 hover:bg-amber-200 text-amber-900 text-3xs font-extrabold uppercase tracking-wider transition-colors border border-amber-300 shadow-2xs" title="Kelola Papan Informasi">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                        Ubah Billboard
+                                    </a>
+                                @endif
+                            </div>
                             <h2 class="text-lg font-extrabold text-slate-900">Billboard Pengumuman Koperasi</h2>
                         </div>
                     </div>
 
                     {{-- Navigasi Tab Billboard --}}
-                    <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl self-start sm:self-auto text-xs" role="tablist">
-                        <button type="button" onclick="switchBillboard(0)" id="bb-tab-0" class="px-3 py-1.5 rounded-lg font-bold bg-white text-emerald-900 shadow-2xs transition-all" role="tab" aria-selected="true">
-                            RAT & SHU
-                        </button>
-                        <button type="button" onclick="switchBillboard(1)" id="bb-tab-1" class="px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-slate-900 transition-all" role="tab" aria-selected="false">
-                            Modal UMKM
-                        </button>
-                        <button type="button" onclick="switchBillboard(2)" id="bb-tab-2" class="px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-slate-900 transition-all" role="tab" aria-selected="false">
-                            Pembayaran QRIS & VA
-                        </button>
-                        <button type="button" onclick="switchBillboard(3)" id="bb-tab-3" class="px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-slate-900 transition-all" role="tab" aria-selected="false">
-                            Hasil Audit
-                        </button>
+                    @php
+                        $displayBillboards = (isset($billboards) && $billboards->isNotEmpty()) ? $billboards : null;
+                    @endphp
+                    <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl self-start sm:self-auto text-xs overflow-x-auto max-w-full" role="tablist">
+                        @if($displayBillboards)
+                            @foreach($displayBillboards as $idx => $bb)
+                                <button type="button" onclick="switchBillboard({{ $idx }})" id="bb-tab-{{ $idx }}" class="billboard-tab-btn px-3 py-1.5 rounded-lg whitespace-nowrap {{ $idx === 0 ? 'font-bold bg-white text-emerald-900 shadow-2xs' : 'font-semibold text-slate-600 hover:text-slate-900' }} transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500" role="tab" aria-selected="{{ $idx === 0 ? 'true' : 'false' }}">
+                                    {{ $bb->tab_title }}
+                                </button>
+                            @endforeach
+                        @else
+                            <button type="button" onclick="switchBillboard(0)" id="bb-tab-0" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-bold bg-white text-emerald-900 shadow-2xs transition-all" role="tab" aria-selected="true">
+                                RAT & SHU
+                            </button>
+                            <button type="button" onclick="switchBillboard(1)" id="bb-tab-1" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-slate-900 transition-all" role="tab" aria-selected="false">
+                                Modal UMKM
+                            </button>
+                            <button type="button" onclick="switchBillboard(2)" id="bb-tab-2" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-slate-900 transition-all" role="tab" aria-selected="false">
+                                Pembayaran QRIS & VA
+                            </button>
+                            <button type="button" onclick="switchBillboard(3)" id="bb-tab-3" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-slate-900 transition-all" role="tab" aria-selected="false">
+                                Hasil Audit
+                            </button>
+                        @endif
                     </div>
                 </div>
 
                 {{-- Konten Slider / Billboard Tab --}}
                 <div class="pt-6">
-                    {{-- Slide 0 --}}
-                    <div id="bb-slide-0" class="billboard-slide active space-y-3">
-                        <div class="flex items-center gap-2">
-                            <span class="badge badge-warning text-2xs font-bold">Pengumuman Utama</span>
-                            <span class="text-xs text-slate-400">Dipublikasikan: 01 November 2026</span>
+                    @if($displayBillboards)
+                        @foreach($displayBillboards as $idx => $bb)
+                            <div id="bb-slide-{{ $idx }}" class="billboard-slide {{ $idx === 0 ? 'active' : '' }} space-y-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="badge {{ $bb->badge_class }} text-2xs font-bold">{{ $bb->badge_text }}</span>
+                                    @if($bb->meta_text)
+                                        <span class="text-xs text-slate-400">{{ $bb->meta_text }}</span>
+                                    @endif
+                                </div>
+                                <h3 class="text-xl font-black text-slate-900">{{ $bb->title }}</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
+                                    {!! nl2br(e($bb->content)) !!}
+                                </p>
+                                @if($bb->status_text || ($bb->link_url && $bb->link_text))
+                                    <div class="pt-2 flex flex-wrap items-center gap-4 text-xs font-bold text-emerald-800">
+                                        @if($bb->status_text)
+                                            <span>{{ $bb->status_text }}</span>
+                                        @endif
+                                        @if($bb->status_text && $bb->link_url && $bb->link_text)
+                                            <span>&bull;</span>
+                                        @endif
+                                        @if($bb->link_url && $bb->link_text)
+                                            <a href="{{ $bb->link_url }}" class="hover:underline flex items-center gap-1">{{ $bb->link_text }} &rarr;</a>
+                                        @endif
+                                    </div>
+                                @endif
+                            </div>
+                        @endforeach
+                    @else
+                        {{-- Fallback Slide 0 --}}
+                        <div id="bb-slide-0" class="billboard-slide active space-y-3">
+                            <div class="flex items-center gap-2">
+                                <span class="badge badge-warning text-2xs font-bold">Pengumuman Utama</span>
+                                <span class="text-xs text-slate-400">Dipublikasikan: 01 November 2026</span>
+                            </div>
+                            <h3 class="text-xl font-black text-slate-900">Rapat Anggota Tahunan (RAT) Tahun Buku Berjalan & Alokasi Pembagian SHU</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
+                                Pengurus mengumumkan bahwa Rapat Anggota Tahunan (RAT) telah menetapkan alokasi Sisa Hasil Usaha (SHU) sebesar <strong>40% untuk Jasa Modal dan Jasa Anggota</strong>. Anggota yang telah melunasi Simpanan Pokok dan Wajib dapat langsung memeriksa simulasi hak perolehan SHU pada menu akuntansi di dashboard anggota.
+                            </p>
+                            <div class="pt-2 flex items-center gap-4 text-xs font-bold text-emerald-800">
+                                <span>Status: Pelaksanaan Berjalan</span>
+                                <span>&bull;</span>
+                                <a href="#panduan" class="hover:underline flex items-center gap-1">Pelajari Alur SHU &rarr;</a>
+                            </div>
                         </div>
-                        <h3 class="text-xl font-black text-slate-900">Rapat Anggota Tahunan (RAT) Tahun Buku Berjalan & Alokasi Pembagian SHU</h3>
-                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
-                            Pengurus mengumumkan bahwa Rapat Anggota Tahunan (RAT) telah menetapkan alokasi Sisa Hasil Usaha (SHU) sebesar <strong>40% untuk Jasa Modal dan Jasa Anggota</strong>. Anggota yang telah melunasi Simpanan Pokok dan Wajib dapat langsung memeriksa simulasi hak perolehan SHU pada menu akuntansi di dashboard anggota.
-                        </p>
-                        <div class="pt-2 flex items-center gap-4 text-xs font-bold text-emerald-800">
-                            <span>Status: Pelaksanaan Berjalan</span>
-                            <span>&bull;</span>
-                            <a href="#panduan" class="hover:underline flex items-center gap-1">Pelajari Alur SHU &rarr;</a>
-                        </div>
-                    </div>
 
-                    {{-- Slide 1 --}}
-                    <div id="bb-slide-1" class="billboard-slide space-y-3">
-                        <div class="flex items-center gap-2">
-                            <span class="badge badge-success text-2xs font-bold">Program Permodalan</span>
-                            <span class="text-xs text-slate-400">Berlaku untuk Anggota Aktif</span>
+                        {{-- Fallback Slide 1 --}}
+                        <div id="bb-slide-1" class="billboard-slide space-y-3">
+                            <div class="flex items-center gap-2">
+                                <span class="badge badge-success text-2xs font-bold">Program Permodalan</span>
+                                <span class="text-xs text-slate-400">Berlaku untuk Anggota Aktif</span>
+                            </div>
+                            <h3 class="text-xl font-black text-slate-900">Skema Pinjaman Mikro Mingguan Khusus Pelaku Usaha UMKM</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
+                                KSP Sahabat Sejahtera meluncurkan fasilitas pembiayaan mikro mingguan (tenor 4 s.d. 24 minggu) dengan margin anuitas bersahabat mulai 0.40% per minggu. Persyaratan mudah: cukup upload foto tempat usaha saat mengajukan permohonan melalui sistem koperasi online ini.
+                            </p>
+                            <div class="pt-2 flex items-center gap-4 text-xs font-bold text-emerald-800">
+                                <a href="#produk" class="hover:underline">Lihat Rincian Plafon Produk Pinjaman &rarr;</a>
+                            </div>
                         </div>
-                        <h3 class="text-xl font-black text-slate-900">Skema Pinjaman Mikro Mingguan Khusus Pelaku Usaha UMKM</h3>
-                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
-                            KSP Sahabat Sejahtera meluncurkan fasilitas pembiayaan mikro mingguan (tenor 4 s.d. 24 minggu) dengan margin anuitas bersahabat mulai 0.40% per minggu. Persyaratan mudah: cukup upload foto tempat usaha saat mengajukan permohonan melalui sistem koperasi online ini.
-                        </p>
-                        <div class="pt-2 flex items-center gap-4 text-xs font-bold text-emerald-800">
-                            <a href="#produk" class="hover:underline">Lihat Rincian Plafon Produk Pinjaman &rarr;</a>
-                        </div>
-                    </div>
 
-                    {{-- Slide 2 --}}
-                    <div id="bb-slide-2" class="billboard-slide space-y-3">
-                        <div class="flex items-center gap-2">
-                            <span class="badge badge-info text-2xs font-bold">Teknologi Pembayaran</span>
-                            <span class="text-xs text-slate-400">Layanan Otomatis 24 Jam</span>
+                        {{-- Fallback Slide 2 --}}
+                        <div id="bb-slide-2" class="billboard-slide space-y-3">
+                            <div class="flex items-center gap-2">
+                                <span class="badge badge-info text-2xs font-bold">Teknologi Pembayaran</span>
+                                <span class="text-xs text-slate-400">Layanan Otomatis 24 Jam</span>
+                            </div>
+                            <h3 class="text-xl font-black text-slate-900">Setoran Simpanan Sukarela & Angsuran Melalui QRIS dan Virtual Account Bank</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
+                                Anggota kini dapat melakukan setoran simpanan sukarela dan pembayaran angsuran menggunakan QRIS dinamis serta Virtual Account resmi Bank Mandiri, BRI, BCA, dan BNI. Transaksi terverifikasi otomatis melalui webhook server-to-server tanpa perlu konfirmasi manual bukti transfer.
+                            </p>
+                            <div class="pt-2 flex items-center gap-4 text-xs font-bold text-emerald-800">
+                                <a href="#panduan" class="hover:underline">Lihat Panduan Pembayaran Digital &rarr;</a>
+                            </div>
                         </div>
-                        <h3 class="text-xl font-black text-slate-900">Setoran Simpanan Sukarela & Angsuran Melalui QRIS dan Virtual Account Bank</h3>
-                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
-                            Anggota kini dapat melakukan setoran simpanan sukarela dan pembayaran angsuran menggunakan QRIS dinamis serta Virtual Account resmi Bank Mandiri, BRI, BCA, dan BNI. Transaksi terverifikasi otomatis melalui webhook server-to-server tanpa perlu konfirmasi manual bukti transfer.
-                        </p>
-                        <div class="pt-2 flex items-center gap-4 text-xs font-bold text-emerald-800">
-                            <a href="#panduan" class="hover:underline">Lihat Panduan Pembayaran Digital &rarr;</a>
-                        </div>
-                    </div>
 
-                    {{-- Slide 3 --}}
-                    <div id="bb-slide-3" class="billboard-slide space-y-3">
-                        <div class="flex items-center gap-2">
-                            <span class="badge badge-gray text-2xs font-bold">Kepatuhan Hukum</span>
-                            <span class="text-xs text-slate-400">Audit Berkala Kemenkop UKM</span>
+                        {{-- Fallback Slide 3 --}}
+                        <div id="bb-slide-3" class="billboard-slide space-y-3">
+                            <div class="flex items-center gap-2">
+                                <span class="badge badge-gray text-2xs font-bold">Kepatuhan Hukum</span>
+                                <span class="text-xs text-slate-400">Audit Berkala Kemenkop UKM</span>
+                            </div>
+                            <h3 class="text-xl font-black text-slate-900">Hasil Audit Pengawasan Koperasi: Predikat Sehat & Akuntabel</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
+                                Berdasarkan hasil pengawasan dan audit independen tata kelola koperasi, KSP Sahabat Sejahtera dinyatakan berstatus <strong>KOPERASI SEHAT</strong> dengan rasio likuiditas aman, kepatuhan batas maksimal denda non-compounding, serta pemisahan tugas kewenangan <em>(Maker-Checker Segregation of Duties)</em>.
+                            </p>
+                            <div class="pt-2 flex items-center gap-4 text-xs font-bold text-emerald-800">
+                                <a href="#tentang-kami" class="hover:underline">Informasi Legalitas & Kontak Pengurus &rarr;</a>
+                            </div>
                         </div>
-                        <h3 class="text-xl font-black text-slate-900">Hasil Audit Pengawasan Koperasi: Predikat Sehat & Akuntabel</h3>
-                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
-                            Berdasarkan hasil pengawasan dan audit independen tata kelola koperasi, KSP Sahabat Sejahtera dinyatakan berstatus <strong>KOPERASI SEHAT</strong> dengan rasio likuiditas aman, kepatuhan batas maksimal denda non-compounding, serta pemisahan tugas kewenangan <em>(Maker-Checker Segregation of Duties)</em>.
-                        </p>
-                        <div class="pt-2 flex items-center gap-4 text-xs font-bold text-emerald-800">
-                            <a href="#tentang-kami" class="hover:underline">Informasi Legalitas & Kontak Pengurus &rarr;</a>
-                        </div>
-                    </div>
+                    @endif
                 </div>
             </div>
 
@@ -1012,25 +1061,30 @@
 
 @section('scripts')
 <script>
-    // Tab Billboard Pengumuman
+    // Tab Billboard Pengumuman Dinamis
     function switchBillboard(index) {
-        for (let i = 0; i < 4; i++) {
-            const slide = document.getElementById('bb-slide-' + i);
-            const tab = document.getElementById('bb-tab-' + i);
-            if (slide && tab) {
-                if (i === index) {
-                    slide.classList.add('active');
-                    tab.classList.add('bg-white', 'text-emerald-900', 'shadow-2xs');
-                    tab.classList.remove('text-slate-600');
-                    tab.setAttribute('aria-selected', 'true');
-                } else {
-                    slide.classList.remove('active');
-                    tab.classList.remove('bg-white', 'text-emerald-900', 'shadow-2xs');
-                    tab.classList.add('text-slate-600');
-                    tab.setAttribute('aria-selected', 'false');
-                }
+        const slides = document.querySelectorAll('.billboard-slide');
+        const tabs = document.querySelectorAll('.billboard-tab-btn');
+
+        slides.forEach((slide, i) => {
+            if (i === index) {
+                slide.classList.add('active');
+            } else {
+                slide.classList.remove('active');
             }
-        }
+        });
+
+        tabs.forEach((tab, i) => {
+            if (i === index) {
+                tab.classList.add('bg-white', 'text-emerald-900', 'shadow-2xs', 'font-bold');
+                tab.classList.remove('text-slate-600', 'font-semibold');
+                tab.setAttribute('aria-selected', 'true');
+            } else {
+                tab.classList.remove('bg-white', 'text-emerald-900', 'shadow-2xs', 'font-bold');
+                tab.classList.add('text-slate-600', 'font-semibold');
+                tab.setAttribute('aria-selected', 'false');
+            }
+        });
     }
 
     // FAQ Accordion Toggle

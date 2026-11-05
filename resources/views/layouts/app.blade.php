@@ -324,12 +324,55 @@
         .alert-success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
         .alert-error   { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
         .alert-info    { background: #f0f9ff; color: #075985; border: 1px solid #bae6fd; }
-    </style>
-    @yield('styles')
+    /* Scrollbar Halus untuk Sidebar */
+    .sidebar-scroll::-webkit-scrollbar {
+        width: 5px;
+    }
+    .sidebar-scroll::-webkit-scrollbar-track {
+        background: #0f172a;
+    }
+    .sidebar-scroll::-webkit-scrollbar-thumb {
+        background: #334155;
+        border-radius: 9999px;
+    }
+    .sidebar-scroll::-webkit-scrollbar-thumb:hover {
+        background: #475569;
+    }
+
+    /* Skip to Content untuk Aksesibilitas */
+    .skip-to-content {
+        position: absolute;
+        top: -100px;
+        left: 1rem;
+        z-index: 100;
+        padding: 0.5rem 1rem;
+        background: #047857;
+        color: #ffffff;
+        font-weight: 700;
+        border-radius: 0.5rem;
+        transition: top 0.2s;
+    }
+    .skip-to-content:focus {
+        top: 1rem;
+    }
+</style>
+@yield('styles')
 </head>
-<body class="bg-slate-50 text-slate-800">
-    <!-- Navbar Header -->
-    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all">
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-emerald-500 selection:text-white">
+    <!-- Aksesibilitas: Lewati ke Konten Utama -->
+    <a href="#main-content" class="skip-to-content focus:outline-none focus:ring-2 focus:ring-emerald-400">
+        Lewati ke Konten Utama &rarr;
+    </a>
+
+@php
+    $isLandingOrGuest = request()->routeIs('home') || !auth()->check();
+@endphp
+
+@if($isLandingOrGuest)
+    {{-- ========================================================================= --}}
+    {{-- TAMPILAN HALAMAN UTAMA / PUBLIK (TOP NAVBAR TETAP UTUH & TIDAK BERUBAH) --}}
+    {{-- ========================================================================= --}}
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all" role="banner">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <!-- Brand Logo -->
@@ -347,116 +390,42 @@
                     </div>
                 </a>
 
-                @auth
-                <!-- Desktop Navigation Links -->
-                <nav class="hidden lg:flex items-center gap-1">
-                    <a href="{{ route('dashboard') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('dashboard') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                        Dasbor
-                    </a>
-
-                    @if(auth()->user()->isMember())
-                        <a href="{{ route('savings.index') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('savings.*') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                            Simpanan
-                        </a>
-                        <a href="{{ route('loans.my') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('loans.my*') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                            Pinjaman Saya
-                        </a>
-                        <a href="{{ route('loans.simulation') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('loans.simulation') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                            Simulasi
-                        </a>
-                        <a href="{{ route('members.profile') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('members.profile') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                            Profil
-                        </a>
-                    @else
-                        {{-- Petugas / Pengurus Navigasi --}}
-                        <a href="{{ route('members.index') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('members.*') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                            Anggota
-                        </a>
-                        <a href="{{ route('savings.index') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('savings.*') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                            Simpanan
-                        </a>
-                        <a href="{{ route('loans.applications') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('loans.applications*') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                            Pengajuan Pinjaman
-                        </a>
-                        <a href="{{ route('loans.manage') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('loans.manage*') || request()->routeIs('loans.index') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                            Daftar Pinjaman
-                        </a>
-                        <a href="{{ Route::has('loans.overdue.manage') ? route('loans.overdue.manage') : url('/kelola-tunggakan') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('loans.overdue*') ? 'bg-amber-50 text-amber-900 font-bold border border-amber-200' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                            Kelola Tunggakan
-                        </a>
-                        <a href="{{ route('payments.dashboard') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('payments.*') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                            Gateway & Bayar
-                        </a>
-
-                        @if(in_array(auth()->user()->role, ['admin', 'manager']))
-                            <a href="{{ route('accounting.journals') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('accounting.journals') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                                Jurnal
-                            </a>
-                            <a href="{{ route('accounting.ledger') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('accounting.ledger') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                                Buku Besar
-                            </a>
-                            <a href="{{ route('accounting.trial_balance') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('accounting.trial_balance') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                                Neraca
-                            </a>
-                            <a href="{{ route('accounting.shu') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('accounting.shu*') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                                SHU
-                            </a>
-                        @endif
-
-                        <a href="{{ route('reports.savings') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('reports.*') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
-                            Laporan
-                        </a>
-                    @endif
-                </nav>
-
-                <!-- User Profile & Logout -->
-                <div class="hidden lg:flex items-center gap-3">
-                    <span class="role-badge role-{{ auth()->user()->role }}">
-                        {{ auth()->user()->role }}
-                    </span>
-                    <div class="flex flex-col text-right">
-                        <span class="text-xs font-bold text-slate-800">{{ auth()->user()->name }}</span>
-                        @if(auth()->user()->isStaff())
-                        <span class="text-[10px] font-mono text-emerald-700 font-semibold">{{ auth()->user()->employee_code_formatted }}</span>
-                        @endif
-                    </div>
-                    <form action="{{ route('logout') }}" method="POST" class="inline">
-                        @csrf
-                        <button type="submit" class="btn btn-secondary btn-sm" title="Keluar">
-                            Keluar
-                        </button>
-                    </form>
-                </div>
-                @else
-                <!-- Guest Navigation (Sesuai Urutan Permintaan) -->
-                <nav class="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Navigasi Utama">
-                    <a href="{{ url('/#dashboard') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:ring-2 focus:ring-emerald-500">
+                <!-- Navigasi Publik Sesuai Urutan Standar -->
+                <nav class="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Navigasi Utama Landing Page">
+                    <a href="{{ url('/#dashboard') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
                         Dashboard
                     </a>
-                    <a href="{{ url('/#produk') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:ring-2 focus:ring-emerald-500">
+                    <a href="{{ url('/#produk') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
                         Produk
                     </a>
-                    <a href="{{ url('/#panduan') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:ring-2 focus:ring-emerald-500">
+                    <a href="{{ url('/#panduan') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
                         Panduan
                     </a>
-                    <a href="{{ url('/#simulasi') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:ring-2 focus:ring-emerald-500">
+                    <a href="{{ url('/#simulasi') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
                         Simulasi Pinjaman
                     </a>
-                    <a href="{{ url('/#tentang-kami') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:ring-2 focus:ring-emerald-500">
+                    <a href="{{ url('/#tentang-kami') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
                         Tentang Kami
                     </a>
-                    <a href="{{ route('login') }}" class="px-3 py-1.5 rounded-lg text-xs xl:text-sm font-bold text-emerald-800 hover:bg-emerald-50 transition-all focus:ring-2 focus:ring-emerald-500">
-                        Masuk Akun
-                    </a>
-                    <a href="{{ route('register') }}" class="ml-1 btn btn-primary btn-sm px-3.5 py-1.5 rounded-xl font-bold shadow-xs hover:shadow transition-all focus:ring-2 focus:ring-emerald-500">
-                        Daftar Anggota Baru
-                    </a>
-                </nav>
-                @endauth
 
-                <!-- Mobile Hamburger Button -->
+                    @auth
+                        <a href="{{ route('dashboard') }}" class="ml-2 btn btn-primary btn-sm px-4 py-1.5 rounded-xl font-bold shadow-xs hover:shadow transition-all flex items-center gap-1.5">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                            Dasbor Koperasi
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="px-3 py-1.5 rounded-lg text-xs xl:text-sm font-bold text-emerald-800 hover:bg-emerald-50 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            Masuk Akun
+                        </a>
+                        <a href="{{ route('register') }}" class="ml-1 btn btn-primary btn-sm px-3.5 py-1.5 rounded-xl font-bold shadow-xs hover:shadow transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            Daftar Anggota Baru
+                        </a>
+                    @endauth
+                </nav>
+
+                <!-- Mobile Hamburger Button Publik -->
                 <div class="lg:hidden flex items-center">
-                    <button type="button" id="mobileMenuBtn" aria-label="Buka Menu" class="p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <button type="button" id="mobileMenuBtn" aria-label="Buka Menu Navigasi" aria-expanded="false" class="p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path id="menuIconBars" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                             <path id="menuIconClose" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -466,142 +435,275 @@
             </div>
         </div>
 
-        <!-- Mobile Drawer Navigation -->
-        <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-4 space-y-1 shadow-lg">
-            @auth
-                <div class="flex items-center justify-between pb-3 mb-2 border-b border-slate-100">
-                    <div class="flex items-center gap-2">
-                        <span class="role-badge role-{{ auth()->user()->role }}">{{ auth()->user()->role }}</span>
-                        <div>
-                            <span class="text-sm font-bold text-slate-800">{{ auth()->user()->name }}</span>
-                            @if(auth()->user()->isStaff())
-                            <span class="block text-[10px] font-mono text-emerald-700 font-semibold">{{ auth()->user()->employee_code_formatted }}</span>
-                            @endif
-                        </div>
-                    </div>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-secondary btn-sm">Keluar</button>
-                    </form>
-                </div>
-
-                <a href="{{ route('dashboard') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('dashboard') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
-                    Dasbor Utama
-                </a>
-
-                @if(auth()->user()->isMember())
-                    <a href="{{ route('savings.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('savings.*') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
-                        Rekening Simpanan
-                    </a>
-                    <a href="{{ route('loans.my') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('loans.my*') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
-                        Pinjaman Saya
-                    </a>
-                    <a href="{{ route('loans.simulation') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('loans.simulation') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
-                        Simulasi Pinjaman
-                    </a>
-                    <a href="{{ route('members.profile') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('members.profile') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
-                        Profil Saya
-                    </a>
+        <!-- Mobile Drawer Navigation Publik -->
+        <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-4 space-y-1 shadow-lg" role="navigation" aria-label="Navigasi Menu Ponsel">
+            <a href="{{ url('/#dashboard') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Dashboard</a>
+            <a href="{{ url('/#produk') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Produk</a>
+            <a href="{{ url('/#panduan') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Panduan</a>
+            <a href="{{ url('/#simulasi') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Simulasi Pinjaman</a>
+            <a href="{{ url('/#tentang-kami') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Tentang Kami</a>
+            
+            <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 mt-2">
+                @auth
+                    <a href="{{ route('dashboard') }}" class="btn btn-primary col-span-2 text-center py-2 text-xs font-bold">Buka Dasbor Koperasi &rarr;</a>
                 @else
-                    <a href="{{ route('members.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('members.*') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
-                        Kelola Anggota
-                    </a>
-                    <a href="{{ route('savings.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('savings.*') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
-                        Kelola Simpanan
-                    </a>
-                    <a href="{{ route('loans.applications') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('loans.applications*') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
-                        Pengajuan Pinjaman
-                    </a>
-                    <a href="{{ route('loans.manage') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('loans.manage*') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
-                        Daftar Pinjaman
-                    </a>
-                    <a href="{{ Route::has('loans.overdue.manage') ? route('loans.overdue.manage') : url('/kelola-tunggakan') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('loans.overdue*') ? 'bg-amber-50 text-amber-900 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
-                        Kelola Tunggakan & Kolektibilitas
-                    </a>
-                    @if(in_array(auth()->user()->role, ['admin', 'manager']))
-                        <a href="{{ route('accounting.journals') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('accounting.journals') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
-                            Jurnal Umum
-                        </a>
-                        <a href="{{ route('accounting.ledger') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('accounting.ledger') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
-                            Buku Besar
-                        </a>
-                        <a href="{{ route('accounting.trial_balance') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('accounting.trial_balance') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
-                            Neraca Saldo
-                        </a>
-                        <a href="{{ route('accounting.shu') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('accounting.shu*') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
-                            Tutup Buku & SHU
-                        </a>
-                    @endif
-                    <a href="{{ route('reports.savings') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('reports.*') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
-                        Laporan Koperasi
-                    </a>
-                    <a href="{{ route('payments.dashboard') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('payments.*') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
-                        Gateway & Rekonsiliasi
-                    </a>
-                @endif
-            @else
-                <div class="space-y-1 pt-1" aria-label="Navigasi Ponsel">
-                    <a href="{{ url('/#dashboard') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Dashboard</a>
-                    <a href="{{ url('/#produk') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Produk</a>
-                    <a href="{{ url('/#panduan') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Panduan</a>
-                    <a href="{{ url('/#simulasi') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Simulasi Pinjaman</a>
-                    <a href="{{ url('/#tentang-kami') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Tentang Kami</a>
-                    <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 mt-2">
-                        <a href="{{ route('login') }}" class="btn btn-secondary text-center py-2 text-xs font-bold">Masuk Akun</a>
-                        <a href="{{ route('register') }}" class="btn btn-primary text-center py-2 text-xs font-bold">Daftar Anggota Baru</a>
-                    </div>
-                </div>
-            @endauth
+                    <a href="{{ route('login') }}" class="btn btn-secondary text-center py-2 text-xs font-bold">Masuk Akun</a>
+                    <a href="{{ route('register') }}" class="btn btn-primary text-center py-2 text-xs font-bold">Daftar Anggota</a>
+                @endauth
+            </div>
         </div>
     </header>
 
-    <!-- Main Content Container -->
-    <main class="flex-1 @yield('container-class', 'max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6')">
+    <!-- Main Content Container Publik -->
+    <main id="main-content" class="flex-1 @yield('container-class', 'max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6')">
         @if(session('success'))
-            <div class="alert alert-success shadow-sm">
+            <div class="alert alert-success shadow-sm" role="alert">
                 <div class="flex items-center gap-2">
                     <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     <span>{{ session('success') }}</span>
                 </div>
-                <button type="button" onclick="this.closest('.alert').remove()" class="text-emerald-800 hover:text-emerald-950 font-bold text-lg">&times;</button>
+                <button type="button" onclick="this.closest('.alert').remove()" class="text-emerald-800 hover:text-emerald-950 font-bold text-lg" aria-label="Tutup notifikasi">&times;</button>
             </div>
         @endif
 
         @if(session('error'))
-            <div class="alert alert-error shadow-sm">
+            <div class="alert alert-error shadow-sm" role="alert">
                 <div class="flex items-center gap-2">
                     <svg class="w-5 h-5 text-red-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     <span>{{ session('error') }}</span>
                 </div>
-                <button type="button" onclick="this.closest('.alert').remove()" class="text-red-800 hover:text-red-950 font-bold text-lg">&times;</button>
+                <button type="button" onclick="this.closest('.alert').remove()" class="text-red-800 hover:text-red-950 font-bold text-lg" aria-label="Tutup notifikasi">&times;</button>
             </div>
         @endif
 
         @if(session('info'))
-            <div class="alert alert-info shadow-sm">
+            <div class="alert alert-info shadow-sm" role="alert">
                 <div class="flex items-center gap-2">
                     <svg class="w-5 h-5 text-blue-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     <span>{{ session('info') }}</span>
                 </div>
-                <button type="button" onclick="this.closest('.alert').remove()" class="text-blue-800 hover:text-blue-950 font-bold text-lg">&times;</button>
+                <button type="button" onclick="this.closest('.alert').remove()" class="text-blue-800 hover:text-blue-950 font-bold text-lg" aria-label="Tutup notifikasi">&times;</button>
             </div>
         @endif
 
         @yield('content')
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 mt-auto py-6">
+    <!-- Footer Publik -->
+    <footer class="bg-white border-t border-slate-200 mt-auto py-6" role="contentinfo">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500 space-y-1">
             <p class="font-semibold text-slate-700">&copy; {{ date('Y') }} KSP Sahabat Sejahtera. Badan Hukum No. AHU-0012345.AH.01.26.TAHUN 2026.</p>
             <p>Sistem Informasi Manajemen Koperasi Simpan Pinjam Online &bull; Berintegritas, Transparan, & Melayani Anggota.</p>
             <p class="pt-1.5 text-xs text-slate-500">
-                Developed by <a href="https://www.linyjayainformatika.co.id/" target="_blank" rel="noopener" class="font-bold text-emerald-800 hover:text-emerald-950 underline hover:no-underline transition-colors">Liny Jaya Informatika</a>
+                Developed by <a href="https://www.linyjayainformatika.co.id/" target="_blank" rel="noopener" class="font-bold text-emerald-800 hover:text-emerald-950 underline hover:no-underline transition-colors focus:outline-none focus:ring-1 focus:ring-emerald-500">Liny Jaya Informatika</a>
             </p>
         </div>
     </footer>
 
-    <!-- Floating CS 24 Jam WhatsApp Bubble -->
+@else
+    {{-- ========================================================================= --}}
+    {{-- TAMPILAN OPERASIONAL INTERNAL STAKEHOLDER (SIDEBAR RESMI RAPI & PROFESIONAL) --}}
+    {{-- ========================================================================= --}}
+    <div class="min-h-screen flex flex-col lg:flex-row bg-slate-50">
+
+        <!-- DESKTOP SIDEBAR -->
+        <aside id="desktopSidebar" class="hidden lg:flex lg:flex-col lg:w-72 lg:fixed lg:inset-y-0 lg:z-40 bg-slate-900 border-r border-slate-800 text-slate-200 shadow-xl" role="navigation" aria-label="Navigasi Sidebar Stakeholder">
+            <!-- Brand & Koperasi Emblem Header -->
+            <div class="p-5 border-b border-slate-800/80 bg-slate-950/70 flex items-center justify-between">
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 no-underline group focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded-xl" aria-label="Dasbor Koperasi">
+                    <div class="w-10 h-10 rounded-xl navbar-brand-badge flex items-center justify-center text-white font-extrabold text-xl shadow-md group-hover:scale-105 transition-transform">
+                        K
+                    </div>
+                    <div>
+                        <div class="font-extrabold text-sm tracking-tight text-white group-hover:text-emerald-400 transition-colors">
+                            KSP Sahabat Sejahtera
+                        </div>
+                        <div class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
+                            Sistem Operasional
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Role Stakeholder Chip -->
+            <div class="px-5 py-2.5 bg-slate-950/40 border-b border-slate-800/60 flex items-center justify-between">
+                <span class="text-[10px] font-extrabold tracking-wider text-slate-400 uppercase">Panel Stakeholder</span>
+                <span class="role-badge role-{{ auth()->user()->role }}">
+                    {{ auth()->user()->role }}
+                </span>
+            </div>
+
+            <!-- Scrollable Navigation Items -->
+            <nav class="flex-1 overflow-y-auto px-3.5 py-4 space-y-5 text-xs sidebar-scroll" aria-label="Daftar Menu">
+                @include('layouts.partials.sidebar_nav')
+            </nav>
+
+            <!-- Sidebar Footer (Lihat Beranda + Profil Akun + Logout) -->
+            <div class="p-4 border-t border-slate-800 bg-slate-950/80 space-y-3">
+                <a href="{{ url('/') }}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-xl bg-slate-800/60 hover:bg-slate-800 text-slate-300 hover:text-white transition-all text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <span class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                        Lihat Beranda Publik
+                    </span>
+                    <span class="text-3xs text-slate-400 font-mono">↗</span>
+                </a>
+
+                <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-800/60">
+                    <div class="min-w-0 flex-1">
+                        <div class="font-bold text-xs text-white truncate">{{ auth()->user()->name }}</div>
+                        <div class="text-[10px] text-emerald-400 font-mono truncate">
+                            @if(auth()->user()->isStaff())
+                                {{ auth()->user()->employee_code_formatted }}
+                            @else
+                                {{ auth()->user()->member?->member_number ?? 'ANGGOTA' }}
+                            @endif
+                        </div>
+                    </div>
+                    <form action="{{ route('logout') }}" method="POST" class="shrink-0">
+                        @csrf
+                        <button type="submit" class="px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-900 font-extrabold text-xs shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500" title="Keluar dari sistem">
+                            Keluar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MOBILE OFF-CANVAS SIDEBAR -->
+        <div id="mobileSidebarDrawer" class="fixed inset-0 z-50 lg:hidden hidden" role="dialog" aria-modal="true" aria-label="Navigasi Menu Ponsel">
+            <!-- Backdrop -->
+            <div id="mobileSidebarBackdrop" class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs transition-opacity"></div>
+
+            <!-- Drawer Panel -->
+            <div class="fixed inset-y-0 left-0 w-72 max-w-full bg-slate-900 text-slate-200 border-r border-slate-800 flex flex-col shadow-2xl z-10 transform transition-transform">
+                <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-lg navbar-brand-badge flex items-center justify-center text-white font-extrabold text-sm">
+                            K
+                        </div>
+                        <span class="font-bold text-xs text-white">KSP Sahabat Sejahtera</span>
+                    </div>
+                    <button type="button" id="closeMobileSidebarBtn" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" aria-label="Tutup navigasi">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+
+                <div class="px-4 py-2 bg-slate-950/50 border-b border-slate-800/60 flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold text-slate-400">Panel {{ auth()->user()->role }}</span>
+                    <span class="role-badge role-{{ auth()->user()->role }}">{{ auth()->user()->role }}</span>
+                </div>
+
+                <nav class="flex-1 overflow-y-auto px-3 py-3 space-y-4 text-xs sidebar-scroll" aria-label="Menu Ponsel">
+                    @include('layouts.partials.sidebar_nav')
+                </nav>
+
+                <div class="p-3 border-t border-slate-800 bg-slate-950 space-y-2">
+                    <a href="{{ url('/') }}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-lg bg-slate-800/60 text-xs text-slate-300">
+                        <span>Lihat Beranda Publik</span>
+                        <span>↗</span>
+                    </a>
+                    <div class="flex items-center justify-between pt-1">
+                        <span class="text-xs font-bold text-white truncate">{{ auth()->user()->name }}</span>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="px-2.5 py-1 rounded bg-white text-slate-900 font-bold text-xs">Keluar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE CONTENT AREA -->
+        <div class="flex-1 min-w-0 lg:pl-72 flex flex-col min-h-screen">
+            <!-- STICKY OPERATIONAL TOPBAR -->
+            <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-2xs h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center gap-3">
+                    <!-- Hamburger Toggle Button Mobile -->
+                    <button type="button" id="openMobileSidebarBtn" class="lg:hidden p-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500" aria-label="Buka Menu Navigasi" aria-expanded="false">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    </button>
+
+                    <div class="hidden sm:block">
+                        <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
+                            <span>Sistem Operasional Koperasi</span>
+                            <span>&bull;</span>
+                            <span class="text-slate-700 font-bold">{{ date('d M Y') }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Quick Info & Actions -->
+                <div class="flex items-center gap-3">
+                    @if(auth()->user()->isAdmin())
+                        <a href="{{ route('admin.billboards.index') }}" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 text-xs font-bold transition-all focus:outline-none focus:ring-2 focus:ring-amber-500" title="Kelola Billboard Pengumuman">
+                            <svg class="w-3.5 h-3.5 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+                            Kelola Billboard
+                        </a>
+                    @endif
+
+                    <div class="flex items-center gap-2.5 pl-2 border-l border-slate-200">
+                        <span class="role-badge role-{{ auth()->user()->role }} text-2xs">
+                            {{ auth()->user()->role }}
+                        </span>
+                        <div class="hidden md:flex flex-col text-right">
+                            <span class="text-xs font-bold text-slate-800 leading-tight">{{ auth()->user()->name }}</span>
+                            <span class="text-[10px] text-slate-400 font-mono">
+                                {{ auth()->user()->isStaff() ? auth()->user()->employee_code_formatted : (auth()->user()->member?->member_number ?? 'ANGGOTA') }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- MAIN OPERATIONAL CONTENT -->
+            <main id="main-content" class="flex-1 @yield('container-class', 'w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6')">
+                @if(session('success'))
+                    <div class="alert alert-success shadow-sm" role="alert">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>{{ session('success') }}</span>
+                        </div>
+                        <button type="button" onclick="this.closest('.alert').remove()" class="text-emerald-800 hover:text-emerald-950 font-bold text-lg" aria-label="Tutup notifikasi">&times;</button>
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="alert alert-error shadow-sm" role="alert">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-red-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>{{ session('error') }}</span>
+                        </div>
+                        <button type="button" onclick="this.closest('.alert').remove()" class="text-red-800 hover:text-red-950 font-bold text-lg" aria-label="Tutup notifikasi">&times;</button>
+                    </div>
+                @endif
+
+                @if(session('info'))
+                    <div class="alert alert-info shadow-sm" role="alert">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-blue-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>{{ session('info') }}</span>
+                        </div>
+                        <button type="button" onclick="this.closest('.alert').remove()" class="text-blue-800 hover:text-blue-950 font-bold text-lg" aria-label="Tutup notifikasi">&times;</button>
+                    </div>
+                @endif
+
+                @yield('content')
+            </main>
+
+            <!-- FOOTER OPERASIONAL -->
+            <footer class="bg-white border-t border-slate-200 mt-auto py-5 px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500" role="contentinfo">
+                <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+                    <p class="font-medium text-slate-600">&copy; {{ date('Y') }} KSP Sahabat Sejahtera &bull; AHU-0012345.AH.01.26.TAHUN 2026</p>
+                    <p>
+                        Developed by <a href="https://www.linyjayainformatika.co.id/" target="_blank" rel="noopener" class="font-bold text-emerald-800 hover:text-emerald-950 underline hover:no-underline transition-colors focus:outline-none focus:ring-1 focus:ring-emerald-500">Liny Jaya Informatika</a>
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </div>
+@endif
+
+    <!-- FLOATING CS 24 JAM WHATSAPP BUBBLE (TAMPIL DI SEMUA HALAMAN) -->
     <aside aria-label="Layanan Bantuan CS 24 Jam Koperasi">
         <a href="https://wa.me/6282197233174?text=Halo%20Admin%20KSP%20Sahabat%20Sejahtera,%20saya%20ingin%20bertanya%20seputar%20koperasi"
            target="_blank" 
@@ -624,30 +726,68 @@
         </a>
     </aside>
 
-    <!-- Interactive Mobile Menu Script -->
+    <!-- Interactive Scripts for Public & Internal Sidebar Navigations -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const btn = document.getElementById('mobileMenuBtn');
-            const menu = document.getElementById('mobileMenu');
-            const iconBars = document.getElementById('menuIconBars');
-            const iconClose = document.getElementById('menuIconClose');
+            // Public Navigation Hamburger
+            const pubBtn = document.getElementById('mobileMenuBtn');
+            const pubMenu = document.getElementById('mobileMenu');
+            const pubBars = document.getElementById('menuIconBars');
+            const pubClose = document.getElementById('menuIconClose');
 
-            if (btn && menu) {
-                btn.addEventListener('click', function () {
-                    const isOpen = !menu.classList.contains('hidden');
+            if (pubBtn && pubMenu) {
+                pubBtn.addEventListener('click', function () {
+                    const isOpen = !pubMenu.classList.contains('hidden');
                     if (isOpen) {
-                        menu.classList.add('hidden');
-                        iconBars.classList.remove('hidden');
-                        iconClose.classList.add('hidden');
+                        pubMenu.classList.add('hidden');
+                        if (pubBars) pubBars.classList.remove('hidden');
+                        if (pubClose) pubClose.classList.add('hidden');
+                        pubBtn.setAttribute('aria-expanded', 'false');
                     } else {
-                        menu.classList.remove('hidden');
-                        iconBars.classList.add('hidden');
-                        iconClose.classList.remove('hidden');
+                        pubMenu.classList.remove('hidden');
+                        if (pubBars) pubBars.classList.add('hidden');
+                        if (pubClose) pubClose.classList.remove('hidden');
+                        pubBtn.setAttribute('aria-expanded', 'true');
                     }
                 });
             }
+
+            // Internal Mobile Sidebar Drawer Toggle
+            const openDrawerBtn = document.getElementById('openMobileSidebarBtn');
+            const closeDrawerBtn = document.getElementById('closeMobileSidebarBtn');
+            const drawer = document.getElementById('mobileSidebarDrawer');
+            const backdrop = document.getElementById('mobileSidebarBackdrop');
+
+            function openDrawer() {
+                if (drawer) {
+                    drawer.classList.remove('hidden');
+                    if (openDrawerBtn) openDrawerBtn.setAttribute('aria-expanded', 'true');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+
+            function closeDrawer() {
+                if (drawer) {
+                    drawer.classList.add('hidden');
+                    if (openDrawerBtn) openDrawerBtn.setAttribute('aria-expanded', 'false');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            if (openDrawerBtn) openDrawerBtn.addEventListener('click', openDrawer);
+            if (closeDrawerBtn) closeDrawerBtn.addEventListener('click', closeDrawer);
+            if (backdrop) backdrop.addEventListener('click', closeDrawer);
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && drawer && !drawer.classList.contains('hidden')) {
+                    closeDrawer();
+                }
+            });
         });
     </script>
+    @yield('scripts')
+</body>
+</html>
     @yield('scripts')
 </body>
 </html>

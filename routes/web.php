@@ -130,4 +130,19 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/akuntansi/shu', [AccountingController::class, 'shu'])->name('accounting.shu');
         Route::post('/akuntansi/shu/tutup-buku', [AccountingController::class, 'closeShu'])->name('accounting.shu.close');
     });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Modul Pengaturan & Publikasi Informasi (Khusus Admin)
+    |--------------------------------------------------------------------------
+    */
+    Route::middleware(['role:admin'])->group(function () {
+        Route::get('/admin/billboard', [\App\Http\Controllers\Admin\BillboardController::class, 'index'])->name('admin.billboards.index');
+        Route::get('/admin/billboard/tambah', [\App\Http\Controllers\Admin\BillboardController::class, 'create'])->name('admin.billboards.create');
+        Route::post('/admin/billboard', [\App\Http\Controllers\Admin\BillboardController::class, 'store'])->name('admin.billboards.store');
+        Route::get('/admin/billboard/{billboard}/edit', [\App\Http\Controllers\Admin\BillboardController::class, 'edit'])->name('admin.billboards.edit');
+        Route::put('/admin/billboard/{billboard}', [\App\Http\Controllers\Admin\BillboardController::class, 'update'])->name('admin.billboards.update');
+        Route::delete('/admin/billboard/{billboard}', [\App\Http\Controllers\Admin\BillboardController::class, 'destroy'])->name('admin.billboards.destroy');
+        Route::post('/admin/billboard/{billboard}/toggle', [\App\Http\Controllers\Admin\BillboardController::class, 'toggle'])->name('admin.billboards.toggle');
+    });
 });
