@@ -72,8 +72,8 @@
 
         /* Navigasi */
         .navbar-brand-badge {
-            background: linear-gradient(135deg, #047857 0%, #065f46 100%);
-            box-shadow: 0 4px 10px rgba(4, 120, 87, 0.25);
+            background-color: #047857;
+            box-shadow: 0 2px 8px rgba(4, 120, 87, 0.25);
         }
 
         /* Komponen Card Desain Sistem */
@@ -324,19 +324,19 @@
         .alert-success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
         .alert-error   { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
         .alert-info    { background: #f0f9ff; color: #075985; border: 1px solid #bae6fd; }
-    /* Scrollbar Halus untuk Sidebar - Nuansa Emerald Elegan */
+    /* Scrollbar Halus untuk Sidebar - Nuansa Solid Emerald Koperasi */
     .sidebar-scroll::-webkit-scrollbar {
         width: 5px;
     }
     .sidebar-scroll::-webkit-scrollbar-track {
-        background: #06241c;
+        background: #042d22;
     }
     .sidebar-scroll::-webkit-scrollbar-thumb {
-        background: #0d4737;
+        background: #085240;
         border-radius: 9999px;
     }
     .sidebar-scroll::-webkit-scrollbar-thumb:hover {
-        background: #135d49;
+        background: #047857;
     }
 
     /* Skip to Content untuk Aksesibilitas */
@@ -570,19 +570,19 @@
     {{-- ========================================================================= --}}
     <div class="min-h-screen flex flex-col lg:flex-row bg-slate-50">
 
-        <!-- DESKTOP SIDEBAR -->
-        <aside id="desktopSidebar" class="hidden lg:flex lg:flex-col lg:w-72 lg:fixed lg:inset-y-0 lg:z-40 bg-gradient-to-b from-[#06241c] via-[#082d23] to-[#041a13] border-r border-emerald-900/60 text-emerald-100 shadow-xl" role="navigation" aria-label="Navigasi Sidebar Stakeholder">
+        <!-- DESKTOP SIDEBAR (WARNA SOLID SENADA LOGO BRAND KSP - TANPA GRADASI) -->
+        <aside id="desktopSidebar" class="hidden lg:flex lg:flex-col lg:w-72 lg:fixed lg:inset-y-0 lg:z-40 bg-[#063f31] border-r border-[#085240] text-emerald-100 shadow-xl" role="navigation" aria-label="Navigasi Sidebar Stakeholder">
             <!-- Brand & Koperasi Emblem Header -->
-            <div class="p-5 border-b border-emerald-900/70 bg-[#041912]/85 flex items-center justify-between">
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 no-underline group focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded-xl" aria-label="Dasbor Koperasi">
-                    <div class="w-10 h-10 rounded-xl navbar-brand-badge flex items-center justify-center text-white font-extrabold text-xl shadow-md group-hover:scale-105 transition-transform">
+            <div class="p-5 border-b border-[#085240] bg-[#042d22] flex items-center justify-between">
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 no-underline group focus:outline-none focus:ring-2 focus:ring-emerald-400 rounded-xl" aria-label="Dasbor Koperasi">
+                    <div class="w-10 h-10 rounded-xl bg-[#047857] flex items-center justify-center text-white font-extrabold text-xl shadow-xs group-hover:scale-105 transition-transform border border-emerald-500/30">
                         K
                     </div>
                     <div>
                         <div class="font-extrabold text-sm tracking-tight text-white group-hover:text-emerald-300 transition-colors">
                             KSP Sahabat Sejahtera
                         </div>
-                        <div class="text-[10px] font-bold text-emerald-400/90 uppercase tracking-wider">
+                        <div class="text-[10px] font-bold text-emerald-300 uppercase tracking-wider">
                             Sistem Operasional
                         </div>
                     </div>
@@ -590,8 +590,8 @@
             </div>
 
             <!-- Role Stakeholder Chip -->
-            <div class="px-5 py-2.5 bg-[#03140e]/70 border-b border-emerald-900/50 flex items-center justify-between">
-                <span class="text-[10px] font-extrabold tracking-wider text-emerald-400/80 uppercase">Panel Stakeholder</span>
+            <div class="px-5 py-2.5 bg-[#03231a] border-b border-[#085240] flex items-center justify-between">
+                <span class="text-[10px] font-extrabold tracking-wider text-emerald-300 uppercase">Panel Stakeholder</span>
                 <span class="role-badge role-{{ auth()->user()->role }}">
                     {{ auth()->user()->role }}
                 </span>
@@ -603,16 +603,16 @@
             </nav>
 
             <!-- Sidebar Footer (Lihat Beranda + Profil Akun + Logout) -->
-            <div class="p-4 border-t border-emerald-900/70 bg-[#03140e]/90 space-y-3">
-                <a href="{{ url('/') }}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-xl bg-emerald-950/70 hover:bg-emerald-900/80 text-emerald-100 hover:text-white border border-emerald-800/60 transition-all text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            <div class="p-4 border-t border-[#085240] bg-[#03231a] space-y-3">
+                <a href="{{ url('/') }}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-xl bg-[#063f31] hover:bg-[#085240] text-emerald-100 hover:text-white border border-[#0a6650] transition-all text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-400">
                     <span class="flex items-center gap-2">
-                        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                        <svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                         Lihat Beranda Publik
                     </span>
-                    <span class="text-3xs text-emerald-400 font-mono">↗</span>
+                    <span class="text-3xs text-emerald-300 font-mono">↗</span>
                 </a>
 
-                <div class="flex items-center justify-between gap-2 pt-2 border-t border-emerald-900/60">
+                <div class="flex items-center justify-between gap-2 pt-2 border-t border-[#085240]">
                     <div class="min-w-0 flex-1">
                         <div class="font-bold text-xs text-white truncate">{{ auth()->user()->name }}</div>
                         <div class="text-[10px] text-emerald-300 font-mono truncate">
@@ -625,7 +625,7 @@
                     </div>
                     <form action="{{ route('logout') }}" method="POST" class="shrink-0">
                         @csrf
-                        <button type="submit" class="px-3 py-1.5 rounded-lg bg-emerald-950 hover:bg-rose-950/80 text-emerald-200 hover:text-rose-200 border border-emerald-700/60 hover:border-rose-700/70 font-extrabold text-xs shadow-2xs transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500" title="Keluar dari sistem">
+                        <button type="submit" class="px-3 py-1.5 rounded-lg bg-[#042d22] hover:bg-rose-950/80 text-emerald-200 hover:text-rose-200 border border-[#085240] hover:border-rose-700/70 font-extrabold text-xs shadow-2xs transition-all focus:outline-none focus:ring-2 focus:ring-emerald-400" title="Keluar dari sistem">
                             Keluar
                         </button>
                     </form>
@@ -633,27 +633,27 @@
             </div>
         </aside>
 
-        <!-- MOBILE OFF-CANVAS SIDEBAR -->
+        <!-- MOBILE OFF-CANVAS SIDEBAR (WARNA SOLID - TANPA GRADASI) -->
         <div id="mobileSidebarDrawer" class="fixed inset-0 z-50 lg:hidden hidden" role="dialog" aria-modal="true" aria-label="Navigasi Menu Ponsel">
             <!-- Backdrop -->
             <div id="mobileSidebarBackdrop" class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs transition-opacity"></div>
 
             <!-- Drawer Panel -->
-            <div class="fixed inset-y-0 left-0 w-72 max-w-full bg-gradient-to-b from-[#06241c] to-[#041a13] text-emerald-100 border-r border-emerald-900/60 flex flex-col shadow-2xl z-10 transform transition-transform">
-                <div class="p-4 border-b border-emerald-900/70 flex items-center justify-between bg-[#041912]">
+            <div class="fixed inset-y-0 left-0 w-72 max-w-full bg-[#063f31] text-emerald-100 border-r border-[#085240] flex flex-col shadow-2xl z-10 transform transition-transform">
+                <div class="p-4 border-b border-[#085240] flex items-center justify-between bg-[#042d22]">
                     <div class="flex items-center gap-2.5">
-                        <div class="w-8 h-8 rounded-lg navbar-brand-badge flex items-center justify-center text-white font-extrabold text-sm">
+                        <div class="w-8 h-8 rounded-lg bg-[#047857] flex items-center justify-center text-white font-extrabold text-sm border border-emerald-500/30">
                             K
                         </div>
                         <span class="font-bold text-xs text-white">KSP Sahabat Sejahtera</span>
                     </div>
-                    <button type="button" id="closeMobileSidebarBtn" class="p-1.5 rounded-lg text-emerald-300 hover:text-white hover:bg-emerald-900/60 focus:outline-none focus:ring-2 focus:ring-emerald-500" aria-label="Tutup navigasi">
+                    <button type="button" id="closeMobileSidebarBtn" class="p-1.5 rounded-lg text-emerald-300 hover:text-white hover:bg-[#085240] focus:outline-none focus:ring-2 focus:ring-emerald-400" aria-label="Tutup navigasi">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
 
-                <div class="px-4 py-2 bg-[#03140e]/70 border-b border-emerald-900/50 flex items-center justify-between">
-                    <span class="text-[10px] uppercase font-bold text-emerald-400">Panel {{ auth()->user()->role }}</span>
+                <div class="px-4 py-2 bg-[#03231a] border-b border-[#085240] flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold text-emerald-300">Panel {{ auth()->user()->role }}</span>
                     <span class="role-badge role-{{ auth()->user()->role }}">{{ auth()->user()->role }}</span>
                 </div>
 
@@ -661,8 +661,8 @@
                     @include('layouts.partials.sidebar_nav')
                 </nav>
 
-                <div class="p-3 border-t border-emerald-900/70 bg-[#03140e] space-y-2">
-                    <a href="{{ url('/') }}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-lg bg-emerald-950/70 text-xs text-emerald-200">
+                <div class="p-3 border-t border-[#085240] bg-[#03231a] space-y-2">
+                    <a href="{{ url('/') }}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-lg bg-[#063f31] text-xs text-emerald-200">
                         <span>Lihat Beranda Publik</span>
                         <span>↗</span>
                     </a>
@@ -670,7 +670,7 @@
                         <span class="text-xs font-bold text-white truncate">{{ auth()->user()->name }}</span>
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
-                            <button type="submit" class="px-2.5 py-1 rounded bg-emerald-950 text-emerald-200 hover:text-rose-200 border border-emerald-700/60 font-bold text-xs">Keluar</button>
+                            <button type="submit" class="px-2.5 py-1 rounded bg-[#042d22] text-emerald-200 hover:text-rose-200 border border-[#085240] font-bold text-xs">Keluar</button>
                         </form>
                     </div>
                 </div>

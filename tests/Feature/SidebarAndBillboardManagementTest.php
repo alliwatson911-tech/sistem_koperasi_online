@@ -158,13 +158,22 @@ class SidebarAndBillboardManagementTest extends TestCase
         $response = $this->actingAs($admin)->get(route('dashboard'));
 
         $response->assertStatus(200);
-        // Memastikan sidebar internal dirender
+        // Memastikan sidebar internal dirender dengan warna solid (tanpa gradasi)
         $response->assertSee('Navigasi Sidebar Stakeholder');
         $response->assertSee('Panel Stakeholder');
         $response->assertSee('Dasbor Operasional');
         $response->assertSee('Kelola Billboard');
         $response->assertSee('Kelola Tunggakan');
         $response->assertSee('Lihat Beranda Publik');
+        $response->assertDontSee('bg-gradient-to-b');
+
+        // Memastikan susunan stat cards: 1 kotak besar kiri (Dana Simpanan) & 3 kotak kanan
+        $response->assertSee('Total Dana Simpanan Anggota');
+        $response->assertSee('Likuiditas Kas Koperasi');
+        $response->assertSee('TOTAL ANGGOTA AKTIF');
+        $response->assertSee('SISA POKOK PINJAMAN');
+        $response->assertSee('PINJAMAN MENUNGGAK (NPL)');
+
         // Footer pada panel stakeholder telah dihilangkan agar ruang kerja bersih & rapi
         $response->assertDontSee('FOOTER OPERASIONAL');
         $response->assertDontSee('Badan Hukum No. AHU-0012345.AH.01.26.TAHUN 2026');
