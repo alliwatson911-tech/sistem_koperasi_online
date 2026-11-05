@@ -165,6 +165,9 @@ class SidebarAndBillboardManagementTest extends TestCase
         $response->assertSee('Kelola Billboard');
         $response->assertSee('Kelola Tunggakan');
         $response->assertSee('Lihat Beranda Publik');
+        // Footer pada panel stakeholder telah dihilangkan agar ruang kerja bersih & rapi
+        $response->assertDontSee('FOOTER OPERASIONAL');
+        $response->assertDontSee('Badan Hukum No. AHU-0012345.AH.01.26.TAHUN 2026');
     }
 
     public function test_member_dashboard_renders_member_sidebar(): void

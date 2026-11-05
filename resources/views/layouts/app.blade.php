@@ -324,19 +324,19 @@
         .alert-success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
         .alert-error   { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
         .alert-info    { background: #f0f9ff; color: #075985; border: 1px solid #bae6fd; }
-    /* Scrollbar Halus untuk Sidebar */
+    /* Scrollbar Halus untuk Sidebar - Nuansa Emerald Elegan */
     .sidebar-scroll::-webkit-scrollbar {
         width: 5px;
     }
     .sidebar-scroll::-webkit-scrollbar-track {
-        background: #0f172a;
+        background: #06241c;
     }
     .sidebar-scroll::-webkit-scrollbar-thumb {
-        background: #334155;
+        background: #0d4737;
         border-radius: 9999px;
     }
     .sidebar-scroll::-webkit-scrollbar-thumb:hover {
-        background: #475569;
+        background: #135d49;
     }
 
     /* Skip to Content untuk Aksesibilitas */
@@ -502,23 +502,23 @@
 
 @else
     {{-- ========================================================================= --}}
-    {{-- TAMPILAN OPERASIONAL INTERNAL STAKEHOLDER (SIDEBAR RESMI RAPI & PROFESIONAL) --}}
+    {{-- TAMPILAN OPERASIONAL INTERNAL STAKEHOLDER (SIDEBAR ELEGAN SENADA BRAND KSP) --}}
     {{-- ========================================================================= --}}
     <div class="min-h-screen flex flex-col lg:flex-row bg-slate-50">
 
         <!-- DESKTOP SIDEBAR -->
-        <aside id="desktopSidebar" class="hidden lg:flex lg:flex-col lg:w-72 lg:fixed lg:inset-y-0 lg:z-40 bg-slate-900 border-r border-slate-800 text-slate-200 shadow-xl" role="navigation" aria-label="Navigasi Sidebar Stakeholder">
+        <aside id="desktopSidebar" class="hidden lg:flex lg:flex-col lg:w-72 lg:fixed lg:inset-y-0 lg:z-40 bg-gradient-to-b from-[#06241c] via-[#082d23] to-[#041a13] border-r border-emerald-900/60 text-emerald-100 shadow-xl" role="navigation" aria-label="Navigasi Sidebar Stakeholder">
             <!-- Brand & Koperasi Emblem Header -->
-            <div class="p-5 border-b border-slate-800/80 bg-slate-950/70 flex items-center justify-between">
+            <div class="p-5 border-b border-emerald-900/70 bg-[#041912]/85 flex items-center justify-between">
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-3 no-underline group focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded-xl" aria-label="Dasbor Koperasi">
                     <div class="w-10 h-10 rounded-xl navbar-brand-badge flex items-center justify-center text-white font-extrabold text-xl shadow-md group-hover:scale-105 transition-transform">
                         K
                     </div>
                     <div>
-                        <div class="font-extrabold text-sm tracking-tight text-white group-hover:text-emerald-400 transition-colors">
+                        <div class="font-extrabold text-sm tracking-tight text-white group-hover:text-emerald-300 transition-colors">
                             KSP Sahabat Sejahtera
                         </div>
-                        <div class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
+                        <div class="text-[10px] font-bold text-emerald-400/90 uppercase tracking-wider">
                             Sistem Operasional
                         </div>
                     </div>
@@ -526,8 +526,8 @@
             </div>
 
             <!-- Role Stakeholder Chip -->
-            <div class="px-5 py-2.5 bg-slate-950/40 border-b border-slate-800/60 flex items-center justify-between">
-                <span class="text-[10px] font-extrabold tracking-wider text-slate-400 uppercase">Panel Stakeholder</span>
+            <div class="px-5 py-2.5 bg-[#03140e]/70 border-b border-emerald-900/50 flex items-center justify-between">
+                <span class="text-[10px] font-extrabold tracking-wider text-emerald-400/80 uppercase">Panel Stakeholder</span>
                 <span class="role-badge role-{{ auth()->user()->role }}">
                     {{ auth()->user()->role }}
                 </span>
@@ -539,19 +539,19 @@
             </nav>
 
             <!-- Sidebar Footer (Lihat Beranda + Profil Akun + Logout) -->
-            <div class="p-4 border-t border-slate-800 bg-slate-950/80 space-y-3">
-                <a href="{{ url('/') }}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-xl bg-slate-800/60 hover:bg-slate-800 text-slate-300 hover:text-white transition-all text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            <div class="p-4 border-t border-emerald-900/70 bg-[#03140e]/90 space-y-3">
+                <a href="{{ url('/') }}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-xl bg-emerald-950/70 hover:bg-emerald-900/80 text-emerald-100 hover:text-white border border-emerald-800/60 transition-all text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500">
                     <span class="flex items-center gap-2">
                         <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                         Lihat Beranda Publik
                     </span>
-                    <span class="text-3xs text-slate-400 font-mono">↗</span>
+                    <span class="text-3xs text-emerald-400 font-mono">↗</span>
                 </a>
 
-                <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-800/60">
+                <div class="flex items-center justify-between gap-2 pt-2 border-t border-emerald-900/60">
                     <div class="min-w-0 flex-1">
                         <div class="font-bold text-xs text-white truncate">{{ auth()->user()->name }}</div>
-                        <div class="text-[10px] text-emerald-400 font-mono truncate">
+                        <div class="text-[10px] text-emerald-300 font-mono truncate">
                             @if(auth()->user()->isStaff())
                                 {{ auth()->user()->employee_code_formatted }}
                             @else
@@ -561,7 +561,7 @@
                     </div>
                     <form action="{{ route('logout') }}" method="POST" class="shrink-0">
                         @csrf
-                        <button type="submit" class="px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-900 font-extrabold text-xs shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500" title="Keluar dari sistem">
+                        <button type="submit" class="px-3 py-1.5 rounded-lg bg-emerald-950 hover:bg-rose-950/80 text-emerald-200 hover:text-rose-200 border border-emerald-700/60 hover:border-rose-700/70 font-extrabold text-xs shadow-2xs transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500" title="Keluar dari sistem">
                             Keluar
                         </button>
                     </form>
@@ -575,21 +575,21 @@
             <div id="mobileSidebarBackdrop" class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs transition-opacity"></div>
 
             <!-- Drawer Panel -->
-            <div class="fixed inset-y-0 left-0 w-72 max-w-full bg-slate-900 text-slate-200 border-r border-slate-800 flex flex-col shadow-2xl z-10 transform transition-transform">
-                <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950">
+            <div class="fixed inset-y-0 left-0 w-72 max-w-full bg-gradient-to-b from-[#06241c] to-[#041a13] text-emerald-100 border-r border-emerald-900/60 flex flex-col shadow-2xl z-10 transform transition-transform">
+                <div class="p-4 border-b border-emerald-900/70 flex items-center justify-between bg-[#041912]">
                     <div class="flex items-center gap-2.5">
                         <div class="w-8 h-8 rounded-lg navbar-brand-badge flex items-center justify-center text-white font-extrabold text-sm">
                             K
                         </div>
                         <span class="font-bold text-xs text-white">KSP Sahabat Sejahtera</span>
                     </div>
-                    <button type="button" id="closeMobileSidebarBtn" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500" aria-label="Tutup navigasi">
+                    <button type="button" id="closeMobileSidebarBtn" class="p-1.5 rounded-lg text-emerald-300 hover:text-white hover:bg-emerald-900/60 focus:outline-none focus:ring-2 focus:ring-emerald-500" aria-label="Tutup navigasi">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
 
-                <div class="px-4 py-2 bg-slate-950/50 border-b border-slate-800/60 flex items-center justify-between">
-                    <span class="text-[10px] uppercase font-bold text-slate-400">Panel {{ auth()->user()->role }}</span>
+                <div class="px-4 py-2 bg-[#03140e]/70 border-b border-emerald-900/50 flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold text-emerald-400">Panel {{ auth()->user()->role }}</span>
                     <span class="role-badge role-{{ auth()->user()->role }}">{{ auth()->user()->role }}</span>
                 </div>
 
@@ -597,8 +597,8 @@
                     @include('layouts.partials.sidebar_nav')
                 </nav>
 
-                <div class="p-3 border-t border-slate-800 bg-slate-950 space-y-2">
-                    <a href="{{ url('/') }}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-lg bg-slate-800/60 text-xs text-slate-300">
+                <div class="p-3 border-t border-emerald-900/70 bg-[#03140e] space-y-2">
+                    <a href="{{ url('/') }}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-lg bg-emerald-950/70 text-xs text-emerald-200">
                         <span>Lihat Beranda Publik</span>
                         <span>↗</span>
                     </a>
@@ -606,7 +606,7 @@
                         <span class="text-xs font-bold text-white truncate">{{ auth()->user()->name }}</span>
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
-                            <button type="submit" class="px-2.5 py-1 rounded bg-white text-slate-900 font-bold text-xs">Keluar</button>
+                            <button type="submit" class="px-2.5 py-1 rounded bg-emerald-950 text-emerald-200 hover:text-rose-200 border border-emerald-700/60 font-bold text-xs">Keluar</button>
                         </form>
                     </div>
                 </div>
@@ -616,7 +616,7 @@
         <!-- RIGHT SIDE CONTENT AREA -->
         <div class="flex-1 min-w-0 lg:pl-72 flex flex-col min-h-screen">
             <!-- STICKY OPERATIONAL TOPBAR -->
-            <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-2xs h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8">
+            <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-emerald-100 shadow-2xs h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center gap-3">
                     <!-- Hamburger Toggle Button Mobile -->
                     <button type="button" id="openMobileSidebarBtn" class="lg:hidden p-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500" aria-label="Buka Menu Navigasi" aria-expanded="false">
@@ -624,9 +624,12 @@
                     </button>
 
                     <div class="hidden sm:block">
-                        <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
-                            <span>Sistem Operasional Koperasi</span>
-                            <span>&bull;</span>
+                        <div class="flex items-center gap-2 text-xs font-medium">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200/80">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                                Sistem Operasional Koperasi
+                            </span>
+                            <span class="text-slate-300">&bull;</span>
                             <span class="text-slate-700 font-bold">{{ date('d M Y') }}</span>
                         </div>
                     </div>
@@ -655,8 +658,8 @@
                 </div>
             </header>
 
-            <!-- MAIN OPERATIONAL CONTENT -->
-            <main id="main-content" class="flex-1 @yield('container-class', 'w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6')">
+            <!-- MAIN OPERATIONAL CONTENT (FOOTER DIHILANGKAN UNTUK RUANG KERJA BERSIH) -->
+            <main id="main-content" class="flex-1 @yield('container-class', 'w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-20')">
                 @if(session('success'))
                     <div class="alert alert-success shadow-sm" role="alert">
                         <div class="flex items-center gap-2">
@@ -689,16 +692,6 @@
 
                 @yield('content')
             </main>
-
-            <!-- FOOTER OPERASIONAL -->
-            <footer class="bg-white border-t border-slate-200 mt-auto py-5 px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500" role="contentinfo">
-                <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-                    <p class="font-medium text-slate-600">&copy; {{ date('Y') }} KSP Sahabat Sejahtera &bull; AHU-0012345.AH.01.26.TAHUN 2026</p>
-                    <p>
-                        Developed by <a href="https://www.linyjayainformatika.co.id/" target="_blank" rel="noopener" class="font-bold text-emerald-800 hover:text-emerald-950 underline hover:no-underline transition-colors focus:outline-none focus:ring-1 focus:ring-emerald-500">Liny Jaya Informatika</a>
-                    </p>
-                </div>
-            </footer>
         </div>
     </div>
 @endif

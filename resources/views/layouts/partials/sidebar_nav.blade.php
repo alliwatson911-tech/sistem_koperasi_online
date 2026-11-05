@@ -2,15 +2,15 @@
     $u = auth()->user();
     $role = $u->role;
 
-    // Helper closure untuk kelas link menu
+    // Helper closure untuk kelas link menu dengan warna senada & elegan (Harmonized Emerald Theme)
     $itemClass = function ($isActive) {
         return $isActive
-            ? 'flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-extrabold bg-amber-500 text-slate-950 shadow-md transition-all'
-            : 'flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/80 transition-all';
+            ? 'flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-extrabold bg-emerald-600 text-white shadow-md shadow-emerald-950/40 border border-emerald-400/30 transition-all'
+            : 'flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-emerald-100/80 hover:text-white hover:bg-emerald-800/35 transition-all group';
     };
 
     $iconClass = function ($isActive) {
-        return $isActive ? 'w-4 h-4 text-slate-950 shrink-0' : 'w-4 h-4 text-slate-400 group-hover:text-white shrink-0';
+        return $isActive ? 'w-4 h-4 text-white shrink-0' : 'w-4 h-4 text-emerald-300/70 group-hover:text-white shrink-0 transition-colors';
     };
 @endphp
 
@@ -20,7 +20,7 @@
     {{-- ========================================================================= --}}
     <div class="space-y-4">
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Menu Utama</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Menu Utama</span>
             <a href="{{ route('dashboard') }}" class="{{ $itemClass(request()->routeIs('dashboard')) }}">
                 <svg class="{{ $iconClass(request()->routeIs('dashboard')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                 <span>Dasbor Operasional</span>
@@ -28,7 +28,7 @@
         </div>
 
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Layanan Anggota</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Layanan Anggota</span>
             <div class="space-y-1">
                 <a href="{{ route('members.index') }}" class="{{ $itemClass(request()->routeIs('members.*')) }}">
                     <svg class="{{ $iconClass(request()->routeIs('members.*')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -42,7 +42,7 @@
         </div>
 
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Pinjaman & Pembiayaan</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Pinjaman & Pembiayaan</span>
             <div class="space-y-1">
                 <a href="{{ route('loans.applications') }}" class="{{ $itemClass(request()->routeIs('loans.applications*')) }}">
                     <svg class="{{ $iconClass(request()->routeIs('loans.applications*')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
@@ -64,7 +64,7 @@
         </div>
 
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Akuntansi & Finansial</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Akuntansi & Finansial</span>
             <div class="space-y-1">
                 <a href="{{ route('accounting.journals') }}" class="{{ $itemClass(request()->routeIs('accounting.journals')) }}">
                     <svg class="{{ $iconClass(request()->routeIs('accounting.journals')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
@@ -90,14 +90,14 @@
         </div>
 
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Pengaturan Sistem</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Pengaturan Sistem</span>
             <div class="space-y-1">
-                {{-- FITUR BARU ADMIN: KELOLA BILLBOARD PENGUMUMAN --}}
+                {{-- FITUR ADMIN: KELOLA BILLBOARD PENGUMUMAN --}}
                 <a href="{{ route('admin.billboards.index') }}" class="{{ $itemClass(request()->routeIs('admin.billboards.*')) }}">
                     <svg class="{{ $iconClass(request()->routeIs('admin.billboards.*')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
                     <div class="flex items-center justify-between flex-1">
                         <span>Kelola Billboard</span>
-                        <span class="px-1.5 py-0.5 rounded text-[9px] font-black uppercase bg-amber-400 text-slate-900 ml-1">Admin</span>
+                        <span class="px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase bg-emerald-500/25 text-emerald-200 border border-emerald-400/40 ml-1">Admin</span>
                     </div>
                 </a>
                 <a href="{{ route('loans.products') }}" class="{{ $itemClass(request()->routeIs('loans.products*')) }}">
@@ -118,7 +118,7 @@
     {{-- ========================================================================= --}}
     <div class="space-y-4">
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Menu Utama</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Menu Utama</span>
             <a href="{{ route('dashboard') }}" class="{{ $itemClass(request()->routeIs('dashboard')) }}">
                 <svg class="{{ $iconClass(request()->routeIs('dashboard')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                 <span>Dasbor Manajer</span>
@@ -126,7 +126,7 @@
         </div>
 
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Pengawasan Layanan</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Pengawasan Layanan</span>
             <div class="space-y-1">
                 <a href="{{ route('members.index') }}" class="{{ $itemClass(request()->routeIs('members.*')) }}">
                     <svg class="{{ $iconClass(request()->routeIs('members.*')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -140,7 +140,7 @@
         </div>
 
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Pembiayaan & Kredit</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Pembiayaan & Kredit</span>
             <div class="space-y-1">
                 <a href="{{ route('loans.applications') }}" class="{{ $itemClass(request()->routeIs('loans.applications*')) }}">
                     <svg class="{{ $iconClass(request()->routeIs('loans.applications*')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
@@ -162,7 +162,7 @@
         </div>
 
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Akuntansi & Audit</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Akuntansi & Audit</span>
             <div class="space-y-1">
                 <a href="{{ route('accounting.journals') }}" class="{{ $itemClass(request()->routeIs('accounting.journals')) }}">
                     <svg class="{{ $iconClass(request()->routeIs('accounting.journals')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
@@ -194,7 +194,7 @@
     {{-- ========================================================================= --}}
     <div class="space-y-4">
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Menu Utama</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Menu Utama</span>
             <a href="{{ route('dashboard') }}" class="{{ $itemClass(request()->routeIs('dashboard')) }}">
                 <svg class="{{ $iconClass(request()->routeIs('dashboard')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                 <span>Dasbor Analis</span>
@@ -202,7 +202,7 @@
         </div>
 
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Analisis & Verifikasi</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Analisis & Verifikasi</span>
             <div class="space-y-1">
                 <a href="{{ route('members.index') }}" class="{{ $itemClass(request()->routeIs('members.*')) }}">
                     <svg class="{{ $iconClass(request()->routeIs('members.*')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -220,7 +220,7 @@
         </div>
 
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Laporan Kualitas Kredit</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Laporan Kualitas Kredit</span>
             <div class="space-y-1">
                 <a href="{{ route('reports.overdue') }}" class="{{ $itemClass(request()->routeIs('reports.overdue')) }}">
                     <svg class="{{ $iconClass(request()->routeIs('reports.overdue')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
@@ -240,7 +240,7 @@
     {{-- ========================================================================= --}}
     <div class="space-y-4">
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Menu Utama</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Menu Utama</span>
             <a href="{{ route('dashboard') }}" class="{{ $itemClass(request()->routeIs('dashboard')) }}">
                 <svg class="{{ $iconClass(request()->routeIs('dashboard')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                 <span>Dasbor Loket Teller</span>
@@ -248,7 +248,7 @@
         </div>
 
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Layanan Kasir & Loket</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Layanan Kasir & Loket</span>
             <div class="space-y-1">
                 <a href="{{ route('members.index') }}" class="{{ $itemClass(request()->routeIs('members.*')) }}">
                     <svg class="{{ $iconClass(request()->routeIs('members.*')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -270,7 +270,7 @@
         </div>
 
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Laporan Kasir</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Laporan Kasir</span>
             <div class="space-y-1">
                 <a href="{{ route('reports.cash_flow') }}" class="{{ $itemClass(request()->routeIs('reports.cash_flow')) }}">
                     <svg class="{{ $iconClass(request()->routeIs('reports.cash_flow')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
@@ -286,7 +286,7 @@
     {{-- ========================================================================= --}}
     <div class="space-y-4">
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Portal Anggota</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Portal Anggota</span>
             <a href="{{ route('dashboard') }}" class="{{ $itemClass(request()->routeIs('dashboard')) }}">
                 <svg class="{{ $iconClass(request()->routeIs('dashboard')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                 <span>Dasbor Saya</span>
@@ -294,7 +294,7 @@
         </div>
 
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Finansial Anggota</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Finansial Anggota</span>
             <div class="space-y-1">
                 <a href="{{ route('savings.index') }}" class="{{ $itemClass(request()->routeIs('savings.*')) }}">
                     <svg class="{{ $iconClass(request()->routeIs('savings.*')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
@@ -316,7 +316,7 @@
         </div>
 
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Akun & Dokumen</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Akun & Dokumen</span>
             <div class="space-y-1">
                 <a href="{{ route('members.profile') }}" class="{{ $itemClass(request()->routeIs('members.profile')) }}">
                     <svg class="{{ $iconClass(request()->routeIs('members.profile')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
@@ -332,7 +332,7 @@
     {{-- ========================================================================= --}}
     <div class="space-y-4">
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Menu Utama</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Menu Utama</span>
             <a href="{{ route('dashboard') }}" class="{{ $itemClass(request()->routeIs('dashboard')) }}">
                 <svg class="{{ $iconClass(request()->routeIs('dashboard')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                 <span>Dasbor Petugas</span>
@@ -340,7 +340,7 @@
         </div>
 
         <div>
-            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-1.5">Penagihan & Kolektibilitas</span>
+            <span class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-emerald-400/80 block mb-1.5">Penagihan & Kolektibilitas</span>
             <div class="space-y-1">
                 <a href="{{ Route::has('loans.overdue.manage') ? route('loans.overdue.manage') : url('/kelola-tunggakan') }}" class="{{ $itemClass(request()->routeIs('loans.overdue*')) }}">
                     <svg class="{{ $iconClass(request()->routeIs('loans.overdue*')) }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
@@ -358,4 +358,3 @@
         </div>
     </div>
 @endif
-
