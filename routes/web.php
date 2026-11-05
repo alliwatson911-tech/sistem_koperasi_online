@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PaymentGatewayController;
@@ -23,9 +24,7 @@ Route::post('/api/webhook/payment/{gateway?}', [PaymentGatewayController::class,
 | Public & Guest Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/', function () {
-    return redirect()->route('login');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

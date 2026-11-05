@@ -31,6 +31,7 @@ class RouteAuditTest extends TestCase
         $application = LoanApplication::first();
 
         $routesToTest = [
+            ['role' => 'guest', 'user' => null, 'url' => '/'],
             ['role' => 'guest', 'user' => null, 'url' => '/login'],
             ['role' => 'guest', 'user' => null, 'url' => '/daftar'],
             ['role' => 'guest', 'user' => null, 'url' => '/simulasi-pinjaman'],
