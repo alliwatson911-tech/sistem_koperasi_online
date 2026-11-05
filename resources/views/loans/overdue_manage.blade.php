@@ -32,6 +32,25 @@
         </div>
     </div>
 
+    @if(!empty($migrationNeeded))
+    <div class="p-4 rounded-2xl bg-amber-50 border border-amber-300 text-amber-900 shadow-xs flex items-start gap-3.5">
+        <span class="p-2 rounded-xl bg-amber-200 text-amber-900 mt-0.5 shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+        </span>
+        <div class="space-y-1">
+            <h3 class="text-sm font-black text-amber-950">Pemberitahuan Sistem: Migrasi Database Diperlukan</h3>
+            <p class="text-xs text-amber-800 leading-relaxed">
+                Struktur tabel baru untuk modul <strong>Pengelolaan Pinjaman Menunggak & Foto Usaha</strong> belum termigrasi pada database server Anda.
+                Aplikasi tetap berjalan normal tanpa error crash, namun data penagihan baru dapat ditampilkan setelah migrasi dijalankan.
+            </p>
+            <div class="pt-1">
+                <span class="text-[11px] font-semibold text-amber-900">Jalankan perintah ini di Terminal VPS / aaPanel:</span>
+                <code class="block w-fit mt-1 px-3 py-1.5 bg-amber-900 text-amber-100 rounded-lg text-xs font-mono font-bold tracking-wide select-all">php artisan migrate --force</code>
+            </div>
+        </div>
+    </div>
+    @endif
+
     {{-- Kartu Ringkasan KPI Portofolio --}}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="stat-card border-l-4 border-l-red-500">
@@ -253,7 +272,7 @@
                                     @endif
                                 </div>
                             @elseif($l->last_collected_at)
-                                <span class="text-[11px] text-slate-600">Kontak: {{ $l->last_collected_at->format('d/m/Y H:i') }}</span>
+                                <span class="text-[11px] text-slate-600">Kontak: {{ \Carbon\Carbon::parse($l->last_collected_at)->format('d/m/Y H:i') }}</span>
                             @else
                                 <span class="text-slate-400 italic text-[11px]">Belum ada catatan</span>
                             @endif

@@ -190,17 +190,24 @@ class LoanController extends Controller
             abort(403);
         }
 
-        $loan->load([
+        $relations = [
             'member.user',
             'loanProduct',
             'schedules.loan',
             'payments',
             'loanApplication.receivedBy',
             'disburser',
-            'collectionLogs.collector',
-            'restructuringRequests.requester',
-            'restructuringRequests.decider',
-        ]);
+        ];
+
+        if (\Illuminate\Support\Facades\Schema::hasTable('loan_collection_logs')) {
+            $relations[] = 'collectionLogs.collector';
+        }
+        if (\Illuminate\Support\Facades\Schema::hasTable('loan_restructuring_requests')) {
+            $relations[] = 'restructuringRequests.requester';
+            $relations[] = 'restructuringRequests.decider';
+        }
+
+        $loan->load($relations);
         $timeline = $this->loanService->getTimeline($loan);
 
         return view('loans.show', compact('loan', 'timeline'));
@@ -550,6 +557,30 @@ class LoanController extends Controller
      */
     public function manageOverdue(Request $request)
     {
+        // Pemeriksaan ketahanan schema jika migrasi belum dijalankan di server
+        $hasSchema = \Illuminate\Support\Facades\Schema::hasTable('loan_collection_logs')
+            && \Illuminate\Support\Facades\Schema::hasTable('loan_restructuring_requests')
+            && \Illuminate\Support\Facades\Schema::hasColumn('loans', 'collectibility_status');
+
+        if (!$hasSchema) {
+            $loans = new \Illuminate\Pagination\LengthAwarePaginator([], 0, 15);
+            $stats = [
+                'total_overdue' => 0,
+                'total_due_soon' => 0,
+                'total_penalty' => 0,
+                'total_outstanding' => 0,
+                'dpk_count' => 0,
+                'kurang_lancar_count' => 0,
+                'diragukan_count' => 0,
+                'macet_count' => 0,
+                'pending_restructuring' => 0,
+            ];
+            $pendingRestructurings = collect();
+            $migrationNeeded = true;
+
+            return view('loans.overdue_manage', compact('loans', 'stats', 'pendingRestructurings', 'migrationNeeded'));
+        }
+
         $today = Carbon::today()->toDateString();
         $dueSoonDate = Carbon::today()->addDays(7)->toDateString();
 

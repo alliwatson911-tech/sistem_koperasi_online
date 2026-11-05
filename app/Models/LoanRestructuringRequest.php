@@ -48,7 +48,7 @@ class LoanRestructuringRequest extends Model
 
     public function requester()
     {
-        return $this->requestedBy();
+        return $this->belongsTo(User::class, 'requested_by_user_id');
     }
 
     public function approvedBy()
@@ -58,7 +58,7 @@ class LoanRestructuringRequest extends Model
 
     public function decider()
     {
-        return $this->approvedBy();
+        return $this->belongsTo(User::class, 'approved_by_user_id');
     }
 
     public function getTypeLabelAttribute(): string

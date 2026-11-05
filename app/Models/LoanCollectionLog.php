@@ -55,7 +55,7 @@ class LoanCollectionLog extends Model
 
     public function collector()
     {
-        return $this->user();
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function getActionTypeLabelAttribute(): string
