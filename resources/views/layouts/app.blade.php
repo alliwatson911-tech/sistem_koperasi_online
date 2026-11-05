@@ -595,8 +595,34 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500 space-y-1">
             <p class="font-semibold text-slate-700">&copy; {{ date('Y') }} KSP Sahabat Sejahtera. Badan Hukum No. AHU-0012345.AH.01.26.TAHUN 2026.</p>
             <p>Sistem Informasi Manajemen Koperasi Simpan Pinjam Online &bull; Berintegritas, Transparan, & Melayani Anggota.</p>
+            <p class="pt-1.5 text-xs text-slate-500">
+                Developed by <a href="https://www.linyjayainformatika.co.id/" target="_blank" rel="noopener" class="font-bold text-emerald-800 hover:text-emerald-950 underline hover:no-underline transition-colors">Lini Jaya Informatika</a>
+            </p>
         </div>
     </footer>
+
+    <!-- Floating CS 24 Jam WhatsApp Bubble -->
+    <aside aria-label="Layanan Bantuan CS 24 Jam Koperasi">
+        <a href="https://wa.me/6282197233174?text=Halo%20Admin%20KSP%20Sahabat%20Sejahtera,%20saya%20ingin%20bertanya%20seputar%20koperasi"
+           target="_blank" 
+           rel="noopener"
+           aria-label="Hubungi Customer Service 24 Jam via WhatsApp"
+           class="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50 inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-slate-950 text-white border-2 border-amber-500 shadow-2xl hover:bg-slate-900 hover:scale-105 active:scale-95 transition-all duration-200 group focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-2 focus:ring-offset-slate-900">
+            <!-- Status Indicator Bulat Hijau Online -->
+            <span class="relative flex h-3 w-3 shrink-0 items-center justify-center">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+            </span>
+            <!-- WhatsApp Icon Gold / Amber -->
+            <svg class="w-4 h-4 text-amber-400 shrink-0 group-hover:rotate-12 transition-transform" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.954.557 3.864 1.615 5.517L2 22l4.61-1.579c1.583.947 3.411 1.458 5.421 1.458 5.536 0 10.031-4.495 10.031-10.031C22.062 6.495 17.567 2 12.031 2zm5.882 14.28c-.244.685-1.42 1.309-1.97 1.385-.515.071-1.187.1-3.414-.823-2.85-1.181-4.664-4.086-4.805-4.275-.14-.188-1.144-1.524-1.144-2.906 0-1.382.723-2.063.98-2.348.257-.285.56-.356.746-.356.187 0 .374.002.537.01.173.008.406-.065.635.485.244.585.83 2.023.902 2.17.072.147.12.32.024.513-.096.194-.144.314-.288.482-.144.168-.303.376-.433.505-.144.143-.294.298-.126.586.168.288.748 1.233 1.605 1.996 1.103.982 2.033 1.286 2.32 1.43.288.144.456.12.624-.072.168-.192.72-838.912-1.126.192-.288.384-.24.648-.144.264.096 1.679.792 1.967.936.288.144.48.216.552.336.072.12.072.696-.172 1.381z"/>
+            </svg>
+            <!-- Teks Sesuai Gambar -->
+            <span class="text-xs sm:text-sm font-extrabold tracking-tight text-white whitespace-nowrap">
+                CS 24 Jam &bull; Tanya via WA
+            </span>
+        </a>
+    </aside>
 
     <!-- Interactive Mobile Menu Script -->
     <script>
