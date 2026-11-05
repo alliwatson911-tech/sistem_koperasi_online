@@ -170,17 +170,26 @@ class SidebarAndBillboardManagementTest extends TestCase
         $response->assertDontSee('Badan Hukum No. AHU-0012345.AH.01.26.TAHUN 2026');
     }
 
-    public function test_member_dashboard_renders_member_sidebar(): void
+    public function test_member_dashboard_renders_member_top_navbar_and_footer(): void
     {
         $member = User::where('role', User::ROLE_MEMBER)->first();
         $response = $this->actingAs($member)->get(route('dashboard'));
 
         $response->assertStatus(200);
-        $response->assertSee('Portal Anggota');
-        $response->assertSee('Dasbor Saya');
-        $response->assertSee('Rekening Simpanan');
+        // Memastikan member menggunakan tampilan top navbar sebelumnya
+        $response->assertSee('Navigasi Anggota Koperasi');
+        $response->assertSee('Dasbor');
+        $response->assertSee('Simpanan');
         $response->assertSee('Pinjaman Saya');
-        $response->assertSee('Ajukan Pinjaman Baru');
+        $response->assertSee('Simulasi');
+        $response->assertSee('Profil');
+        $response->assertSee('MEMBER');
+        $response->assertSee('Keluar');
+        // Memastikan sidebar internal TIDAK dirender untuk member
+        $response->assertDontSee('Navigasi Sidebar Stakeholder');
+        // Memastikan footer dikembalikan khusus untuk role member
+        $response->assertSee('Developed by');
+        $response->assertSee('AHU-0012345.AH.01.26.TAHUN 2026');
     }
 
     public function test_authenticated_user_on_landing_page_sees_public_top_navbar_with_dashboard_link(): void

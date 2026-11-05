@@ -365,12 +365,13 @@
     </a>
 
 @php
-    $isLandingOrGuest = request()->routeIs('home') || !auth()->check();
+    $isStaffSidebar = auth()->check() && !auth()->user()->isMember() && !request()->routeIs('home');
+    $isMember = auth()->check() && auth()->user()->isMember() && !request()->routeIs('home');
 @endphp
 
-@if($isLandingOrGuest)
+@if(!$isStaffSidebar)
     {{-- ========================================================================= --}}
-    {{-- TAMPILAN HALAMAN UTAMA / PUBLIK (TOP NAVBAR TETAP UTUH & TIDAK BERUBAH) --}}
+    {{-- TAMPILAN TOP NAVBAR: PUBLIK, GUEST, & KHUSUS ROLE MEMBER (SEBELUMNYA)    --}}
     {{-- ========================================================================= --}}
     <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all" role="banner">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -390,40 +391,75 @@
                     </div>
                 </a>
 
-                <!-- Navigasi Publik Sesuai Urutan Standar -->
-                <nav class="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Navigasi Utama Landing Page">
-                    <a href="{{ url('/#dashboard') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        Dashboard
-                    </a>
-                    <a href="{{ url('/#produk') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        Produk
-                    </a>
-                    <a href="{{ url('/#panduan') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        Panduan
-                    </a>
-                    <a href="{{ url('/#simulasi') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        Simulasi Pinjaman
-                    </a>
-                    <a href="{{ url('/#tentang-kami') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                        Tentang Kami
-                    </a>
+                @if($isMember)
+                    {{-- Navigasi Horizontal Khusus Role Member --}}
+                    <nav class="hidden lg:flex items-center gap-1.5" aria-label="Navigasi Anggota Koperasi">
+                        <a href="{{ route('dashboard') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('dashboard') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                            Dasbor
+                        </a>
+                        <a href="{{ route('savings.index') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('savings.*') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                            Simpanan
+                        </a>
+                        <a href="{{ route('loans.my') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('loans.my*') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                            Pinjaman Saya
+                        </a>
+                        <a href="{{ route('loans.simulation') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('loans.simulation') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                            Simulasi
+                        </a>
+                        <a href="{{ route('members.profile') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('members.profile') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                            Profil
+                        </a>
+                    </nav>
 
-                    @auth
-                        <a href="{{ route('dashboard') }}" class="ml-2 btn btn-primary btn-sm px-4 py-1.5 rounded-xl font-bold shadow-xs hover:shadow transition-all flex items-center gap-1.5">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                            Dasbor Koperasi
+                    <!-- Profil & Logout Khusus Role Member -->
+                    <div class="hidden lg:flex items-center gap-3">
+                        <span class="role-badge role-member">
+                            MEMBER
+                        </span>
+                        <span class="text-xs font-bold text-slate-800">{{ auth()->user()->name }}</span>
+                        <form action="{{ route('logout') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" class="btn btn-secondary btn-sm" title="Keluar">
+                                Keluar
+                            </button>
+                        </form>
+                    </div>
+                @else
+                    {{-- Navigasi Publik Sesuai Urutan Standar --}}
+                    <nav class="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Navigasi Utama Landing Page">
+                        <a href="{{ url('/#dashboard') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            Dashboard
                         </a>
-                    @else
-                        <a href="{{ route('login') }}" class="px-3 py-1.5 rounded-lg text-xs xl:text-sm font-bold text-emerald-800 hover:bg-emerald-50 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                            Masuk Akun
+                        <a href="{{ url('/#produk') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            Produk
                         </a>
-                        <a href="{{ route('register') }}" class="ml-1 btn btn-primary btn-sm px-3.5 py-1.5 rounded-xl font-bold shadow-xs hover:shadow transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                            Daftar Anggota Baru
+                        <a href="{{ url('/#panduan') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            Panduan
                         </a>
-                    @endauth
-                </nav>
+                        <a href="{{ url('/#simulasi') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            Simulasi Pinjaman
+                        </a>
+                        <a href="{{ url('/#tentang-kami') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            Tentang Kami
+                        </a>
 
-                <!-- Mobile Hamburger Button Publik -->
+                        @auth
+                            <a href="{{ route('dashboard') }}" class="ml-2 btn btn-primary btn-sm px-4 py-1.5 rounded-xl font-bold shadow-xs hover:shadow transition-all flex items-center gap-1.5">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                                Dasbor Koperasi
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}" class="px-3 py-1.5 rounded-lg text-xs xl:text-sm font-bold text-emerald-800 hover:bg-emerald-50 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                                Masuk Akun
+                            </a>
+                            <a href="{{ route('register') }}" class="ml-1 btn btn-primary btn-sm px-3.5 py-1.5 rounded-xl font-bold shadow-xs hover:shadow transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                                Daftar Anggota Baru
+                            </a>
+                        @endauth
+                    </nav>
+                @endif
+
+                <!-- Mobile Hamburger Button -->
                 <div class="lg:hidden flex items-center">
                     <button type="button" id="mobileMenuBtn" aria-label="Buka Menu Navigasi" aria-expanded="false" class="p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -435,26 +471,54 @@
             </div>
         </div>
 
-        <!-- Mobile Drawer Navigation Publik -->
+        <!-- Mobile Drawer Navigation -->
         <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-4 space-y-1 shadow-lg" role="navigation" aria-label="Navigasi Menu Ponsel">
-            <a href="{{ url('/#dashboard') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Dashboard</a>
-            <a href="{{ url('/#produk') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Produk</a>
-            <a href="{{ url('/#panduan') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Panduan</a>
-            <a href="{{ url('/#simulasi') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Simulasi Pinjaman</a>
-            <a href="{{ url('/#tentang-kami') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Tentang Kami</a>
-            
-            <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 mt-2">
-                @auth
-                    <a href="{{ route('dashboard') }}" class="btn btn-primary col-span-2 text-center py-2 text-xs font-bold">Buka Dasbor Koperasi &rarr;</a>
-                @else
-                    <a href="{{ route('login') }}" class="btn btn-secondary text-center py-2 text-xs font-bold">Masuk Akun</a>
-                    <a href="{{ route('register') }}" class="btn btn-primary text-center py-2 text-xs font-bold">Daftar Anggota</a>
-                @endauth
-            </div>
+            @if($isMember)
+                <div class="flex items-center justify-between pb-3 mb-2 border-b border-slate-100">
+                    <div class="flex items-center gap-2">
+                        <span class="role-badge role-member">MEMBER</span>
+                        <span class="text-sm font-bold text-slate-800">{{ auth()->user()->name }}</span>
+                    </div>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-secondary btn-sm">Keluar</button>
+                    </form>
+                </div>
+                <a href="{{ route('dashboard') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('dashboard') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
+                    Dasbor Utama
+                </a>
+                <a href="{{ route('savings.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('savings.*') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
+                    Rekening Simpanan
+                </a>
+                <a href="{{ route('loans.my') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('loans.my*') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
+                    Pinjaman Saya
+                </a>
+                <a href="{{ route('loans.simulation') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('loans.simulation') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
+                    Simulasi Pinjaman
+                </a>
+                <a href="{{ route('members.profile') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('members.profile') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
+                    Profil Saya
+                </a>
+            @else
+                <a href="{{ url('/#dashboard') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Dashboard</a>
+                <a href="{{ url('/#produk') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Produk</a>
+                <a href="{{ url('/#panduan') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Panduan</a>
+                <a href="{{ url('/#simulasi') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Simulasi Pinjaman</a>
+                <a href="{{ url('/#tentang-kami') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Tentang Kami</a>
+                
+                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 mt-2">
+                    @auth
+                        <a href="{{ route('dashboard') }}" class="btn btn-primary col-span-2 text-center py-2 text-xs font-bold">Buka Dasbor Koperasi &rarr;</a>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-secondary text-center py-2 text-xs font-bold">Masuk Akun</a>
+                        <a href="{{ route('register') }}" class="btn btn-primary text-center py-2 text-xs font-bold">Daftar Anggota</a>
+                    @endauth
+                </div>
+            @endif
         </div>
     </header>
 
-    <!-- Main Content Container Publik -->
+    <!-- Main Content Container Publik & Member -->
     <main id="main-content" class="flex-1 @yield('container-class', 'max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6')">
         @if(session('success'))
             <div class="alert alert-success shadow-sm" role="alert">
@@ -489,7 +553,7 @@
         @yield('content')
     </main>
 
-    <!-- Footer Publik -->
+    <!-- Footer Publik & Portal Anggota (Dikembalikan Sesuai Permintaan Khusus Role Member) -->
     <footer class="bg-white border-t border-slate-200 mt-auto py-6" role="contentinfo">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500 space-y-1">
             <p class="font-semibold text-slate-700">&copy; {{ date('Y') }} KSP Sahabat Sejahtera. Badan Hukum No. AHU-0012345.AH.01.26.TAHUN 2026.</p>
