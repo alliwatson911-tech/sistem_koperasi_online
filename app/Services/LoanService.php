@@ -84,7 +84,7 @@ class LoanService
             'application_no' => $appNo,
             'amount' => $amount,
             'tenor_unit' => $product->tenor_unit ?? 'month',
-            'tenor_months' => ($product->isWeekly() ? (int) ceil($tenor / 4.33) : $tenor),
+            'tenor_months' => ($product->isWeekly() ? (int) ceil($tenor / 4.33) : ($product->isDaily() ? (int) ceil($tenor / 30) : $tenor)),
             'tenor_count' => $tenor,
             'purpose' => $purpose,
             'calculation_method' => $product->calculation_method,
@@ -102,6 +102,7 @@ class LoanService
             'business_duration_years' => !empty($businessData['business_duration_years']) ? (int) $businessData['business_duration_years'] : null,
             'business_monthly_revenue' => !empty($businessData['business_monthly_revenue']) ? (int) $businessData['business_monthly_revenue'] : null,
             'business_photo_path' => $businessData['business_photo_path'] ?? null,
+            'ktp_selfie_path' => $businessData['ktp_selfie_path'] ?? null,
         ]);
 
         AuditLog::log('applied', $application, null, $application->toArray());
@@ -541,6 +542,7 @@ class LoanService
                     'business_duration_years' => $app->business_duration_years,
                     'business_monthly_revenue' => $app->business_monthly_revenue,
                     'business_photo_path' => $app->business_photo_path,
+                    'ktp_selfie_path' => $app->ktp_selfie_path,
                     'survey_photo_path' => $app->survey_photo_path,
                     'collectibility_status' => 'lancar',
                     'collection_stage' => 'normal',

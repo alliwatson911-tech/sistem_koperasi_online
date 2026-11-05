@@ -386,7 +386,7 @@
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <span class="text-slate-500">Plafon Pinjaman:</span>
-                                    <strong class="text-slate-800">Rp {{ number_format($p->min_amount/1000000, 1) }} Jt - Rp {{ number_format($p->max_amount/1000000, 1) }} Jt</strong>
+                                    <strong class="text-slate-800">Rp {{ $p->min_amount >= 1000000 ? number_format($p->min_amount / 1000000, $p->min_amount % 1000000 === 0 ? 0 : 1) . ' Jt' : number_format($p->min_amount / 1000, 0) . ' Rb' }} - Rp {{ number_format($p->max_amount / 1000000, $p->max_amount % 1000000 === 0 ? 0 : 1) }} Jt</strong>
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <span class="text-slate-500">Pilihan Tenor:</span>
@@ -404,7 +404,7 @@
                         </div>
 
                         <div class="pt-5 mt-4 border-t border-slate-100 flex gap-2">
-                            <button type="button" onclick="selectSimulationProduct({{ $p->id }}, {{ $p->min_amount }}, {{ $p->isWeekly() ? 10 : 12 }}, '{{ $p->calculation_method }}')" class="btn btn-secondary btn-sm flex-1 text-center font-bold text-xs py-2">
+                            <button type="button" onclick="selectSimulationProduct({{ $p->id }}, {{ $p->min_amount }}, {{ $p->isDaily() ? 14 : ($p->isWeekly() ? 10 : 12) }}, '{{ $p->calculation_method }}')" class="btn btn-secondary btn-sm flex-1 text-center font-bold text-xs py-2">
                                 Simulasikan
                             </button>
                             <a href="{{ route('login') }}" class="btn btn-primary btn-sm flex-1 text-center font-bold text-xs py-2">
@@ -647,7 +647,7 @@
                             <label for="sim_product_id" class="form-label text-xs font-bold text-slate-700">Pilih Produk Pinjaman *</label>
                             <select name="product_id" id="sim_product_id" class="form-control text-xs" onchange="this.form.submit()" required>
                                 @foreach($products as $p)
-                                    <option value="{{ $p->id }}" data-is-weekly="{{ $p->isWeekly() ? '1' : '0' }}" data-rate="{{ $p->interest_rate_per_period }}" data-min-amount="{{ $p->min_amount }}" data-max-amount="{{ $p->max_amount }}" data-min-tenor="{{ $p->min_tenor }}" data-max-tenor="{{ $p->max_tenor }}" {{ ($selectedProduct && $selectedProduct->id == $p->id) ? 'selected' : '' }}>
+                                    <option value="{{ $p->id }}" data-is-daily="{{ $p->isDaily() ? '1' : '0' }}" data-is-weekly="{{ $p->isWeekly() ? '1' : '0' }}" data-rate="{{ $p->interest_rate_per_period }}" data-min-amount="{{ $p->min_amount }}" data-max-amount="{{ $p->max_amount }}" data-min-tenor="{{ $p->min_tenor }}" data-max-tenor="{{ $p->max_tenor }}" {{ ($selectedProduct && $selectedProduct->id == $p->id) ? 'selected' : '' }}>
                                         {{ $p->name }} ({{ $p->interest_rate_per_period }}%/{{ strtolower($p->tenor_unit_label) }})
                                     </option>
                                 @endforeach
@@ -658,10 +658,16 @@
                             <label for="sim_amount" class="form-label text-xs font-bold text-slate-700">Nominal Plafon (Rp) *</label>
                             <input type="number" id="sim_amount" name="amount" class="form-control text-xs font-bold text-slate-900"
                                    value="{{ $amount }}"
-                                   required min="{{ $selectedProduct->min_amount ?? 500000 }}" max="{{ $selectedProduct->max_amount ?? 100000000 }}" step="250000">
+                                   required min="{{ $selectedProduct->min_amount ?? 100000 }}" max="{{ $selectedProduct->max_amount ?? 100000000 }}" step="{{ $selectedProduct && $selectedProduct->isDaily() ? 50000 : 250000 }}">
                             
                             <div class="flex items-center gap-1.5 mt-2 flex-wrap">
-                                @if($selectedProduct && $selectedProduct->isWeekly())
+                                @if($selectedProduct && $selectedProduct->isDaily())
+                                    <button type="button" onclick="setAmount(100000)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">100 Rb</button>
+                                    <button type="button" onclick="setAmount(250000)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">250 Rb</button>
+                                    <button type="button" onclick="setAmount(500000)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">500 Rb</button>
+                                    <button type="button" onclick="setAmount(750000)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">750 Rb</button>
+                                    <button type="button" onclick="setAmount(1000000)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">1 Jt</button>
+                                @elseif($selectedProduct && $selectedProduct->isWeekly())
                                     <button type="button" onclick="setAmount(1000000)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">1 Jt</button>
                                     <button type="button" onclick="setAmount(2500000)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">2.5 Jt</button>
                                     <button type="button" onclick="setAmount(5000000)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">5 Jt</button>
@@ -685,7 +691,13 @@
                                    required min="{{ $selectedProduct->min_tenor ?? 1 }}" max="{{ $selectedProduct->max_tenor ?? 60 }}">
                             
                             <div class="flex items-center gap-1.5 mt-2 flex-wrap">
-                                @if($selectedProduct && $selectedProduct->isWeekly())
+                                @if($selectedProduct && $selectedProduct->isDaily())
+                                    <button type="button" onclick="setTenor(7)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">7 Hari</button>
+                                    <button type="button" onclick="setTenor(10)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">10 Hari</button>
+                                    <button type="button" onclick="setTenor(14)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">14 Hari</button>
+                                    <button type="button" onclick="setTenor(21)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">21 Hari</button>
+                                    <button type="button" onclick="setTenor(30)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">30 Hari</button>
+                                @elseif($selectedProduct && $selectedProduct->isWeekly())
                                     <button type="button" onclick="setTenor(4)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">4 Mgg</button>
                                     <button type="button" onclick="setTenor(8)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">8 Mgg</button>
                                     <button type="button" onclick="setTenor(10)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">10 Mgg</button>

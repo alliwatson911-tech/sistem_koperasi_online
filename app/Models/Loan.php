@@ -44,6 +44,7 @@ class Loan extends Model
         'business_duration_years',
         'business_monthly_revenue',
         'business_photo_path',
+        'ktp_selfie_path',
         'survey_photo_path',
         'collectibility_status',
         'collection_stage',
@@ -79,13 +80,21 @@ class Loan extends Model
         return $this->tenor_unit === 'week';
     }
 
+    public function isDaily(): bool
+    {
+        return $this->tenor_unit === 'day';
+    }
+
     public function isMonthly(): bool
     {
-        return $this->tenor_unit !== 'week';
+        return $this->tenor_unit === 'month' || (!$this->isWeekly() && !$this->isDaily());
     }
 
     public function getTenorUnitLabelAttribute(): string
     {
+        if ($this->isDaily()) {
+            return 'Hari';
+        }
         return $this->isWeekly() ? 'Minggu' : 'Bulan';
     }
 
@@ -186,8 +195,13 @@ class Loan extends Model
 
     public function isBusinessLoan(): bool
     {
-        if ($this->loanProduct && in_array($this->loanProduct->code, ['PRD-MDR', 'PRD-MGN'])) {
-            return true;
+        if ($this->loanProduct) {
+            if ($this->loanProduct->code === 'PRD-MDR') {
+                return true;
+            }
+            if (in_array($this->loanProduct->code, ['PRD-KNS', 'PRD-KPT', 'PRD-KNS-DAY', 'PRD-MLT-DAY'])) {
+                return false;
+            }
         }
         return !empty($this->business_name) || !empty($this->business_photo_path);
     }

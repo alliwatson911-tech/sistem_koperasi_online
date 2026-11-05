@@ -44,10 +44,16 @@
                 <div class="form-group">
                     <label for="sim_amount" class="form-label">Nominal Plafon (Rp) <span class="text-rose-500">*</span></label>
                     <input type="number" id="sim_amount" name="amount" class="form-control text-xs"
-                           value="{{ request('amount', ($selectedProduct && $selectedProduct->isWeekly() ? 3000000 : 10000000)) }}"
-                           required min="{{ $selectedProduct->min_amount ?? 500000 }}" max="{{ $selectedProduct->max_amount ?? 100000000 }}" step="250000">
+                           value="{{ request('amount', ($selectedProduct && $selectedProduct->isDaily() ? 500000 : ($selectedProduct && $selectedProduct->isWeekly() ? 3000000 : 10000000))) }}"
+                           required min="{{ $selectedProduct->min_amount ?? 100000 }}" max="{{ $selectedProduct->max_amount ?? 100000000 }}" step="{{ $selectedProduct && $selectedProduct->isDaily() ? 50000 : 250000 }}">
                     <div class="flex items-center gap-1.5 mt-1.5 flex-wrap">
-                        @if($selectedProduct && $selectedProduct->isWeekly())
+                        @if($selectedProduct && $selectedProduct->isDaily())
+                            <button type="button" onclick="document.getElementById('sim_amount').value=100000" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">100 Rb</button>
+                            <button type="button" onclick="document.getElementById('sim_amount').value=250000" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">250 Rb</button>
+                            <button type="button" onclick="document.getElementById('sim_amount').value=500000" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">500 Rb</button>
+                            <button type="button" onclick="document.getElementById('sim_amount').value=750000" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">750 Rb</button>
+                            <button type="button" onclick="document.getElementById('sim_amount').value=1000000" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">1 Jt</button>
+                        @elseif($selectedProduct && $selectedProduct->isWeekly())
                             <button type="button" onclick="document.getElementById('sim_amount').value=1000000" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">1 Jt</button>
                             <button type="button" onclick="document.getElementById('sim_amount').value=2500000" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">2.5 Jt</button>
                             <button type="button" onclick="document.getElementById('sim_amount').value=5000000" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">5 Jt</button>
@@ -62,14 +68,20 @@
                 <div class="form-group">
                     @php
                         $unitLabel = $selectedProduct ? $selectedProduct->tenor_unit_label : 'Bulan';
-                        $defaultTenor = $selectedProduct && $selectedProduct->isWeekly() ? 10 : 12;
+                        $defaultTenor = $selectedProduct && $selectedProduct->isDaily() ? 14 : ($selectedProduct && $selectedProduct->isWeekly() ? 10 : 12);
                     @endphp
                     <label for="sim_tenor" class="form-label">Jangka Waktu / Tenor ({{ $unitLabel }}) <span class="text-rose-500">*</span></label>
                     <input type="number" id="sim_tenor" name="tenor" class="form-control text-xs"
                            value="{{ request('tenor', $defaultTenor) }}"
                            required min="{{ $selectedProduct->min_tenor ?? 1 }}" max="{{ $selectedProduct->max_tenor ?? 60 }}">
                     <div class="flex items-center gap-1.5 mt-1.5 flex-wrap">
-                        @if($selectedProduct && $selectedProduct->isWeekly())
+                        @if($selectedProduct && $selectedProduct->isDaily())
+                            <button type="button" onclick="document.getElementById('sim_tenor').value=7" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">7 Hari</button>
+                            <button type="button" onclick="document.getElementById('sim_tenor').value=10" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">10 Hari</button>
+                            <button type="button" onclick="document.getElementById('sim_tenor').value=14" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">14 Hari</button>
+                            <button type="button" onclick="document.getElementById('sim_tenor').value=21" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">21 Hari</button>
+                            <button type="button" onclick="document.getElementById('sim_tenor').value=30" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">30 Hari</button>
+                        @elseif($selectedProduct && $selectedProduct->isWeekly())
                             <button type="button" onclick="document.getElementById('sim_tenor').value=4" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">4 Mgg</button>
                             <button type="button" onclick="document.getElementById('sim_tenor').value=8" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">8 Mgg</button>
                             <button type="button" onclick="document.getElementById('sim_tenor').value=10" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">10 Mgg</button>

@@ -45,8 +45,8 @@ class LoanController extends Controller
 
         if ($productId && $products->isNotEmpty()) {
             $selectedProduct = $products->firstWhere('id', (int) $productId) ?: $products->first();
-            $defaultAmount = $selectedProduct->isWeekly() ? 3000000 : 10000000;
-            $defaultTenor = $selectedProduct->isWeekly() ? 10 : 12;
+            $defaultAmount = $selectedProduct->isDaily() ? 500000 : ($selectedProduct->isWeekly() ? 3000000 : 10000000);
+            $defaultTenor = $selectedProduct->isDaily() ? 14 : ($selectedProduct->isWeekly() ? 10 : 12);
 
             $amount = (int) $request->get('amount', $defaultAmount);
             $tenor = (int) $request->get('tenor', $defaultTenor);
@@ -95,9 +95,9 @@ class LoanController extends Controller
         $product = LoanProduct::findOrFail($request->loan_product_id);
         $tenor = (int) ($request->tenor_count ?? $request->tenor_months ?? $request->tenor);
 
-        $isBusinessProduct = in_array($product->code, ['PRD-MDR', 'PRD-MGN']) 
-            || str_contains(strtolower((string) $request->purpose), 'modal') 
-            || str_contains(strtolower((string) $request->purpose), 'usaha');
+        $isBusinessProduct = ($product->code === 'PRD-MDR') 
+            || (str_contains(strtolower((string) $request->purpose), 'modal') && !in_array($product->code, ['PRD-KNS', 'PRD-KPT', 'PRD-KNS-DAY', 'PRD-MLT-DAY'])) 
+            || (str_contains(strtolower((string) $request->purpose), 'usaha') && !in_array($product->code, ['PRD-KNS', 'PRD-KPT', 'PRD-KNS-DAY', 'PRD-MLT-DAY']));
 
         $request->validate([
             'loan_product_id' => 'required|exists:loan_products,id',
@@ -111,9 +111,19 @@ class LoanController extends Controller
             'business_monthly_revenue' => 'nullable|numeric|min:0',
             'business_photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             'business_photo_camera' => 'nullable|string',
+            'ktp_selfie' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'ktp_selfie_camera' => 'nullable|string',
         ], [
             'agree_terms.accepted' => 'Anda wajib menyetujui prinsip transparansi dan syarat pengajuan pinjaman.',
+            'ktp_selfie.max' => 'Ukuran foto wajah dan e-KTP maksimal 5MB.',
         ]);
+
+        // Verifikasi wajib foto wajah memegang e-KTP untuk produk selain pinjaman modal usaha
+        if (!$isBusinessProduct) {
+            if (!$request->hasFile('ktp_selfie') && !$request->filled('ktp_selfie_camera')) {
+                return back()->withErrors(['ktp_selfie' => 'Wajib mengambil atau mengunggah foto wajah sambil memegang e-KTP untuk verifikasi identitas pengajuan pinjaman ini.'])->withInput();
+            }
+        }
 
         $minTenor = $product->min_tenor;
         $maxTenor = $product->max_tenor;
@@ -142,6 +152,26 @@ class LoanController extends Controller
             }
         }
 
+        // Proses penyimpanan Foto Wajah Sambil Memegang KTP (Selfie KYC)
+        $ktpSelfiePath = null;
+        if ($request->hasFile('ktp_selfie')) {
+            $ktpSelfiePath = $request->file('ktp_selfie')->store('ktp_selfies', 'public');
+        } elseif ($request->filled('ktp_selfie_camera')) {
+            $dataUrl = $request->ktp_selfie_camera;
+            if (preg_match('/^data:image\/(\w+);base64,/', $dataUrl, $typeMatches)) {
+                $rawBase64 = substr($dataUrl, strpos($dataUrl, ',') + 1);
+                $ext = strtolower($typeMatches[1]);
+                if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
+                    $binaryData = base64_decode($rawBase64);
+                    if ($binaryData !== false) {
+                        $filename = 'ktp_selfie_' . uniqid() . '.' . ($ext === 'jpeg' ? 'jpg' : $ext);
+                        Storage::disk('public')->put('ktp_selfies/' . $filename, $binaryData);
+                        $ktpSelfiePath = 'ktp_selfies/' . $filename;
+                    }
+                }
+            }
+        }
+
         $businessData = [
             'business_name' => $request->business_name,
             'business_type' => $request->business_type,
@@ -149,6 +179,7 @@ class LoanController extends Controller
             'business_duration_years' => $request->business_duration_years,
             'business_monthly_revenue' => $request->business_monthly_revenue,
             'business_photo_path' => $businessPhotoPath,
+            'ktp_selfie_path' => $ktpSelfiePath,
         ];
 
         try {

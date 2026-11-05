@@ -27,8 +27,8 @@ class HomeController extends Controller
         $selectedProductId = $request->get('product_id', $products->first()?->id);
         $selectedProduct = $products->firstWhere('id', (int) $selectedProductId) ?: $products->first();
 
-        $defaultAmount = ($selectedProduct && $selectedProduct->isWeekly()) ? 3000000 : 10000000;
-        $defaultTenor = ($selectedProduct && $selectedProduct->isWeekly()) ? 10 : 12;
+        $defaultAmount = ($selectedProduct && $selectedProduct->isDaily()) ? 500000 : (($selectedProduct && $selectedProduct->isWeekly()) ? 3000000 : 10000000);
+        $defaultTenor = ($selectedProduct && $selectedProduct->isDaily()) ? 14 : (($selectedProduct && $selectedProduct->isWeekly()) ? 10 : 12);
 
         $amount = (int) $request->get('amount', $defaultAmount);
         $tenor = (int) $request->get('tenor', $defaultTenor);

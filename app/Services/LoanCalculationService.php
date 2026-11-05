@@ -36,8 +36,17 @@ class LoanCalculationService
         $totalInterest = 0;
         $remainingPrincipal = $principal;
 
-        $periodsPerYear = ($tenorUnit === 'week') ? 52 : 12;
-        $periodLabel = ($tenorUnit === 'week') ? 'Minggu' : 'Bulan';
+        if ($tenorUnit === 'day') {
+            $periodsPerYear = 365;
+            $periodLabel = 'Hari';
+        } elseif ($tenorUnit === 'week') {
+            $periodsPerYear = 52;
+            $periodLabel = 'Minggu';
+        } else {
+            $periodsPerYear = 12;
+            $periodLabel = 'Bulan';
+        }
+
         $baseDate = $startDate ? Carbon::parse($startDate) : Carbon::today();
 
         if ($method === 'flat') {
@@ -52,9 +61,13 @@ class LoanCalculationService
                 $remainingPrincipal -= $principalPortion;
                 $totalInterest += $interestPortion;
 
-                $dueDate = ($tenorUnit === 'week')
-                    ? $baseDate->copy()->addWeeks($i)->toDateString()
-                    : $baseDate->copy()->addMonthsNoOverflow($i)->toDateString();
+                if ($tenorUnit === 'day') {
+                    $dueDate = $baseDate->copy()->addDays($i)->toDateString();
+                } elseif ($tenorUnit === 'week') {
+                    $dueDate = $baseDate->copy()->addWeeks($i)->toDateString();
+                } else {
+                    $dueDate = $baseDate->copy()->addMonthsNoOverflow($i)->toDateString();
+                }
 
                 $schedules[] = [
                     'installment_no' => $i,
@@ -91,9 +104,13 @@ class LoanCalculationService
                 $remainingPrincipal -= $principalPortion;
                 $totalInterest += $interestPortion;
 
-                $dueDate = ($tenorUnit === 'week')
-                    ? $baseDate->copy()->addWeeks($i)->toDateString()
-                    : $baseDate->copy()->addMonthsNoOverflow($i)->toDateString();
+                if ($tenorUnit === 'day') {
+                    $dueDate = $baseDate->copy()->addDays($i)->toDateString();
+                } elseif ($tenorUnit === 'week') {
+                    $dueDate = $baseDate->copy()->addWeeks($i)->toDateString();
+                } else {
+                    $dueDate = $baseDate->copy()->addMonthsNoOverflow($i)->toDateString();
+                }
 
                 $schedules[] = [
                     'installment_no' => $i,
@@ -116,9 +133,13 @@ class LoanCalculationService
                 $remainingPrincipal -= $principalPortion;
                 $totalInterest += $interestPortion;
 
-                $dueDate = ($tenorUnit === 'week')
-                    ? $baseDate->copy()->addWeeks($i)->toDateString()
-                    : $baseDate->copy()->addMonthsNoOverflow($i)->toDateString();
+                if ($tenorUnit === 'day') {
+                    $dueDate = $baseDate->copy()->addDays($i)->toDateString();
+                } elseif ($tenorUnit === 'week') {
+                    $dueDate = $baseDate->copy()->addWeeks($i)->toDateString();
+                } else {
+                    $dueDate = $baseDate->copy()->addMonthsNoOverflow($i)->toDateString();
+                }
 
                 $schedules[] = [
                     'installment_no' => $i,

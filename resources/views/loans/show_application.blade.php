@@ -387,6 +387,64 @@
             </div>
             @endif
 
+            {{-- FOTO WAJAH DENGAN KTP (SELFIE e-KTP) UNTUK PRODUK SELAIN MODAL USAHA --}}
+            @if($application->ktp_selfie_path || (!$application->isBusinessLoan() && !empty($application->ktp_selfie_path)))
+            <div class="bg-white rounded-2xl shadow-sm border border-blue-200 p-6 space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                    <div class="flex items-center gap-2">
+                        <span class="p-2 rounded-xl bg-blue-100 text-blue-800">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path></svg>
+                        </span>
+                        <div>
+                            <h2 class="text-base font-bold text-slate-800">Verifikasi Foto Wajah & KTP (Selfie e-KTP)</h2>
+                            <p class="text-xs text-slate-500">Bukti otentikasi KYC identitas pemohon pinjaman</p>
+                        </div>
+                    </div>
+                    <span class="badge badge-info text-[10px]">Verifikasi KYC Wajib</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div class="space-y-2">
+                        <div>
+                            <span class="text-slate-400 block">Nama Pemohon:</span>
+                            <strong class="text-slate-800 text-sm">{{ $application->member->user->name ?? '-' }}</strong>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 block">Nomor KTP (NIK):</span>
+                            <span class="text-slate-700 font-mono font-semibold">{{ $application->member->nik ?? $application->member->user->nik ?? '-' }}</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-400 block">Status Verifikasi Identitas:</span>
+                            <span class="inline-flex items-center gap-1 font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                Foto Wajah & e-KTP Terlampir
+                            </span>
+                        </div>
+                        <p class="text-slate-500 text-[11px] leading-relaxed pt-1">
+                            Petugas Teller & Analis wajib memverifikasi kecocokan wajah pada foto selfie dengan foto pada dokumen KTP anggota.
+                        </p>
+                    </div>
+
+                    {{-- Foto Wajah Memegang KTP --}}
+                    <div class="space-y-2">
+                        <span class="text-slate-400 block font-semibold">Foto Wajah Bersama e-KTP:</span>
+                        @if($application->ktp_selfie_path)
+                            <a href="{{ asset('storage/' . $application->ktp_selfie_path) }}" target="_blank" class="block group relative rounded-xl overflow-hidden border border-blue-300 shadow-xs max-w-xs">
+                                <img src="{{ asset('storage/' . $application->ktp_selfie_path) }}" alt="Foto Selfie Memegang KTP" class="h-44 w-full object-cover group-hover:scale-105 transition-transform duration-200">
+                                <span class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-xs font-bold transition-opacity">
+                                    Klik untuk Memperbesar Foto
+                                </span>
+                            </a>
+                        @else
+                            <div class="h-32 rounded-xl bg-slate-100 border border-dashed border-slate-300 flex items-center justify-center text-slate-400 text-xs italic">
+                                Foto selfie KTP belum diunggah
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @endif
+
         </div>
 
         <!-- Kolom Kanan: Aksi Petugas & Lini Masa Timeline -->

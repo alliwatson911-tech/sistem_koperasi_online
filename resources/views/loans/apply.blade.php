@@ -29,6 +29,7 @@
                                 data-min-amount="{{ $p->min_amount }}"
                                 data-max-amount="{{ $p->max_amount }}"
                                 data-rate="{{ $p->interest_rate_per_period }}"
+                                data-is-business="{{ $p->isBusinessLoan() ? '1' : '0' }}"
                                 {{ (old('loan_product_id', $selectedProductId) == $p->id) ? 'selected' : '' }}>
                             {{ $p->name }} &bull; Bunga: {{ $p->interest_rate_per_period }}%/{{ strtolower($p->tenor_unit_label) }} (Tenor {{ $p->min_tenor }}-{{ $p->max_tenor }} {{ $p->tenor_unit_label }})
                         </option>
@@ -166,6 +167,89 @@
                 </div>
             </fieldset>
 
+            {{-- 4b. BAGIAN FOTO WAJAH DENGAN KTP (SELFIE e-KTP - WAJIB UNTUK PRODUK SELAIN MODAL USAHA) --}}
+            <fieldset id="ktpSelfieSection" class="border border-blue-200 rounded-xl p-4 bg-blue-50/40 space-y-4">
+                <legend class="text-sm font-bold text-blue-900 px-2 bg-blue-100 rounded-md py-0.5 inline-flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path></svg>
+                    Verifikasi Identitas: Foto Wajah Sambil Memegang KTP (Selfie e-KTP) <span class="text-red-500">*</span>
+                </legend>
+
+                <div class="rounded-lg bg-blue-100/70 border border-blue-200 p-3 text-xs text-blue-900 space-y-1">
+                    <p class="font-bold flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-blue-700 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Instruksi Verifikasi Foto Wajah & KTP (KYC Peminjam):
+                    </p>
+                    <ul class="list-disc list-inside space-y-0.5 text-blue-800 text-[11px] pl-1">
+                        <li>Pegang kartu fisik e-KTP Anda di sebelah wajah setinggi dada.</li>
+                        <li>Pastikan wajah Anda dan kartu identitas tampak terang, fokus, dan tidak terpotong.</li>
+                        <li>Pastikan nomor NIK, nama lengkap, dan foto di kartu e-KTP dapat terbaca jelas oleh petugas teller.</li>
+                    </ul>
+                </div>
+
+                {{-- WIDGET FOTO WAJAH DENGAN KTP (KAMERA INTERAKTIF + UPLOAD) --}}
+                <div class="bg-white rounded-xl border border-slate-200 p-4 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-800 uppercase tracking-wider">Unggah / Ambil Foto Selfie KTP</span>
+                        <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50 text-xs">
+                            <button type="button" id="tabKtpUploadBtn" onclick="switchKtpTab('upload')" class="px-3 py-1 font-semibold rounded-md bg-white text-blue-800 shadow-xs transition">Unggah Berkas</button>
+                            <button type="button" id="tabKtpCameraBtn" onclick="switchKtpTab('camera')" class="px-3 py-1 font-semibold rounded-md text-slate-600 hover:text-slate-900 transition">Ambil dari Kamera</button>
+                        </div>
+                    </div>
+
+                    {{-- Mode 1: Unggah Berkas KTP Selfie --}}
+                    <div id="modeKtpUploadContainer" class="space-y-2">
+                        <label for="ktp_selfie_input" class="sr-only">Pilih File Foto Wajah Memegang KTP</label>
+                        <input type="file" id="ktp_selfie_input" name="ktp_selfie" accept="image/jpeg,image/png,image/jpg,image/webp" class="form-control text-xs file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-100 file:text-blue-800 hover:file:bg-blue-200" onchange="previewUploadKtp(this)">
+                        <span class="text-[11px] text-slate-500 block">Format: JPG, PNG, atau WebP. Ukuran maksimal 5MB.</span>
+                        <div id="uploadKtpPreviewWrapper" class="hidden mt-2">
+                            <img id="uploadKtpPreviewImg" src="" alt="Pratinjau Foto Wajah dengan KTP" class="h-44 rounded-lg object-cover border border-slate-200 shadow-sm">
+                        </div>
+                    </div>
+
+                    {{-- Mode 2: Kamera Interaktif Selfie KTP --}}
+                    <div id="modeKtpCameraContainer" class="hidden space-y-3">
+                        <div id="cameraKtpStatusText" aria-live="polite" class="text-xs text-slate-500">
+                            Klik tombol "Buka Kamera Depan" untuk mengaktifkan webcam atau kamera selfie Anda.
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button type="button" id="openKtpCameraBtn" onclick="startKtpCameraStream()" class="btn btn-secondary btn-sm text-xs flex items-center gap-1.5">
+                                <svg class="w-4 h-4 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                Buka Kamera
+                            </button>
+                            <button type="button" id="snapKtpPhotoBtn" onclick="takeKtpSnapshot()" class="hidden btn btn-primary btn-sm text-xs flex items-center gap-1.5 bg-blue-700 hover:bg-blue-800">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                Ambil Foto (Snap)
+                            </button>
+                            <button type="button" id="retakeKtpPhotoBtn" onclick="retakeKtpSnapshot()" class="hidden btn btn-secondary btn-sm text-xs">
+                                Ambil Ulang
+                            </button>
+                            <button type="button" id="closeKtpCameraBtn" onclick="stopKtpCameraStream()" class="hidden btn btn-secondary btn-sm text-xs text-red-600">
+                                Tutup Kamera
+                            </button>
+                        </div>
+
+                        {{-- Video Stream Box KTP --}}
+                        <div id="videoKtpStreamWrapper" class="hidden relative rounded-xl overflow-hidden bg-slate-900 border border-slate-800 max-w-sm">
+                            <video id="cameraKtpVideo" autoplay playsinline class="w-full h-48 object-cover"></video>
+                            <div class="absolute inset-x-0 bottom-2 text-center text-[11px] text-white/80 bg-black/40 py-1">
+                                Hadapkan wajah dan e-KTP Anda ke kamera dengan pencahayaan cukup
+                            </div>
+                        </div>
+
+                        {{-- Hidden Canvas & Result Preview KTP --}}
+                        <canvas id="cameraKtpCanvas" class="hidden"></canvas>
+                        <input type="hidden" name="ktp_selfie_camera" id="ktpSelfieCameraInput">
+
+                        <div id="cameraKtpPreviewWrapper" class="hidden mt-2">
+                            <span class="text-xs font-semibold text-blue-800 block mb-1">Foto Selfie KTP Berhasil Diambil:</span>
+                            <img id="cameraKtpResultImg" src="" alt="Hasil Foto Wajah dan KTP" class="h-44 rounded-lg object-cover border border-blue-500 shadow-sm">
+                        </div>
+                    </div>
+                </div>
+                @error('ktp_selfie') <div class="text-red-600 text-xs mt-1 font-semibold">{{ $message }}</div> @enderror
+            </fieldset>
+
             {{-- 5. KLAUSUL TRANSPARANSI --}}
             <div class="rounded-xl bg-slate-50 border border-slate-200 p-4 text-xs text-slate-600 space-y-1.5">
                 <p class="font-bold text-slate-800">Prinsip Transparansi & Perlindungan Anggota:</p>
@@ -215,12 +299,23 @@
         document.getElementById('input_amount').max = maxAmount;
         document.getElementById('help_amount').innerText = 'Plafon: Rp ' + Number(minAmount).toLocaleString('id-ID') + ' s/d Rp ' + Number(maxAmount).toLocaleString('id-ID');
 
-        // Otomatis highlight jika produk modal usaha
+        // Otomatis tampilkan bagian sesuai jenis produk:
+        // Produk Modal Usaha: tampilkan form usaha & foto usaha
+        // Produk selain Modal Usaha (Konsumtif, Multiguna, Harian): tampilkan wajib foto selfie e-KTP
+        const isBusiness = opt.getAttribute('data-is-business') === '1' || code === 'PRD-MDR';
         const bSection = document.getElementById('businessInfoSection');
-        if (code === 'PRD-MDR' || code === 'PRD-MGN') {
+        const kSection = document.getElementById('ktpSelfieSection');
+
+        if (isBusiness) {
+            bSection.classList.remove('hidden');
             bSection.classList.add('ring-2', 'ring-emerald-500');
+            kSection.classList.add('hidden');
+            stopKtpCameraStream();
         } else {
+            bSection.classList.add('hidden');
             bSection.classList.remove('ring-2', 'ring-emerald-500');
+            kSection.classList.remove('hidden');
+            stopCameraStream();
         }
     }
 
@@ -346,6 +441,133 @@
         openBtn.classList.remove('hidden');
         snapBtn.classList.add('hidden');
         closeBtn.classList.add('hidden');
+    }
+
+    // --- LOGIKA KAMERA & UPLOAD FOTO WAJAH DENGAN KTP (KYC SELFIE) ---
+    let ktpStream = null;
+
+    function switchKtpTab(mode) {
+        const upBtn = document.getElementById('tabKtpUploadBtn');
+        const camBtn = document.getElementById('tabKtpCameraBtn');
+        const upContainer = document.getElementById('modeKtpUploadContainer');
+        const camContainer = document.getElementById('modeKtpCameraContainer');
+
+        if (mode === 'upload') {
+            upBtn.classList.add('bg-white', 'text-blue-800', 'shadow-xs');
+            upBtn.classList.remove('text-slate-600');
+            camBtn.classList.remove('bg-white', 'text-blue-800', 'shadow-xs');
+            camBtn.classList.add('text-slate-600');
+
+            upContainer.classList.remove('hidden');
+            camContainer.classList.add('hidden');
+            stopKtpCameraStream();
+        } else {
+            camBtn.classList.add('bg-white', 'text-blue-800', 'shadow-xs');
+            camBtn.classList.remove('text-slate-600');
+            upBtn.classList.remove('bg-white', 'text-blue-800', 'shadow-xs');
+            upBtn.classList.add('text-slate-600');
+
+            camContainer.classList.remove('hidden');
+            upContainer.classList.add('hidden');
+        }
+    }
+
+    function previewUploadKtp(input) {
+        const previewWrapper = document.getElementById('uploadKtpPreviewWrapper');
+        const previewImg = document.getElementById('uploadKtpPreviewImg');
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewWrapper.classList.remove('hidden');
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    async function startKtpCameraStream() {
+        const video = document.getElementById('cameraKtpVideo');
+        const videoWrapper = document.getElementById('videoKtpStreamWrapper');
+        const openBtn = document.getElementById('openKtpCameraBtn');
+        const snapBtn = document.getElementById('snapKtpPhotoBtn');
+        const closeBtn = document.getElementById('closeKtpCameraBtn');
+        const statusText = document.getElementById('cameraKtpStatusText');
+
+        try {
+            statusText.innerText = "Mengakses kamera perangkat...";
+            ktpStream = await navigator.mediaDevices.getUserMedia({
+                video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } },
+                audio: false
+            });
+            video.srcObject = ktpStream;
+            videoWrapper.classList.remove('hidden');
+            openBtn.classList.add('hidden');
+            snapBtn.classList.remove('hidden');
+            closeBtn.classList.remove('hidden');
+            statusText.innerText = "Kamera aktif. Posisikan wajah dan kartu e-KTP sejajar lalu tekan 'Ambil Foto'.";
+        } catch (err) {
+            statusText.innerText = "Tidak dapat mengakses kamera: " + (err.message || "Izin ditolak atau perangkat tidak mendukung.");
+            alert("Akses kamera tidak diizinkan atau perangkat tidak memiliki kamera aktif. Silakan gunakan tab 'Unggah Berkas'.");
+            switchKtpTab('upload');
+        }
+    }
+
+    function takeKtpSnapshot() {
+        const video = document.getElementById('cameraKtpVideo');
+        const canvas = document.getElementById('cameraKtpCanvas');
+        const resultImg = document.getElementById('cameraKtpResultImg');
+        const previewWrapper = document.getElementById('cameraKtpPreviewWrapper');
+        const hiddenInput = document.getElementById('ktpSelfieCameraInput');
+        const snapBtn = document.getElementById('snapKtpPhotoBtn');
+        const retakeBtn = document.getElementById('retakeKtpPhotoBtn');
+        const statusText = document.getElementById('cameraKtpStatusText');
+
+        if (!ktpStream) return;
+
+        canvas.width = video.videoWidth || 640;
+        canvas.height = video.videoHeight || 480;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+        resultImg.src = dataUrl;
+        hiddenInput.value = dataUrl;
+
+        previewWrapper.classList.remove('hidden');
+        snapBtn.classList.add('hidden');
+        retakeBtn.classList.remove('hidden');
+        statusText.innerText = "Foto selfie memegang e-KTP berhasil diabadikan! Pastikan data NIK terbaca jelas.";
+
+        stopKtpCameraStream();
+    }
+
+    function retakeKtpSnapshot() {
+        const previewWrapper = document.getElementById('cameraKtpPreviewWrapper');
+        const hiddenInput = document.getElementById('ktpSelfieCameraInput');
+        const retakeBtn = document.getElementById('retakeKtpPhotoBtn');
+
+        previewWrapper.classList.add('hidden');
+        hiddenInput.value = '';
+        retakeBtn.classList.add('hidden');
+
+        startKtpCameraStream();
+    }
+
+    function stopKtpCameraStream() {
+        const videoWrapper = document.getElementById('videoKtpStreamWrapper');
+        const openBtn = document.getElementById('openKtpCameraBtn');
+        const snapBtn = document.getElementById('snapKtpPhotoBtn');
+        const closeBtn = document.getElementById('closeKtpCameraBtn');
+
+        if (ktpStream) {
+            ktpStream.getTracks().forEach(track => track.stop());
+            ktpStream = null;
+        }
+
+        if (videoWrapper) videoWrapper.classList.add('hidden');
+        if (openBtn) openBtn.classList.remove('hidden');
+        if (snapBtn) snapBtn.classList.add('hidden');
+        if (closeBtn) closeBtn.classList.add('hidden');
     }
 
     document.addEventListener('DOMContentLoaded', function() {

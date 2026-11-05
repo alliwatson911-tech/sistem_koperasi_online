@@ -52,6 +52,7 @@ class LoanApplication extends Model
         'business_duration_years',
         'business_monthly_revenue',
         'business_photo_path',
+        'ktp_selfie_path',
         'survey_photo_path',
         'survey_notes',
     ];
@@ -75,8 +76,13 @@ class LoanApplication extends Model
 
     public function isBusinessLoan(): bool
     {
-        if ($this->loanProduct && in_array($this->loanProduct->code, ['PRD-MDR', 'PRD-MGN'])) {
-            return true;
+        if ($this->loanProduct) {
+            if ($this->loanProduct->code === 'PRD-MDR') {
+                return true;
+            }
+            if (in_array($this->loanProduct->code, ['PRD-KNS', 'PRD-KPT', 'PRD-KNS-DAY', 'PRD-MLT-DAY'])) {
+                return false;
+            }
         }
         $purpose = strtolower((string) $this->purpose);
         return str_contains($purpose, 'modal') || str_contains($purpose, 'usaha') || str_contains($purpose, 'dagang') || !empty($this->business_name);
@@ -87,13 +93,21 @@ class LoanApplication extends Model
         return $this->tenor_unit === 'week';
     }
 
+    public function isDaily(): bool
+    {
+        return $this->tenor_unit === 'day';
+    }
+
     public function isMonthly(): bool
     {
-        return $this->tenor_unit !== 'week';
+        return $this->tenor_unit === 'month' || (!$this->isWeekly() && !$this->isDaily());
     }
 
     public function getTenorUnitLabelAttribute(): string
     {
+        if ($this->isDaily()) {
+            return 'Hari';
+        }
         return $this->isWeekly() ? 'Minggu' : 'Bulan';
     }
 

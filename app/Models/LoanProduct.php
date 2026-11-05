@@ -51,13 +51,26 @@ class LoanProduct extends Model
         return $this->tenor_unit === 'week';
     }
 
+    public function isDaily(): bool
+    {
+        return $this->tenor_unit === 'day';
+    }
+
     public function isMonthly(): bool
     {
-        return $this->tenor_unit !== 'week';
+        return $this->tenor_unit === 'month' || (!$this->isWeekly() && !$this->isDaily());
+    }
+
+    public function isBusinessLoan(): bool
+    {
+        return $this->code === 'PRD-MDR' || str_contains(strtolower($this->name), 'modal') || str_contains(strtolower($this->name), 'usaha');
     }
 
     public function getTenorUnitLabelAttribute(): string
     {
+        if ($this->isDaily()) {
+            return 'Hari';
+        }
         return $this->isWeekly() ? 'Minggu' : 'Bulan';
     }
 
