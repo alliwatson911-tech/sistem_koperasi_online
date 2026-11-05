@@ -12,7 +12,14 @@
                 Alur verifikasi berjenjang: <span class="font-semibold text-emerald-700">Antrean Teller</span> &rarr; <span class="font-semibold text-blue-700">Analisis Kredit</span> &rarr; <span class="font-semibold text-purple-700">Persetujuan Manajer</span> &rarr; Akad & Pencairan Dana.
             </p>
         </div>
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 flex-wrap">
+            <a href="{{ url()->previous() != url()->current() ? url()->previous() : route('dashboard') }}" 
+               onclick="if(window.history.length > 1){ window.history.back(); return false; }"
+               class="btn btn-secondary btn-sm inline-flex items-center gap-1.5 shadow-2xs font-bold"
+               title="Kembali ke halaman sebelumnya">
+                <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                <span>Kembali ke Halaman Sebelumnya</span>
+            </a>
             @if(auth()->user()->isTeller())
             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>

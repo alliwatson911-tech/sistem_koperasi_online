@@ -8,9 +8,18 @@
         <h1 class="text-2xl font-bold text-gray-800">Portofolio Pinjaman Anggota</h1>
         <p class="text-sm text-gray-500">Kelola dan pantau seluruh fasilitas pinjaman aktif, menunggak, dan lunas.</p>
     </div>
-    <div class="bg-emerald-50 border border-emerald-200 px-4 py-2 rounded-xl text-right">
-        <span class="text-xs text-emerald-800 font-semibold block">Total Sisa Pokok Beredar (Outstanding):</span>
-        <span class="text-xl font-bold text-emerald-900">Rp {{ number_format($totalOutstanding, 0, ',', '.') }}</span>
+    <div class="flex items-center gap-3 flex-wrap">
+        <a href="{{ url()->previous() != url()->current() ? url()->previous() : route('dashboard') }}" 
+           onclick="if(window.history.length > 1){ window.history.back(); return false; }"
+           class="btn btn-secondary btn-sm inline-flex items-center gap-1.5 shadow-2xs font-bold"
+           title="Kembali ke halaman sebelumnya">
+            <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            <span>Kembali ke Halaman Sebelumnya</span>
+        </a>
+        <div class="bg-emerald-50 border border-emerald-200 px-4 py-2 rounded-xl text-right">
+            <span class="text-xs text-emerald-800 font-semibold block">Total Sisa Pokok Beredar (Outstanding):</span>
+            <span class="text-xl font-bold text-emerald-900">Rp {{ number_format($totalOutstanding, 0, ',', '.') }}</span>
+        </div>
     </div>
 </div>
 

@@ -167,16 +167,45 @@ class SidebarAndBillboardManagementTest extends TestCase
         $response->assertSee('Lihat Beranda Publik');
         $response->assertDontSee('bg-gradient-to-b');
 
-        // Memastikan susunan stat cards: 1 kotak besar kiri (Dana Simpanan) & 3 kotak kanan
+        // Memastikan susunan stat cards: 1 kotak besar kiri (Dana Simpanan) & 3 kotak kanan yang interaktif
         $response->assertSee('Total Dana Simpanan Anggota');
         $response->assertSee('Likuiditas Kas Koperasi');
+        $response->assertSee(route('savings.index'));
         $response->assertSee('TOTAL ANGGOTA AKTIF');
+        $response->assertSee(route('members.index'));
         $response->assertSee('SISA POKOK PINJAMAN');
+        $response->assertSee(route('loans.manage'));
         $response->assertSee('PINJAMAN MENUNGGAK (NPL)');
+        $response->assertSee(route('reports.overdue'));
 
         // Footer pada panel stakeholder telah dihilangkan agar ruang kerja bersih & rapi
         $response->assertDontSee('FOOTER OPERASIONAL');
         $response->assertDontSee('Badan Hukum No. AHU-0012345.AH.01.26.TAHUN 2026');
+    }
+
+    public function test_target_pages_render_back_to_previous_page_button(): void
+    {
+        $admin = User::where('role', User::ROLE_ADMIN)->first();
+
+        // 1. Halaman Simpanan
+        $savings = $this->actingAs($admin)->get(route('savings.index'));
+        $savings->assertStatus(200);
+        $savings->assertSee('Kembali ke Halaman Sebelumnya');
+
+        // 2. Halaman Kelola Anggota
+        $members = $this->actingAs($admin)->get(route('members.index'));
+        $members->assertStatus(200);
+        $members->assertSee('Kembali ke Halaman Sebelumnya');
+
+        // 3. Halaman Portofolio Pinjaman
+        $loans = $this->actingAs($admin)->get(route('loans.manage'));
+        $loans->assertStatus(200);
+        $loans->assertSee('Kembali ke Halaman Sebelumnya');
+
+        // 4. Halaman Laporan Overdue / NPL
+        $overdue = $this->actingAs($admin)->get(route('reports.overdue'));
+        $overdue->assertStatus(200);
+        $overdue->assertSee('Kembali ke Halaman Sebelumnya');
     }
 
     public function test_member_dashboard_renders_member_top_navbar_and_footer(): void

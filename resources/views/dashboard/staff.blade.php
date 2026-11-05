@@ -37,12 +37,14 @@
     </div>
 </div>
 
-<!-- Ringkasan Finansial & Operasional: 1 Kotak Besar Kiri (Simpanan) & 3 Kotak Kanan -->
+<!-- Ringkasan Finansial & Operasional: 1 Kotak Besar Kiri (Simpanan) & 3 Kotak Kanan (Semua Kotak Interaktif & Dapat Diklik) -->
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-6 items-stretch">
     <!-- ========================================================================= -->
-    <!-- KOTAK BESAR KIRI: TOTAL DANA SIMPANAN                                     -->
+    <!-- KOTAK BESAR KIRI: TOTAL DANA SIMPANAN (INTERAKTIF KE HALAMAN SIMPANAN)     -->
     <!-- ========================================================================= -->
-    <div class="lg:col-span-5 bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 border-l-4 border-l-[#047857] shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+    <a href="{{ route('savings.index') }}" 
+       class="lg:col-span-5 bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 border-l-4 border-l-[#047857] shadow-xs hover:border-[#047857] hover:shadow-md hover:-translate-y-0.5 transition-all flex flex-col justify-between group cursor-pointer text-slate-800 no-underline"
+       title="Klik untuk membuka Kelola Rekening Simpanan">
         <div>
             <!-- Header Kartu Simpanan -->
             <div class="flex items-start justify-between gap-3 mb-4">
@@ -54,18 +56,18 @@
                         </span>
                         <span class="text-xs text-slate-400 font-medium">Buku Kas Utama</span>
                     </div>
-                    <h2 class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-500">
+                    <h2 class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-500 group-hover:text-emerald-800 transition-colors">
                         Total Dana Simpanan Anggota
                     </h2>
                 </div>
-                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 border border-emerald-100">
+                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 group-hover:bg-[#047857] group-hover:text-white flex items-center justify-center shrink-0 border border-emerald-100 transition-all">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </div>
             </div>
 
             <!-- Nominal Utama & Keterangan -->
             <div class="my-3">
-                <div class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-2">
+                <div class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-2 group-hover:text-emerald-950 transition-colors">
                     Rp {{ number_format($stats['total_savings'] / 1000000, 1) }} <span class="text-xl sm:text-2xl font-bold text-slate-500">jt</span>
                 </div>
                 <div class="font-mono text-xs sm:text-sm font-bold text-emerald-800 bg-emerald-50 inline-block px-3 py-1 rounded-lg border border-emerald-200/80 mb-3">
@@ -77,31 +79,33 @@
             </div>
         </div>
 
-        <!-- Tombol Aksi Cepat Bawah -->
+        <!-- Tombol Aksi Bawah -->
         <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between gap-2 flex-wrap">
-            <a href="{{ route('savings.index') }}" class="btn btn-primary btn-sm rounded-xl px-4 py-2 text-xs font-bold shadow-xs hover:shadow transition-all inline-flex items-center gap-1.5">
+            <span class="btn btn-primary btn-sm rounded-xl px-4 py-2 text-xs font-bold shadow-xs group-hover:bg-[#035d43] transition-all inline-flex items-center gap-1.5">
                 <span>Kelola Simpanan & Kas</span>
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-            </a>
-            <a href="{{ route('accounting.ledger') }}" class="text-xs font-bold text-slate-500 hover:text-emerald-800 transition-colors inline-flex items-center gap-1">
-                <span>Buku Besar</span>
+            </span>
+            <span class="text-xs font-bold text-emerald-800 group-hover:underline inline-flex items-center gap-1">
+                <span>Buka Rekening Simpanan</span>
                 <span class="text-3xs">&rarr;</span>
-            </a>
+            </span>
         </div>
-    </div>
+    </a>
 
     <!-- ========================================================================= -->
     <!-- 3 KOTAK KANAN: DI SAMPING KANAN KOTAK TOTAL DANA SIMPANAN                 -->
     <!-- ========================================================================= -->
     <div class="lg:col-span-7 flex flex-col justify-between gap-3.5">
-        <!-- Kotak 1: Total Anggota Aktif -->
-        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 border-l-4 border-l-emerald-600 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all flex items-center justify-between gap-4">
+        <!-- Kotak 1: Total Anggota Aktif (INTERAKTIF KE KELOLA ANGGOTA) -->
+        <a href="{{ route('members.index') }}" 
+           class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 border-l-4 border-l-emerald-600 shadow-xs hover:border-emerald-600 hover:shadow-md hover:-translate-y-0.5 transition-all flex items-center justify-between gap-4 group cursor-pointer text-slate-800 no-underline"
+           title="Klik untuk membuka Kelola Anggota">
             <div class="flex items-center gap-3.5 min-w-0">
-                <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 border border-emerald-100">
+                <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700 group-hover:bg-emerald-600 group-hover:text-white flex items-center justify-center shrink-0 border border-emerald-100 transition-all">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                 </div>
                 <div class="min-w-0">
-                    <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 mb-0.5">
+                    <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 group-hover:text-emerald-800 transition-colors mb-0.5">
                         TOTAL ANGGOTA AKTIF
                     </div>
                     <div class="text-xs text-slate-500">
@@ -117,24 +121,26 @@
                 </div>
             </div>
             <div class="text-right shrink-0">
-                <div class="text-2xl font-black text-slate-900 tracking-tight">
+                <div class="text-2xl font-black text-slate-900 group-hover:text-emerald-950 transition-colors tracking-tight">
                     {{ number_format($stats['active_members']) }}
                     <span class="text-xs font-semibold text-slate-400">/ {{ $stats['total_members'] }} total</span>
                 </div>
-                <a href="{{ route('members.index') }}" class="text-[11px] font-bold text-emerald-800 hover:text-emerald-950 inline-flex items-center gap-1 mt-0.5">
+                <span class="text-[11px] font-bold text-emerald-800 group-hover:underline inline-flex items-center gap-1 mt-0.5">
                     Kelola Anggota &rarr;
-                </a>
+                </span>
             </div>
-        </div>
+        </a>
 
-        <!-- Kotak 2: Sisa Pokok Pinjaman -->
-        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 border-l-4 border-l-teal-600 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all flex items-center justify-between gap-4">
+        <!-- Kotak 2: Sisa Pokok Pinjaman (INTERAKTIF KE PORTOFOLIO PINJAMAN) -->
+        <a href="{{ route('loans.manage') }}" 
+           class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 border-l-4 border-l-teal-600 shadow-xs hover:border-teal-600 hover:shadow-md hover:-translate-y-0.5 transition-all flex items-center justify-between gap-4 group cursor-pointer text-slate-800 no-underline"
+           title="Klik untuk membuka Portofolio Pinjaman">
             <div class="flex items-center gap-3.5 min-w-0">
-                <div class="w-11 h-11 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center shrink-0 border border-teal-100">
+                <div class="w-11 h-11 rounded-xl bg-teal-50 text-teal-700 group-hover:bg-teal-600 group-hover:text-white flex items-center justify-center shrink-0 border border-teal-100 transition-all">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
                 </div>
                 <div class="min-w-0">
-                    <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 mb-0.5">
+                    <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 group-hover:text-teal-800 transition-colors mb-0.5">
                         SISA POKOK PINJAMAN
                     </div>
                     <div class="text-xs text-slate-500 truncate">
@@ -143,23 +149,25 @@
                 </div>
             </div>
             <div class="text-right shrink-0">
-                <div class="text-2xl font-black text-slate-900 tracking-tight">
+                <div class="text-2xl font-black text-slate-900 group-hover:text-teal-950 transition-colors tracking-tight">
                     Rp {{ number_format($stats['total_loans_active'] / 1000000, 1) }} <span class="text-xs font-semibold text-slate-400">jt</span>
                 </div>
                 <div class="text-[11px] font-mono font-medium text-slate-500">
                     Rp {{ number_format($stats['total_loans_active'], 0, ',', '.') }}
                 </div>
             </div>
-        </div>
+        </a>
 
-        <!-- Kotak 3: Pinjaman Menunggak (NPL) -->
-        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 border-l-4 border-l-rose-600 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all flex items-center justify-between gap-4">
+        <!-- Kotak 3: Pinjaman Menunggak (NPL) (INTERAKTIF KE LAPORAN TUNGGAKAN / NPL) -->
+        <a href="{{ route('reports.overdue') }}" 
+           class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 border-l-4 border-l-rose-600 shadow-xs hover:border-rose-600 hover:shadow-md hover:-translate-y-0.5 transition-all flex items-center justify-between gap-4 group cursor-pointer text-slate-800 no-underline"
+           title="Klik untuk membuka Laporan Kolektibilitas / NPL">
             <div class="flex items-center gap-3.5 min-w-0">
-                <div class="w-11 h-11 rounded-xl bg-rose-50 text-rose-700 flex items-center justify-center shrink-0 border border-rose-100">
+                <div class="w-11 h-11 rounded-xl bg-rose-50 text-rose-700 group-hover:bg-rose-600 group-hover:text-white flex items-center justify-center shrink-0 border border-rose-100 transition-all">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                 </div>
                 <div class="min-w-0">
-                    <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 mb-0.5">
+                    <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 group-hover:text-rose-800 transition-colors mb-0.5">
                         PINJAMAN MENUNGGAK (NPL)
                     </div>
                     <div class="text-xs text-slate-500">
@@ -171,11 +179,11 @@
                 <div class="text-2xl font-black text-rose-600 tracking-tight">
                     Rp {{ number_format($stats['total_loans_overdue'] / 1000000, 1) }} <span class="text-xs font-semibold text-rose-400">jt</span>
                 </div>
-                <a href="{{ route('reports.overdue') }}" class="text-[11px] font-bold text-rose-700 hover:text-rose-900 inline-flex items-center gap-1 mt-0.5">
+                <span class="text-[11px] font-bold text-rose-700 group-hover:underline inline-flex items-center gap-1 mt-0.5">
                     Laporan Kolektibilitas &rarr;
-                </a>
+                </span>
             </div>
-        </div>
+        </a>
     </div>
 </div>
 

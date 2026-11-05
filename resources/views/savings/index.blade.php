@@ -4,10 +4,19 @@
 
 @section('content')
 <div class="card">
-    <div class="card-header">
+    <div class="card-header flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
             <h1 class="card-title">Kelola Rekening Simpanan Anggota</h1>
             <p style="font-size: 0.8rem; color: var(--gray);">Total seluruh dana simpanan anggota terhimpun: <strong>Rp {{ number_format($totalSavings, 0, ',', '.') }}</strong></p>
+        </div>
+        <div class="flex items-center gap-2">
+            <a href="{{ url()->previous() != url()->current() ? url()->previous() : route('dashboard') }}" 
+               onclick="if(window.history.length > 1){ window.history.back(); return false; }"
+               class="btn btn-secondary btn-sm inline-flex items-center gap-1.5 shadow-2xs font-bold"
+               title="Kembali ke halaman sebelumnya">
+                <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                <span>Kembali ke Halaman Sebelumnya</span>
+            </a>
         </div>
     </div>
 
