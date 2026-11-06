@@ -5,8 +5,9 @@
 @section('content')
 <div class="max-w-xl mx-auto py-6 px-4">
     <div class="mb-4">
-        <a href="{{ route('loans.show', $loan->id) }}" class="inline-flex items-center text-sm font-semibold text-emerald-700 hover:text-emerald-900">
-            &larr; Kembali ke Rincian Pinjaman
+        <a href="{{ route('loans.show', $loan->id) }}" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 text-xs font-bold transition-all shadow-2xs" title="Kembali ke halaman sebelumnya">
+            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            <span>Kembali ke Halaman Sebelumnya</span>
         </a>
     </div>
 

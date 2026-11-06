@@ -7,17 +7,16 @@
     <!-- Tombol Kembali & Header Status -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-2 border-b border-slate-200">
         <div>
-            @if(auth()->user()->isMember())
-                <a href="{{ route('loans.my') }}" class="text-xs font-semibold text-emerald-700 hover:text-emerald-900 flex items-center gap-1.5 transition mb-1">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                    Kembali ke Pinjaman Saya
-                </a>
-            @else
-                <a href="{{ route('loans.manage') }}" class="text-xs font-semibold text-emerald-700 hover:text-emerald-900 flex items-center gap-1.5 transition mb-1">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                    Kembali ke Portofolio Pinjaman
-                </a>
-            @endif
+            @php
+                $backUrl = auth()->user()->isMember() ? route('loans.my') : route('loans.manage');
+                if (url()->previous() && url()->previous() !== url()->current() && !str_contains(url()->previous(), '/pinjaman/' . $loan->id)) {
+                    $backUrl = url()->previous();
+                }
+            @endphp
+            <a href="{{ $backUrl }}" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 text-xs font-bold transition-all shadow-2xs mb-3" title="Kembali ke halaman sebelumnya">
+                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <span>Kembali ke Halaman Sebelumnya</span>
+            </a>
             <div class="flex flex-wrap items-center gap-2.5">
                 <h1 class="text-2xl font-black text-slate-800 tracking-tight">Kontrak Pinjaman: {{ $loan->loan_no }}</h1>
                 @php

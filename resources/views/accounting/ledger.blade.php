@@ -3,19 +3,20 @@
 @section('title', 'Buku Besar (General Ledger)')
 
 @section('content')
+<!-- Navigasi Kembali ke Halaman Sebelumnya (Kiri Atas) -->
+<div class="mb-4">
+    <a href="{{ route('dashboard') }}" 
+       class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 text-xs font-bold transition-all shadow-2xs"
+       title="Kembali ke halaman sebelumnya">
+        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <span>Kembali ke Halaman Sebelumnya</span>
+    </a>
+</div>
+
 <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
     <div>
         <h1 class="text-2xl font-bold text-gray-800">Buku Besar Akuntansi (General Ledger)</h1>
         <p class="text-sm text-gray-500">Mutasi dan saldo rinci per akun rekening sesuai Bagan Akun Standar Koperasi.</p>
-    </div>
-    <div class="flex items-center gap-2">
-        <a href="{{ url()->previous() != url()->current() ? url()->previous() : route('dashboard') }}" 
-           onclick="if(window.history.length > 1){ window.history.back(); return false; }"
-           class="btn btn-secondary btn-sm inline-flex items-center gap-1.5 shadow-2xs font-bold"
-           title="Kembali ke halaman sebelumnya">
-            <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-            <span>Kembali ke Halaman Sebelumnya</span>
-        </a>
     </div>
 </div>
 

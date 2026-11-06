@@ -3,19 +3,22 @@
 @section('title', 'Jurnal Umum Akuntansi (Double-Entry)')
 
 @section('content')
+<!-- Navigasi Kembali ke Halaman Sebelumnya (Kiri Atas) -->
+<div class="mb-4">
+    <a href="{{ route('dashboard') }}" 
+       class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 text-xs font-bold transition-all shadow-2xs"
+       title="Kembali ke halaman sebelumnya">
+        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <span>Kembali ke Halaman Sebelumnya</span>
+    </a>
+</div>
+
 <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
     <div>
         <h1 class="text-2xl font-bold text-gray-800">Jurnal Umum (Double-Entry Ledger)</h1>
         <p class="text-sm text-gray-500">Pencatatan akuntansi otomatis berpasangan (debit & kredit seimbang) untuk seluruh transaksi keuangan.</p>
     </div>
-    <div class="flex items-center gap-2 flex-wrap">
-        <a href="{{ url()->previous() != url()->current() ? url()->previous() : route('dashboard') }}" 
-           onclick="if(window.history.length > 1){ window.history.back(); return false; }"
-           class="btn btn-secondary btn-sm inline-flex items-center gap-1.5 shadow-2xs font-bold"
-           title="Kembali ke halaman sebelumnya">
-            <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-            <span>Kembali ke Halaman Sebelumnya</span>
-        </a>
+    <div class="flex items-center gap-2">
         <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-300">
             <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             Integritas Data: Immutable (Pembalikan Saja)

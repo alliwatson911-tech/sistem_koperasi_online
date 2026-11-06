@@ -3,8 +3,14 @@
 @section('title', 'Detail Anggota - ' . $member->user->name)
 
 @section('content')
-<div style="margin-bottom: 1rem;">
-    <a href="{{ route('members.index') }}" style="color: var(--primary); text-decoration: none; font-size: 0.85rem; font-weight: 600;">&larr; Kembali ke Daftar Anggota</a>
+<!-- Navigasi Kembali ke Halaman Sebelumnya (Kiri Atas) -->
+<div class="mb-4">
+    <a href="{{ route('members.index') }}" 
+       class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 text-xs font-bold transition-all shadow-2xs"
+       title="Kembali ke halaman sebelumnya">
+        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <span>Kembali ke Halaman Sebelumnya</span>
+    </a>
 </div>
 
 <div class="grid-3">

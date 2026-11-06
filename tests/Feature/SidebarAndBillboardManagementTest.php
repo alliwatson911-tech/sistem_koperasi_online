@@ -186,26 +186,39 @@ class SidebarAndBillboardManagementTest extends TestCase
     public function test_target_pages_render_back_to_previous_page_button(): void
     {
         $admin = User::where('role', User::ROLE_ADMIN)->first();
+        $loan = \App\Models\Loan::first();
 
-        // 1. Halaman Simpanan
+        // 1. Halaman Simpanan - Tombol kembali di kiri atas mengarah ke dashboard
         $savings = $this->actingAs($admin)->get(route('savings.index'));
         $savings->assertStatus(200);
         $savings->assertSee('Kembali ke Halaman Sebelumnya');
+        $savings->assertSee(route('dashboard'));
 
-        // 2. Halaman Kelola Anggota
+        // 2. Halaman Kelola Anggota - Tombol kembali di kiri atas mengarah ke dashboard
         $members = $this->actingAs($admin)->get(route('members.index'));
         $members->assertStatus(200);
         $members->assertSee('Kembali ke Halaman Sebelumnya');
+        $members->assertSee(route('dashboard'));
 
-        // 3. Halaman Portofolio Pinjaman
+        // 3. Halaman Portofolio Pinjaman - Tampilan rapi, summary outstanding, filter & tombol kembali ke dashboard
         $loans = $this->actingAs($admin)->get(route('loans.manage'));
         $loans->assertStatus(200);
         $loans->assertSee('Kembali ke Halaman Sebelumnya');
+        $loans->assertSee(route('dashboard'));
+        $loans->assertSee('Portofolio Pembiayaan');
+        $loans->assertSee('Total Sisa Pokok (Outstanding)');
 
-        // 4. Halaman Laporan Overdue / NPL
+        // 4. Halaman Kontrak Pinjaman - Tombol kembali bertuliskan 'Kembali ke Halaman Sebelumnya' dan bebas loop
+        $loanShow = $this->actingAs($admin)->get(route('loans.show', $loan->id));
+        $loanShow->assertStatus(200);
+        $loanShow->assertSee('Kembali ke Halaman Sebelumnya');
+        $loanShow->assertDontSee('Kembali ke Portofolio Pinjaman');
+
+        // 5. Halaman Laporan Overdue / NPL
         $overdue = $this->actingAs($admin)->get(route('reports.overdue'));
         $overdue->assertStatus(200);
         $overdue->assertSee('Kembali ke Halaman Sebelumnya');
+        $overdue->assertSee(route('dashboard'));
     }
 
     public function test_member_dashboard_renders_member_top_navbar_and_footer(): void

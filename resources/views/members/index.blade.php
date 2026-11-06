@@ -3,20 +3,21 @@
 @section('title', 'Daftar Anggota Koperasi')
 
 @section('content')
+<!-- Navigasi Kembali ke Halaman Sebelumnya (Kiri Atas) -->
+<div class="mb-4">
+    <a href="{{ route('dashboard') }}" 
+       class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 text-xs font-bold transition-all shadow-2xs"
+       title="Kembali ke halaman sebelumnya">
+        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <span>Kembali ke Halaman Sebelumnya</span>
+    </a>
+</div>
+
 <div class="card">
-    <div class="card-header flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+    <div class="card-header">
         <div>
             <h1 class="card-title">Daftar Anggota Koperasi</h1>
             <p style="font-size: 0.8rem; color: var(--gray);">Kelola basis data keanggotaan, verifikasi berkas, dan status keaktifan.</p>
-        </div>
-        <div class="flex items-center gap-2">
-            <a href="{{ url()->previous() != url()->current() ? url()->previous() : route('dashboard') }}" 
-               onclick="if(window.history.length > 1){ window.history.back(); return false; }"
-               class="btn btn-secondary btn-sm inline-flex items-center gap-1.5 shadow-2xs font-bold"
-               title="Kembali ke halaman sebelumnya">
-                <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                <span>Kembali ke Halaman Sebelumnya</span>
-            </a>
         </div>
     </div>
 

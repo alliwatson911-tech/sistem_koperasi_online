@@ -3,6 +3,16 @@
 @section('title', 'Kelola Billboard Pengumuman Resmi')
 
 @section('content')
+<!-- Navigasi Kembali ke Halaman Sebelumnya (Kiri Atas) -->
+<div class="mb-4">
+    <a href="{{ route('dashboard') }}" 
+       class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 text-xs font-bold transition-all shadow-2xs"
+       title="Kembali ke halaman sebelumnya">
+        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <span>Kembali ke Halaman Sebelumnya</span>
+    </a>
+</div>
+
 <div class="space-y-6">
     <!-- Header Halaman -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-slate-200">
@@ -17,14 +27,7 @@
             <p class="text-xs sm:text-sm text-slate-500">Atur konten slide pengumuman resmi yang ditampilkan pada papan billboard landing page koperasi.</p>
         </div>
 
-        <div class="flex items-center gap-2.5 flex-wrap">
-            <a href="{{ url()->previous() != url()->current() ? url()->previous() : route('dashboard') }}" 
-               onclick="if(window.history.length > 1){ window.history.back(); return false; }"
-               class="btn btn-secondary text-xs font-bold flex items-center gap-1.5 shadow-2xs"
-               title="Kembali ke halaman sebelumnya">
-                <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                <span>Kembali ke Halaman Sebelumnya</span>
-            </a>
+        <div class="flex items-center gap-2.5">
             <a href="{{ url('/#dashboard') }}" target="_blank" class="btn btn-secondary text-xs font-bold flex items-center gap-1.5">
                 <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                 Lihat di Landing Page

@@ -11,15 +11,16 @@
 @section('content')
 <div class="max-w-4xl mx-auto space-y-6">
     <!-- Breadcrumb & Nav Header -->
-    <div class="flex items-center justify-between pb-4 border-b border-slate-200">
+    <div class="pb-4 border-b border-slate-200">
+        <div class="mb-3">
+            <a href="{{ route('admin.billboards.index') }}" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 text-xs font-bold transition-all shadow-2xs" title="Kembali ke halaman sebelumnya">
+                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <span>Kembali ke Halaman Sebelumnya</span>
+            </a>
+        </div>
         <div>
-            <div class="flex items-center gap-2 mb-1">
-                <a href="{{ route('admin.billboards.index') }}" class="text-xs font-semibold text-slate-500 hover:text-emerald-800 transition">
-                    &larr; Kembali ke Daftar Billboard
-                </a>
-            </div>
             <h1 class="text-2xl font-black text-slate-900 tracking-tight">{{ $titleText }}</h1>
-            <p class="text-xs sm:text-sm text-slate-500">Konfigurasi teks, kategori, tautan rujukan, dan urutan pengumuman papan informasi resmi.</p>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">Konfigurasi teks, kategori, tautan rujukan, dan urutan pengumuman papan informasi resmi.</p>
         </div>
     </div>
 
