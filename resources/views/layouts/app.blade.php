@@ -356,18 +356,72 @@
         top: 1rem;
     }
 </style>
-@yield('styles')
-</head>
-<body class="bg-slate-50 text-slate-800 antialiased selection:bg-emerald-500 selection:text-white">
-    <!-- Aksesibilitas: Lewati ke Konten Utama -->
-    <a href="#main-content" class="skip-to-content focus:outline-none focus:ring-2 focus:ring-emerald-400">
-        Lewati ke Konten Utama &rarr;
-    </a>
-
 @php
+    $isAdmin = auth()->check() && auth()->user()->isAdmin();
     $isStaffSidebar = auth()->check() && !auth()->user()->isMember() && !request()->routeIs('home');
     $isMember = auth()->check() && auth()->user()->isMember() && !request()->routeIs('home');
 @endphp
+@if($isAdmin)
+    {{-- Palet Biru & Hijau (Kepercayaan & Pertumbuhan): Biru Navy #1B263B/#0F4C81, Hijau Toska #2A9D8F, Sage #A3B18A, Off-white #F8F5F0, Gold #D4AF37 --}}
+    <style>
+        :root {
+            --primary: #0F4C81;
+            --primary-dark: #1B263B;
+            --primary-light: #EAF6F5;
+            --secondary: #2A9D8F;
+            --accent-gold: #D4AF37;
+            --accent-gold-hover: #C59F2D;
+            --bg-offwhite: #F8F5F0;
+            --card-white: #FFFFFF;
+            --text-navy: #1B263B;
+            --border-light: #E8E2D8;
+        }
+        body {
+            background-color: #F8F5F0 !important;
+            color: #1B263B !important;
+        }
+        .btn-primary {
+            background-color: #0F4C81 !important;
+            color: #ffffff !important;
+            border-color: #1B263B !important;
+            box-shadow: 0 1px 2px rgba(15, 76, 129, 0.25) !important;
+        }
+        .btn-primary:hover {
+            background-color: #1B263B !important;
+            box-shadow: 0 2px 4px rgba(15, 76, 129, 0.35) !important;
+        }
+        .form-control:focus {
+            border-color: #2A9D8F !important;
+            box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.2) !important;
+        }
+        .role-admin {
+            background-color: #D4AF37 !important;
+            color: #1B263B !important;
+            border: 1px solid #C59F2D !important;
+            font-weight: 800 !important;
+        }
+        .sidebar-scroll-admin::-webkit-scrollbar {
+            width: 5px;
+        }
+        .sidebar-scroll-admin::-webkit-scrollbar-track {
+            background: #101927;
+        }
+        .sidebar-scroll-admin::-webkit-scrollbar-thumb {
+            background: #24344E;
+            border-radius: 9999px;
+        }
+        .sidebar-scroll-admin::-webkit-scrollbar-thumb:hover {
+            background: #2A9D8F;
+        }
+    </style>
+@endif
+@yield('styles')
+</head>
+<body class="{{ $isAdmin ? 'bg-[#F8F5F0] text-[#1B263B] selection:bg-[#2A9D8F] selection:text-white' : 'bg-slate-50 text-slate-800 selection:bg-emerald-500 selection:text-white' }} antialiased">
+    <!-- Aksesibilitas: Lewati ke Konten Utama -->
+    <a href="#main-content" class="skip-to-content focus:outline-none focus:ring-2 {{ $isAdmin ? 'focus:ring-[#2A9D8F] bg-[#1B263B]' : 'focus:ring-emerald-400 bg-[#047857]' }}">
+        Lewati ke Konten Utama &rarr;
+    </a>
 
 @if(!$isStaffSidebar)
     {{-- ========================================================================= --}}
@@ -568,21 +622,21 @@
     {{-- ========================================================================= --}}
     {{-- TAMPILAN OPERASIONAL INTERNAL STAKEHOLDER (SIDEBAR ELEGAN SENADA BRAND KSP) --}}
     {{-- ========================================================================= --}}
-    <div class="min-h-screen flex flex-col lg:flex-row bg-slate-50">
+    <div class="min-h-screen flex flex-col lg:flex-row {{ $isAdmin ? 'bg-[#F8F5F0]' : 'bg-slate-50' }}">
 
         <!-- DESKTOP SIDEBAR (WARNA SOLID SENADA LOGO BRAND KSP - TANPA GRADASI) -->
-        <aside id="desktopSidebar" class="hidden lg:flex lg:flex-col lg:w-72 lg:fixed lg:inset-y-0 lg:z-40 bg-[#063f31] border-r border-[#085240] text-emerald-100 shadow-xl" role="navigation" aria-label="Navigasi Sidebar Stakeholder">
+        <aside id="desktopSidebar" class="hidden lg:flex lg:flex-col lg:w-72 lg:fixed lg:inset-y-0 lg:z-40 {{ $isAdmin ? 'bg-[#1B263B] border-r border-[#24344E] text-slate-100' : 'bg-[#063f31] border-r border-[#085240] text-emerald-100' }} shadow-xl" role="navigation" aria-label="Navigasi Sidebar Stakeholder">
             <!-- Brand & Koperasi Emblem Header -->
-            <div class="p-5 border-b border-[#085240] bg-[#042d22] flex items-center justify-between">
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 no-underline group focus:outline-none focus:ring-2 focus:ring-emerald-400 rounded-xl" aria-label="Dasbor Koperasi">
-                    <div class="w-10 h-10 rounded-xl bg-[#047857] flex items-center justify-center text-white font-extrabold text-xl shadow-xs group-hover:scale-105 transition-transform border border-emerald-500/30">
+            <div class="p-5 {{ $isAdmin ? 'border-b border-[#24344E] bg-[#101927]' : 'border-b border-[#085240] bg-[#042d22]' }} flex items-center justify-between">
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 no-underline group focus:outline-none focus:ring-2 {{ $isAdmin ? 'focus:ring-[#2A9D8F]' : 'focus:ring-emerald-400' }} rounded-xl" aria-label="Dasbor Koperasi">
+                    <div class="w-10 h-10 rounded-xl {{ $isAdmin ? 'bg-[#0F4C81] border border-[#2A9D8F]/60' : 'bg-[#047857] border border-emerald-500/30' }} flex items-center justify-center text-white font-extrabold text-xl shadow-xs group-hover:scale-105 transition-transform">
                         K
                     </div>
                     <div>
-                        <div class="font-extrabold text-sm tracking-tight text-white group-hover:text-emerald-300 transition-colors">
+                        <div class="font-extrabold text-sm tracking-tight text-white {{ $isAdmin ? 'group-hover:text-[#A3B18A]' : 'group-hover:text-emerald-300' }} transition-colors">
                             KSP Sahabat Sejahtera
                         </div>
-                        <div class="text-[10px] font-bold text-emerald-300 uppercase tracking-wider">
+                        <div class="text-[10px] font-bold {{ $isAdmin ? 'text-[#2A9D8F]' : 'text-emerald-300' }} uppercase tracking-wider">
                             Sistem Operasional
                         </div>
                     </div>
@@ -590,32 +644,32 @@
             </div>
 
             <!-- Role Stakeholder Chip -->
-            <div class="px-5 py-2.5 bg-[#03231a] border-b border-[#085240] flex items-center justify-between">
-                <span class="text-[10px] font-extrabold tracking-wider text-emerald-300 uppercase">Panel Stakeholder</span>
+            <div class="px-5 py-2.5 {{ $isAdmin ? 'bg-[#0d1520] border-b border-[#24344E]' : 'bg-[#03231a] border-b border-[#085240]' }} flex items-center justify-between">
+                <span class="text-[10px] font-extrabold tracking-wider {{ $isAdmin ? 'text-[#A3B18A]' : 'text-emerald-300' }} uppercase">Panel Stakeholder</span>
                 <span class="role-badge role-{{ auth()->user()->role }}">
                     {{ auth()->user()->role }}
                 </span>
             </div>
 
             <!-- Scrollable Navigation Items -->
-            <nav class="flex-1 overflow-y-auto px-3.5 py-4 space-y-5 text-xs sidebar-scroll" aria-label="Daftar Menu">
+            <nav class="flex-1 overflow-y-auto px-3.5 py-4 space-y-5 text-xs {{ $isAdmin ? 'sidebar-scroll-admin' : 'sidebar-scroll' }}" aria-label="Daftar Menu">
                 @include('layouts.partials.sidebar_nav')
             </nav>
 
             <!-- Sidebar Footer (Lihat Beranda + Profil Akun + Logout) -->
-            <div class="p-4 border-t border-[#085240] bg-[#03231a] space-y-3">
-                <a href="{{ url('/') }}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-xl bg-[#063f31] hover:bg-[#085240] text-emerald-100 hover:text-white border border-[#0a6650] transition-all text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-400">
+            <div class="p-4 {{ $isAdmin ? 'border-t border-[#24344E] bg-[#0d1520]' : 'border-t border-[#085240] bg-[#03231a]' }} space-y-3">
+                <a href="{{ url('/') }}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-xl {{ $isAdmin ? 'bg-[#1B263B] hover:bg-[#24344E] text-slate-200 hover:text-white border border-[#24344E]' : 'bg-[#063f31] hover:bg-[#085240] text-emerald-100 hover:text-white border border-[#0a6650]' }} transition-all text-xs font-semibold focus:outline-none focus:ring-2 {{ $isAdmin ? 'focus:ring-[#2A9D8F]' : 'focus:ring-emerald-400' }}">
                     <span class="flex items-center gap-2">
-                        <svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                        <svg class="w-4 h-4 {{ $isAdmin ? 'text-[#2A9D8F]' : 'text-emerald-300' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                         Lihat Beranda Publik
                     </span>
-                    <span class="text-3xs text-emerald-300 font-mono">↗</span>
+                    <span class="text-3xs {{ $isAdmin ? 'text-[#2A9D8F]' : 'text-emerald-300' }} font-mono">↗</span>
                 </a>
 
-                <div class="flex items-center justify-between gap-2 pt-2 border-t border-[#085240]">
+                <div class="flex items-center justify-between gap-2 pt-2 {{ $isAdmin ? 'border-t border-[#24344E]' : 'border-t border-[#085240]' }}">
                     <div class="min-w-0 flex-1">
                         <div class="font-bold text-xs text-white truncate">{{ auth()->user()->name }}</div>
-                        <div class="text-[10px] text-emerald-300 font-mono truncate">
+                        <div class="text-[10px] {{ $isAdmin ? 'text-[#A3B18A]' : 'text-emerald-300' }} font-mono truncate">
                             @if(auth()->user()->isStaff())
                                 {{ auth()->user()->employee_code_formatted }}
                             @else
@@ -625,7 +679,7 @@
                     </div>
                     <form action="{{ route('logout') }}" method="POST" class="shrink-0">
                         @csrf
-                        <button type="submit" class="px-3 py-1.5 rounded-lg bg-[#042d22] hover:bg-rose-950/80 text-emerald-200 hover:text-rose-200 border border-[#085240] hover:border-rose-700/70 font-extrabold text-xs shadow-2xs transition-all focus:outline-none focus:ring-2 focus:ring-emerald-400" title="Keluar dari sistem">
+                        <button type="submit" class="px-3 py-1.5 rounded-lg {{ $isAdmin ? 'bg-[#101927] hover:bg-rose-950/80 text-slate-300 hover:text-rose-200 border border-[#24344E] hover:border-rose-700/70' : 'bg-[#042d22] hover:bg-rose-950/80 text-emerald-200 hover:text-rose-200 border border-[#085240] hover:border-rose-700/70' }} font-extrabold text-xs shadow-2xs transition-all focus:outline-none focus:ring-2 {{ $isAdmin ? 'focus:ring-[#2A9D8F]' : 'focus:ring-emerald-400' }}" title="Keluar dari sistem">
                             Keluar
                         </button>
                     </form>
@@ -639,38 +693,38 @@
             <div id="mobileSidebarBackdrop" class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs transition-opacity"></div>
 
             <!-- Drawer Panel -->
-            <div class="fixed inset-y-0 left-0 w-72 max-w-full bg-[#063f31] text-emerald-100 border-r border-[#085240] flex flex-col shadow-2xl z-10 transform transition-transform">
-                <div class="p-4 border-b border-[#085240] flex items-center justify-between bg-[#042d22]">
+            <div class="fixed inset-y-0 left-0 w-72 max-w-full {{ $isAdmin ? 'bg-[#1B263B] text-slate-100 border-r border-[#24344E]' : 'bg-[#063f31] text-emerald-100 border-r border-[#085240]' }} flex flex-col shadow-2xl z-10 transform transition-transform">
+                <div class="p-4 {{ $isAdmin ? 'border-b border-[#24344E] bg-[#101927]' : 'border-b border-[#085240] bg-[#042d22]' }} flex items-center justify-between">
                     <div class="flex items-center gap-2.5">
-                        <div class="w-8 h-8 rounded-lg bg-[#047857] flex items-center justify-center text-white font-extrabold text-sm border border-emerald-500/30">
+                        <div class="w-8 h-8 rounded-lg {{ $isAdmin ? 'bg-[#0F4C81] border border-[#2A9D8F]/60' : 'bg-[#047857] border border-emerald-500/30' }} flex items-center justify-center text-white font-extrabold text-sm">
                             K
                         </div>
                         <span class="font-bold text-xs text-white">KSP Sahabat Sejahtera</span>
                     </div>
-                    <button type="button" id="closeMobileSidebarBtn" class="p-1.5 rounded-lg text-emerald-300 hover:text-white hover:bg-[#085240] focus:outline-none focus:ring-2 focus:ring-emerald-400" aria-label="Tutup navigasi">
+                    <button type="button" id="closeMobileSidebarBtn" class="p-1.5 rounded-lg {{ $isAdmin ? 'text-slate-300 hover:text-white hover:bg-[#24344E] focus:ring-[#2A9D8F]' : 'text-emerald-300 hover:text-white hover:bg-[#085240] focus:ring-emerald-400' }} focus:outline-none focus:ring-2" aria-label="Tutup navigasi">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
 
-                <div class="px-4 py-2 bg-[#03231a] border-b border-[#085240] flex items-center justify-between">
-                    <span class="text-[10px] uppercase font-bold text-emerald-300">Panel {{ auth()->user()->role }}</span>
+                <div class="px-4 py-2 {{ $isAdmin ? 'bg-[#0d1520] border-b border-[#24344E]' : 'bg-[#03231a] border-b border-[#085240]' }} flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold {{ $isAdmin ? 'text-[#A3B18A]' : 'text-emerald-300' }}">Panel {{ auth()->user()->role }}</span>
                     <span class="role-badge role-{{ auth()->user()->role }}">{{ auth()->user()->role }}</span>
                 </div>
 
-                <nav class="flex-1 overflow-y-auto px-3 py-3 space-y-4 text-xs sidebar-scroll" aria-label="Menu Ponsel">
+                <nav class="flex-1 overflow-y-auto px-3 py-3 space-y-4 text-xs {{ $isAdmin ? 'sidebar-scroll-admin' : 'sidebar-scroll' }}" aria-label="Menu Ponsel">
                     @include('layouts.partials.sidebar_nav')
                 </nav>
 
-                <div class="p-3 border-t border-[#085240] bg-[#03231a] space-y-2">
-                    <a href="{{ url('/') }}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-lg bg-[#063f31] text-xs text-emerald-200">
+                <div class="p-3 {{ $isAdmin ? 'border-t border-[#24344E] bg-[#0d1520]' : 'border-t border-[#085240] bg-[#03231a]' }} space-y-2">
+                    <a href="{{ url('/') }}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-lg {{ $isAdmin ? 'bg-[#1B263B] text-slate-200' : 'bg-[#063f31] text-emerald-200' }} text-xs">
                         <span>Lihat Beranda Publik</span>
-                        <span>↗</span>
+                        <span class="{{ $isAdmin ? 'text-[#2A9D8F]' : 'text-emerald-300' }}">↗</span>
                     </a>
                     <div class="flex items-center justify-between pt-1">
                         <span class="text-xs font-bold text-white truncate">{{ auth()->user()->name }}</span>
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
-                            <button type="submit" class="px-2.5 py-1 rounded bg-[#042d22] text-emerald-200 hover:text-rose-200 border border-[#085240] font-bold text-xs">Keluar</button>
+                            <button type="submit" class="px-2.5 py-1 rounded {{ $isAdmin ? 'bg-[#101927] text-slate-200 border border-[#24344E]' : 'bg-[#042d22] text-emerald-200 border border-[#085240]' }} hover:text-rose-200 font-bold text-xs">Keluar</button>
                         </form>
                     </div>
                 </div>
@@ -678,23 +732,32 @@
         </div>
 
         <!-- RIGHT SIDE CONTENT AREA -->
-        <div class="flex-1 min-w-0 lg:pl-72 flex flex-col min-h-screen">
+        <div class="flex-1 min-w-0 lg:pl-72 flex flex-col min-h-screen {{ $isAdmin ? 'bg-[#F8F5F0]' : 'bg-slate-50' }}">
             <!-- STICKY OPERATIONAL TOPBAR -->
-            <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-emerald-100 shadow-2xs h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8">
+            <header class="sticky top-0 z-30 {{ $isAdmin ? 'bg-white/95 border-b border-[#E8E2D8]' : 'bg-white/95 border-b border-emerald-100' }} backdrop-blur-md shadow-2xs h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center gap-3">
                     <!-- Hamburger Toggle Button Mobile -->
-                    <button type="button" id="openMobileSidebarBtn" class="lg:hidden p-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500" aria-label="Buka Menu Navigasi" aria-expanded="false">
+                    <button type="button" id="openMobileSidebarBtn" class="lg:hidden p-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:ring-2 {{ $isAdmin ? 'focus:ring-[#2A9D8F]' : 'focus:ring-emerald-500' }}" aria-label="Buka Menu Navigasi" aria-expanded="false">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                     </button>
 
                     <div class="hidden sm:block">
                         <div class="flex items-center gap-2 text-xs font-medium">
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200/80">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
-                                Sistem Operasional Koperasi
-                            </span>
-                            <span class="text-slate-300">&bull;</span>
-                            <span class="text-slate-700 font-bold">{{ date('d M Y') }}</span>
+                            @if($isAdmin)
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1B263B] text-white text-xs font-bold border border-[#2A9D8F]/50 shadow-xs">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse"></span>
+                                    Sistem Operasional Koperasi
+                                </span>
+                                <span class="text-slate-400">&bull;</span>
+                                <span class="text-[#1B263B] font-bold">{{ date('d M Y') }}</span>
+                            @else
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200/80">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                                    Sistem Operasional Koperasi
+                                </span>
+                                <span class="text-slate-300">&bull;</span>
+                                <span class="text-slate-700 font-bold">{{ date('d M Y') }}</span>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -702,9 +765,9 @@
                 <!-- Right Quick Info & Actions -->
                 <div class="flex items-center gap-3">
                     @if(auth()->user()->isAdmin())
-                        <a href="{{ route('admin.billboards.index') }}" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 text-xs font-bold transition-all focus:outline-none focus:ring-2 focus:ring-amber-500" title="Kelola Billboard Pengumuman">
-                            <svg class="w-3.5 h-3.5 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
-                            Kelola Billboard
+                        <a href="{{ route('admin.billboards.index') }}" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#FFF9E6] hover:bg-[#FDF0C8] text-[#1B263B] border border-[#F5E0A0] text-xs font-bold shadow-2xs transition-all focus:outline-none focus:ring-2 focus:ring-[#D4AF37]" title="Kelola Billboard Pengumuman">
+                            <svg class="w-3.5 h-3.5 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+                            <span>Kelola Billboard</span>
                         </a>
                     @endif
 
@@ -713,8 +776,8 @@
                             {{ auth()->user()->role }}
                         </span>
                         <div class="hidden md:flex flex-col text-right">
-                            <span class="text-xs font-bold text-slate-800 leading-tight">{{ auth()->user()->name }}</span>
-                            <span class="text-[10px] text-slate-400 font-mono">
+                            <span class="text-xs font-bold {{ $isAdmin ? 'text-[#1B263B]' : 'text-slate-800' }} leading-tight">{{ auth()->user()->name }}</span>
+                            <span class="text-[10px] {{ $isAdmin ? 'text-[#5C6B73]' : 'text-slate-400' }} font-mono">
                                 {{ auth()->user()->isStaff() ? auth()->user()->employee_code_formatted : (auth()->user()->member?->member_number ?? 'ANGGOTA') }}
                             </span>
                         </div>
@@ -842,9 +905,6 @@
             });
         });
     </script>
-    @yield('scripts')
-</body>
-</html>
     @yield('scripts')
 </body>
 </html>
