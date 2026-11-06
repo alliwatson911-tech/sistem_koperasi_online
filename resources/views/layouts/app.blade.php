@@ -295,6 +295,186 @@
             background-color: #F8F5F0;
         }
 
+        /* =========================================================================
+           RESPONSIVE MOBILE CARDS UNTUK TABEL (KHUSUS LAYAR HANDPHONE <= 768px)
+           Menghilangkan kebutuhan slide ke samping pada layar HP.
+           Tampilan desktop (>= 769px) tetap 100% menggunakan tabel standar asli.
+           ========================================================================= */
+        @media (max-width: 768px) {
+            .table-responsive,
+            .overflow-x-auto {
+                border: none !important;
+                background: transparent !important;
+                overflow-x: visible !important;
+                padding: 0 !important;
+            }
+
+            .table-responsive table,
+            .overflow-x-auto table {
+                display: block !important;
+                width: 100% !important;
+                border: none !important;
+                background: transparent !important;
+            }
+
+            .table-responsive thead,
+            .overflow-x-auto thead {
+                display: none !important; /* Header kolom tabel disembunyikan di device HP */
+            }
+
+            .table-responsive tbody,
+            .overflow-x-auto tbody {
+                display: block !important;
+                width: 100% !important;
+            }
+
+            .table-responsive tbody tr,
+            .overflow-x-auto tbody tr {
+                display: block !important;
+                width: 100% !important;
+                background: #ffffff !important;
+                border: 1px solid #E8E2D8 !important;
+                border-radius: 16px !important;
+                padding: 1rem 1.15rem !important;
+                margin-bottom: 0.875rem !important;
+                box-shadow: 0 2px 6px rgba(27, 38, 59, 0.04) !important;
+                box-sizing: border-box !important;
+            }
+
+            .table-responsive tbody tr:hover,
+            .overflow-x-auto tbody tr:hover {
+                border-color: #0F4C81 !important;
+            }
+
+            .table-responsive tbody td,
+            .overflow-x-auto tbody td {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                padding: 0.55rem 0 !important;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                border-top: none !important;
+                border-left: none !important;
+                border-right: none !important;
+                border-bottom: 1px dashed #EDE8E0 !important;
+                font-size: 0.8125rem !important;
+                text-align: right !important;
+                box-sizing: border-box !important;
+                min-height: 2.25rem !important;
+                background: transparent !important;
+            }
+
+            .table-responsive tbody td::before,
+            .overflow-x-auto tbody td::before {
+                content: attr(data-label);
+                font-weight: 700 !important;
+                font-size: 0.6875rem !important;
+                text-transform: uppercase !important;
+                letter-spacing: 0.04em !important;
+                color: #5C6B73 !important;
+                text-align: left !important;
+                padding-right: 0.75rem !important;
+                flex-shrink: 0 !important;
+                max-width: 48% !important;
+            }
+
+            .table-cell-content {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: flex-end !important;
+                text-align: right !important;
+                gap: 0.15rem !important;
+                max-width: 58% !important;
+                word-break: break-word !important;
+            }
+
+            /* Kolom Aksi / Tombol Terakhir */
+            .table-responsive tbody td:last-child,
+            .overflow-x-auto tbody td:last-child,
+            .table-responsive tbody td[data-label*="Aksi"],
+            .table-responsive tbody td[data-label*="Tindakan"],
+            .overflow-x-auto tbody td[data-label*="Aksi"],
+            .overflow-x-auto tbody td[data-label*="Tindakan"] {
+                border-bottom: none !important;
+                padding-top: 0.75rem !important;
+                padding-bottom: 0.25rem !important;
+                justify-content: stretch !important;
+                width: 100% !important;
+            }
+
+            .table-responsive tbody td:last-child::before,
+            .overflow-x-auto tbody td:last-child::before,
+            .table-responsive tbody td[data-label*="Aksi"]::before,
+            .table-responsive tbody td[data-label*="Tindakan"]::before,
+            .overflow-x-auto tbody td[data-label*="Aksi"]::before,
+            .overflow-x-auto tbody td[data-label*="Tindakan"]::before {
+                display: none !important;
+            }
+
+            .table-responsive tbody td:last-child > *,
+            .overflow-x-auto tbody td:last-child > *,
+            .table-responsive tbody td[data-label*="Aksi"] > *,
+            .overflow-x-auto tbody td[data-label*="Aksi"] > *,
+            .table-responsive tbody td[data-label*="Tindakan"] > *,
+            .overflow-x-auto tbody td[data-label*="Tindakan"] > * {
+                width: 100% !important;
+                text-align: center !important;
+                justify-content: center !important;
+            }
+
+            .table-responsive tbody td:last-child .table-cell-content,
+            .overflow-x-auto tbody td:last-child .table-cell-content,
+            .table-responsive tbody td[data-label*="Aksi"] .table-cell-content,
+            .overflow-x-auto tbody td[data-label*="Aksi"] .table-cell-content,
+            .table-responsive tbody td[data-label*="Tindakan"] .table-cell-content,
+            .overflow-x-auto tbody td[data-label*="Tindakan"] .table-cell-content {
+                width: 100% !important;
+                max-width: 100% !important;
+                display: flex !important;
+                flex-direction: row !important;
+                flex-wrap: wrap !important;
+                justify-content: stretch !important;
+                gap: 0.5rem !important;
+            }
+
+            .table-responsive tbody td:last-child .btn,
+            .table-responsive tbody td:last-child .admin-v2-btn-pill,
+            .overflow-x-auto tbody td:last-child .btn,
+            .overflow-x-auto tbody td:last-child .admin-v2-btn-pill,
+            .table-responsive tbody td[data-label*="Aksi"] .btn,
+            .table-responsive tbody td[data-label*="Aksi"] .admin-v2-btn-pill,
+            .overflow-x-auto tbody td[data-label*="Aksi"] .btn,
+            .overflow-x-auto tbody td[data-label*="Aksi"] .admin-v2-btn-pill {
+                flex: 1 1 auto !important;
+                width: 100% !important;
+                padding-top: 0.65rem !important;
+                padding-bottom: 0.65rem !important;
+                justify-content: center !important;
+            }
+
+            /* Kolom colspan (status kosong / pesan) */
+            .table-responsive tbody td[colspan],
+            .overflow-x-auto tbody td[colspan] {
+                display: block !important;
+                text-align: center !important;
+                justify-content: center !important;
+                border-bottom: none !important;
+                padding: 1.5rem 1rem !important;
+            }
+            .table-responsive tbody td[colspan]::before,
+            .overflow-x-auto tbody td[colspan]::before {
+                display: none !important;
+                content: none !important;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .table-cell-content {
+                display: contents;
+            }
+        }
+
         /* Badge Status */
         .badge {
             display: inline-flex;
@@ -863,6 +1043,44 @@
                     closeDrawer();
                 }
             });
+
+            // Inisialisasi Otomatis Data-Label untuk Kartu Tabel Mobile
+            function initResponsiveTables() {
+                document.querySelectorAll('.table-responsive table, .overflow-x-auto table').forEach(function(table) {
+                    if (table.classList.contains('table-no-stack')) return;
+
+                    var ths = table.querySelectorAll('thead th');
+                    var headers = [];
+                    ths.forEach(function(th) {
+                        headers.push(th.textContent.trim().replace(/\s+/g, ' '));
+                    });
+
+                    if (headers.length === 0) return;
+
+                    table.querySelectorAll('tbody tr').forEach(function(tr) {
+                        if (tr.querySelector('td[colspan]')) return;
+
+                        var tds = tr.querySelectorAll('td');
+                        tds.forEach(function(td, idx) {
+                            var headerText = headers[idx] || '';
+                            if (!td.getAttribute('data-label') && headerText) {
+                                td.setAttribute('data-label', headerText);
+                            }
+                            if (!td.querySelector('.table-cell-content')) {
+                                var wrapper = document.createElement('div');
+                                wrapper.className = 'table-cell-content';
+                                while (td.firstChild) {
+                                    wrapper.appendChild(td.firstChild);
+                                }
+                                td.appendChild(wrapper);
+                            }
+                        });
+                    });
+                });
+            }
+
+            initResponsiveTables();
+            window.initResponsiveTables = initResponsiveTables;
         });
     </script>
     @yield('scripts')

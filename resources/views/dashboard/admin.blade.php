@@ -672,23 +672,23 @@
                         <tbody class="divide-y divide-slate-100">
                             @foreach($pendingApplications as $app)
                             <tr class="hover:bg-[#FAF9F5] transition-colors searchable-row">
-                                <td class="py-4 px-6 font-mono font-bold text-[#1B263B]">
+                                <td data-label="No. Pengajuan" class="py-4 px-6 font-mono font-bold text-[#1B263B]">
                                     {{ $app->application_no }}
                                 </td>
-                                <td class="py-4 px-4">
+                                <td data-label="Pemohon & Produk" class="py-4 px-4">
                                     <div class="font-bold text-[#1B263B] text-sm">{{ $app->member->user->name }}</div>
                                     <div class="text-slate-400 text-xs font-medium">{{ $app->loanProduct->name }}</div>
                                 </td>
-                                <td class="py-4 px-4 font-black text-[#1B263B] text-sm">
+                                <td data-label="Plafon Pinjaman" class="py-4 px-4 font-black text-[#1B263B] text-sm">
                                     Rp {{ number_format($app->amount, 0, ',', '.') }}
                                 </td>
-                                <td class="py-4 px-4">
+                                <td data-label="Tahapan Evaluasi" class="py-4 px-4">
                                     <span class="admin-v2-badge-trend {{ $app->status === 'submitted' ? 'admin-v2-badge-gold' : 'admin-v2-badge-teal' }}">
                                         <span class="w-1.5 h-1.5 rounded-full {{ $app->status === 'submitted' ? 'bg-[#D4AF37]' : 'bg-[#2A9D8F]' }}"></span>
                                         {{ $app->status === 'submitted' ? 'PENGAJUAN BARU' : 'ANALISIS KREDIT' }}
                                     </span>
                                 </td>
-                                <td class="py-4 px-6 text-right">
+                                <td data-label="Tindakan Eksekutif" class="py-4 px-6 text-right">
                                     <a href="{{ route('loans.applications.show', $app->id) }}" class="admin-v2-btn-pill bg-[#1B263B] hover:bg-[#0F4C81] text-white">
                                         Periksa Berkas &rarr;
                                     </a>
@@ -724,18 +724,18 @@
                         <tbody class="divide-y divide-slate-100">
                             @foreach($pendingVerifications as $pm)
                             <tr class="hover:bg-[#FAF9F5] transition-colors searchable-row">
-                                <td class="py-4 px-6">
+                                <td data-label="Calon Anggota" class="py-4 px-6">
                                     <div class="font-bold text-[#1B263B] text-sm">{{ $pm->user->name }}</div>
                                     <div class="text-slate-400 font-mono text-xs">{{ $pm->user->phone }}</div>
                                 </td>
-                                <td class="py-4 px-4 font-mono text-slate-700 font-medium">{{ $pm->nik }}</td>
-                                <td class="py-4 px-4 text-slate-600">{{ $pm->occupation }}</td>
-                                <td class="py-4 px-4">
+                                <td data-label="NIK" class="py-4 px-4 font-mono text-slate-700 font-medium">{{ $pm->nik }}</td>
+                                <td data-label="Pekerjaan" class="py-4 px-4 text-slate-600">{{ $pm->occupation }}</td>
+                                <td data-label="Dokumen Pendukung" class="py-4 px-4">
                                     <span class="admin-v2-badge-trend admin-v2-badge-teal">
                                         {{ $pm->documents->count() }} Berkas KYC
                                     </span>
                                 </td>
-                                <td class="py-4 px-6 text-right">
+                                <td data-label="Aksi Verifikasi" class="py-4 px-6 text-right">
                                     <a href="{{ route('members.show', $pm->id) }}" class="admin-v2-btn-pill bg-[#EDF2F7] hover:bg-[#CBD5E1] text-[#1B263B]">
                                         Verifikasi Anggota &rarr;
                                     </a>
@@ -771,20 +771,20 @@
                         <tbody class="divide-y divide-teal-50">
                             @foreach($awaitingDisbursementLoans as $abl)
                             <tr class="hover:bg-[#FAF9F5] transition-colors searchable-row">
-                                <td class="py-4 px-6 font-mono font-bold text-[#1B263B]">
+                                <td data-label="No. Pinjaman" class="py-4 px-6 font-mono font-bold text-[#1B263B]">
                                     {{ $abl->loan_no }}
                                 </td>
-                                <td class="py-4 px-4">
+                                <td data-label="Peminjam" class="py-4 px-4">
                                     <div class="font-bold text-[#1B263B] text-sm">{{ $abl->member->user->name }}</div>
                                     <div class="text-slate-400 font-mono text-xs">{{ $abl->member->member_no }}</div>
                                 </td>
-                                <td class="py-4 px-4 font-semibold text-[#1B263B]">
+                                <td data-label="Plafon Pokok" class="py-4 px-4 font-semibold text-[#1B263B]">
                                     Rp {{ number_format($abl->principal_amount, 0, ',', '.') }}
                                 </td>
-                                <td class="py-4 px-4 font-black text-[#2A9D8F] text-sm">
+                                <td data-label="Netto Dicairkan" class="py-4 px-4 font-black text-[#2A9D8F] text-sm">
                                     Rp {{ number_format($abl->principal_amount - $abl->total_admin_fee, 0, ',', '.') }}
                                 </td>
-                                <td class="py-4 px-6 text-right">
+                                <td data-label="Aksi Kasir Teller" class="py-4 px-6 text-right">
                                     @if(in_array(auth()->user()->role, ['teller', 'admin']))
                                         <form action="{{ route('loans.disburse', $abl->id) }}" method="POST" class="inline" onsubmit="return confirm('Cairkan dana pinjaman sebesar Rp {{ number_format($abl->principal_amount - $abl->total_admin_fee, 0, ',', '.') }}?');">
                                             @csrf
@@ -827,6 +827,10 @@
                 }
             }
         });
+
+        if (window.initResponsiveTables) {
+            window.initResponsiveTables();
+        }
     }
 
     // Live search input filtering across tables
