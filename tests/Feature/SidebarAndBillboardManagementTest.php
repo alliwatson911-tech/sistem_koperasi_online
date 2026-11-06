@@ -183,6 +183,28 @@ class SidebarAndBillboardManagementTest extends TestCase
         $response->assertDontSee('Badan Hukum No. AHU-0012345.AH.01.26.TAHUN 2026');
     }
 
+    public function test_admin_gets_admin_dashboard_v2_with_clean_white_theme_and_charts(): void
+    {
+        $admin = User::where('role', User::ROLE_ADMIN)->first();
+        $teller = User::where('role', User::ROLE_TELLER)->first();
+
+        // 1. Admin mendapatkan Admin Dashboard UI V2 (Clean White Theme, Analytics & Charts, Minimal & Premium)
+        $responseAdmin = $this->actingAs($admin)->get(route('dashboard'));
+        $responseAdmin->assertStatus(200);
+        $responseAdmin->assertSee('Admin Dashboard UI V2');
+        $responseAdmin->assertSee('Clean White Theme');
+        $responseAdmin->assertSee('Tren Arus Finansial Bulanan');
+        $responseAdmin->assertSee('Rasio Kesehatan Kas');
+        $responseAdmin->assertSee('Antrean Operasional &amp; Evaluasi Layanan', false);
+        $responseAdmin->assertSee('adminGlobalSearch');
+
+        // 2. Stakeholder non-admin (teller) tetap mendapatkan dashboard staff operasional standar
+        $responseTeller = $this->actingAs($teller)->get(route('dashboard'));
+        $responseTeller->assertStatus(200);
+        $responseTeller->assertDontSee('Admin Dashboard UI V2');
+        $responseTeller->assertSee('Panel Operasional Koperasi');
+    }
+
     public function test_target_pages_render_back_to_previous_page_button(): void
     {
         $admin = User::where('role', User::ROLE_ADMIN)->first();
