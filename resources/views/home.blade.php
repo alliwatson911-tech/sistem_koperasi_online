@@ -10,7 +10,6 @@
         scroll-behavior: smooth;
     }
     .hero-gradient {
-        background: radial-gradient(120% 120% at 50% 10%, #ffffff 0%, #f0fdf4 40%, #ecfdf5 70%, #d1fae5 100%);
         background: radial-gradient(120% 120% at 50% 10%, #FFFFFF 0%, #F8F5F0 45%, #EAF6F5 80%, #DBEFEF 100%);
     }
     .billboard-slide {
@@ -34,22 +33,18 @@
          1. FITUR NAV HEADER PERTAMA: DASHBOARD / BERANDA UTAMA
          (Sambutan & Ringkasan Organisasi, Billboard Pengumuman, Standar Layanan, FAQ)
        ========================================================================= --}}
-    <section id="dashboard" class="hero-gradient border-b border-emerald-100/80 pt-10 pb-16 lg:pt-16 lg:pb-24" aria-labelledby="heading-dashboard">
     <section id="dashboard" class="hero-gradient border-b border-[#E8E2D8] pt-10 pb-16 lg:pt-16 lg:pb-24" aria-labelledby="heading-dashboard">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
             
             {{-- Sambutan & Ringkasan Organisasi Koperasi --}}
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 <div class="lg:col-span-7 space-y-6">
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-emerald-100/90 text-emerald-900 border border-emerald-300 shadow-2xs">
-                        <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
                     <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#EAF6F5] text-[#0F4C81] border border-[#2A9D8F]/40 shadow-2xs">
                         <span class="w-2 h-2 rounded-full bg-[#2A9D8F] animate-pulse"></span>
                         BADAN HUKUM RESMI KEMENKOP UKM RI &bull; AHU-0012345.AH.01.26.TAHUN 2026
                     </div>
 
                     <h1 id="heading-dashboard" class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-                        Koperasi Simpan Pinjam Digital: <span class="text-emerald-800">Amanah, Transparan, & Melayani Anggota.</span>
                         Koperasi Simpan Pinjam Digital: <span class="text-[#0F4C81]">Amanah, Transparan, & Melayani Anggota.</span>
                     </h1>
 
@@ -58,17 +53,13 @@
                     </p>
 
                     <div class="flex flex-wrap items-center gap-3 pt-2">
-                        <a href="{{ route('register') }}" class="btn btn-primary px-6 py-3 rounded-xl font-bold text-sm shadow-sm hover:shadow transition-all flex items-center gap-2">
                         <a href="{{ route('register') }}" class="px-6 py-3 rounded-xl font-extrabold text-sm shadow-sm hover:shadow transition-all flex items-center gap-2 bg-[#D4AF37] hover:bg-[#C59F2D] text-[#1B263B] border border-[#C59F2D]">
                             <span>Daftar Anggota Baru</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                         </a>
-                        <a href="#simulasi" class="btn btn-secondary px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-100 transition-all">
                         <a href="#simulasi" class="btn btn-secondary px-6 py-3 rounded-xl font-bold text-sm hover:bg-[#F8F5F0] text-[#0F4C81] border border-[#E8E2D8] transition-all">
                             Simulasi Pinjaman
                         </a>
-                        <a href="https://wa.me/6282197233174?text=Halo%20Admin%20KSP%20Sahabat%20Sejahtera,%20saya%20ingin%20konsultasi%20layanan%20koperasi" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-3 rounded-xl text-xs sm:text-sm font-bold text-emerald-900 hover:text-emerald-950 hover:bg-emerald-100/60 transition-all">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
                         <a href="https://wa.me/6282197233174?text=Halo%20Admin%20KSP%20Sahabat%20Sejahtera,%20saya%20ingin%20konsultasi%20layanan%20koperasi" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-3 rounded-xl text-xs sm:text-sm font-bold text-[#0F4C81] hover:text-[#1B263B] hover:bg-[#EAF6F5] transition-all">
                             <span class="w-2.5 h-2.5 rounded-full bg-[#2A9D8F]"></span>
                             Chat CS 24 Jam WhatsApp
@@ -76,20 +67,16 @@
                     </div>
 
                     {{-- Fitur Unggulan Singkat --}}
-                    <div class="pt-4 border-t border-emerald-200/60 grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs text-slate-600 font-medium">
                     <div class="pt-4 border-t border-[#E8E2D8] grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs text-slate-600 font-medium">
                         <div class="flex items-center gap-2">
-                            <svg class="w-4 h-4 text-emerald-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                             <svg class="w-4 h-4 text-[#2A9D8F] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                             <span>Bagi Hasil SHU Tahunan</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <svg class="w-4 h-4 text-emerald-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                             <svg class="w-4 h-4 text-[#2A9D8F] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                             <span>Pencairan Cepat 1x24 Jam</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <svg class="w-4 h-4 text-emerald-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                             <svg class="w-4 h-4 text-[#2A9D8F] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                             <span>Tanpa Bunga Berbunga</span>
                         </div>
@@ -98,7 +85,6 @@
 
                 {{-- Ringkasan Organisasi & Statistik Card --}}
                 <div class="lg:col-span-5">
-                    <div class="bg-white rounded-3xl p-6 sm:p-7 border border-emerald-100 shadow-xl space-y-6 relative overflow-hidden">
                     <div class="bg-white rounded-3xl p-6 sm:p-7 border border-[#E8E2D8] shadow-xl space-y-6 relative overflow-hidden">
                         <div class="flex items-center justify-between pb-4 border-b border-slate-100">
                             <div class="flex items-center gap-3">
@@ -114,40 +100,31 @@
                         </div>
 
                         <div class="grid grid-cols-2 gap-3.5">
-                            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
                             <div class="p-3.5 rounded-2xl bg-[#F8F5F0] border border-[#E8E2D8]">
                                 <span class="text-2xs font-bold uppercase tracking-wider text-slate-500 block">Anggota Aktif</span>
-                                <span class="text-xl sm:text-2xl font-black text-emerald-900 mt-1 block">{{ number_format($stats['total_members']) }}+</span>
                                 <span class="text-xl sm:text-2xl font-black text-[#0F4C81] mt-1 block">{{ number_format($stats['total_members']) }}+</span>
                                 <span class="text-3xs text-slate-400">Terdaftar di seluruh wilayah</span>
                             </div>
 
-                            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
                             <div class="p-3.5 rounded-2xl bg-[#F8F5F0] border border-[#E8E2D8]">
                                 <span class="text-2xs font-bold uppercase tracking-wider text-slate-500 block">Aset Dikelola</span>
-                                <span class="text-xl sm:text-2xl font-black text-slate-900 mt-1 block">Rp {{ number_format($stats['total_savings_managed']/1000000000, 1) }} M</span>
                                 <span class="text-xl sm:text-2xl font-black text-[#1B263B] mt-1 block">Rp {{ number_format($stats['total_savings_managed']/1000000000, 1) }} M</span>
                                 <span class="text-3xs text-slate-400">Simpanan Pokok, Wajib, Sukarela</span>
                             </div>
 
-                            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
                             <div class="p-3.5 rounded-2xl bg-[#F8F5F0] border border-[#E8E2D8]">
                                 <span class="text-2xs font-bold uppercase tracking-wider text-slate-500 block">Modal UMKM Tersalur</span>
-                                <span class="text-xl sm:text-2xl font-black text-emerald-900 mt-1 block">Rp {{ number_format($stats['total_loan_distributed']/1000000000, 1) }} M</span>
                                 <span class="text-xl sm:text-2xl font-black text-[#2A9D8F] mt-1 block">Rp {{ number_format($stats['total_loan_distributed']/1000000000, 1) }} M</span>
                                 <span class="text-3xs text-slate-400">Pemberdayaan sektor produktif</span>
                             </div>
 
-                            <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80">
                             <div class="p-3.5 rounded-2xl bg-[#F8F5F0] border border-[#E8E2D8]">
                                 <span class="text-2xs font-bold uppercase tracking-wider text-slate-500 block">Kolektibilitas</span>
-                                <span class="text-xl sm:text-2xl font-black text-emerald-700 mt-1 block">98.6%</span>
                                 <span class="text-xl sm:text-2xl font-black text-[#0F4C81] mt-1 block">98.6%</span>
                                 <span class="text-3xs text-slate-400">Rasio lancar (NPL sehat)</span>
                             </div>
                         </div>
 
-                        <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 leading-relaxed">
                         <div class="p-3.5 rounded-2xl bg-[#EAF6F5] border border-[#2A9D8F]/30 text-xs text-[#1B263B] leading-relaxed">
                             <strong>Prinsip Koperasi:</strong> Dari anggota, oleh anggota, dan untuk kesejahteraan anggota. Setiap transaksi tercatat dalam pembukuan berpasangan <em>(Double-Entry Bookkeeping)</em> yang dapat diaudit secara berkala.
                         </div>
@@ -156,22 +133,16 @@
             </div>
 
             {{-- TAMPILAN BILLBOARD UNTUK PENGUMUMAN RESMI --}}
-            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md">
             <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E8E2D8] shadow-md">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 gap-3">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center font-bold">
-                            <svg class="w-5 h-5 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
                         <div class="w-10 h-10 rounded-xl bg-[#FFF9E6] text-[#D4AF37] flex items-center justify-center font-bold">
                             <svg class="w-5 h-5 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
                         </div>
                         <div>
                             <div class="flex items-center gap-2">
-                                <span class="text-2xs font-bold text-amber-800 uppercase tracking-wider block">Papan Informasi Resmi</span>
                                 <span class="text-2xs font-bold text-[#B45309] uppercase tracking-wider block">Papan Informasi Resmi</span>
                                 @if(auth()->check() && auth()->user()->isAdmin())
-                                    <a href="{{ route('admin.billboards.index') }}" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-amber-100 hover:bg-amber-200 text-amber-900 text-3xs font-extrabold uppercase tracking-wider transition-colors border border-amber-300 shadow-2xs" title="Kelola Papan Informasi">
-                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                     <a href="{{ route('admin.billboards.index') }}" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#FFF9E6] hover:bg-[#FDF0C8] text-[#1B263B] text-3xs font-extrabold uppercase tracking-wider transition-colors border border-[#F5E0A0] shadow-2xs" title="Kelola Papan Informasi">
                                         <svg class="w-3 h-3 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                         Ubah Billboard
@@ -186,29 +157,23 @@
                     @php
                         $displayBillboards = (isset($billboards) && $billboards->isNotEmpty()) ? $billboards : null;
                     @endphp
-                    <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl self-start sm:self-auto text-xs overflow-x-auto max-w-full" role="tablist">
                     <div class="flex items-center gap-1.5 bg-[#F8F5F0] border border-[#E8E2D8] p-1 rounded-xl self-start sm:self-auto text-xs overflow-x-auto max-w-full" role="tablist">
                         @if($displayBillboards)
                             @foreach($displayBillboards as $idx => $bb)
-                                <button type="button" onclick="switchBillboard({{ $idx }})" id="bb-tab-{{ $idx }}" class="billboard-tab-btn px-3 py-1.5 rounded-lg whitespace-nowrap {{ $idx === 0 ? 'font-bold bg-white text-emerald-900 shadow-2xs' : 'font-semibold text-slate-600 hover:text-slate-900' }} transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500" role="tab" aria-selected="{{ $idx === 0 ? 'true' : 'false' }}">
                                 <button type="button" onclick="switchBillboard({{ $idx }})" id="bb-tab-{{ $idx }}" class="billboard-tab-btn px-3 py-1.5 rounded-lg whitespace-nowrap {{ $idx === 0 ? 'font-bold bg-[#0F4C81] text-white shadow-2xs' : 'font-semibold text-slate-600 hover:text-[#0F4C81]' }} transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]" role="tab" aria-selected="{{ $idx === 0 ? 'true' : 'false' }}">
                                     {{ $bb->tab_title }}
                                 </button>
                             @endforeach
                         @else
-                            <button type="button" onclick="switchBillboard(0)" id="bb-tab-0" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-bold bg-white text-emerald-900 shadow-2xs transition-all" role="tab" aria-selected="true">
                             <button type="button" onclick="switchBillboard(0)" id="bb-tab-0" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-bold bg-[#0F4C81] text-white shadow-2xs transition-all" role="tab" aria-selected="true">
                                 RAT & SHU
                             </button>
-                            <button type="button" onclick="switchBillboard(1)" id="bb-tab-1" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-slate-900 transition-all" role="tab" aria-selected="false">
                             <button type="button" onclick="switchBillboard(1)" id="bb-tab-1" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-[#0F4C81] transition-all" role="tab" aria-selected="false">
                                 Modal UMKM
                             </button>
-                            <button type="button" onclick="switchBillboard(2)" id="bb-tab-2" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-slate-900 transition-all" role="tab" aria-selected="false">
                             <button type="button" onclick="switchBillboard(2)" id="bb-tab-2" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-[#0F4C81] transition-all" role="tab" aria-selected="false">
                                 Pembayaran QRIS & VA
                             </button>
-                            <button type="button" onclick="switchBillboard(3)" id="bb-tab-3" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-slate-900 transition-all" role="tab" aria-selected="false">
                             <button type="button" onclick="switchBillboard(3)" id="bb-tab-3" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-[#0F4C81] transition-all" role="tab" aria-selected="false">
                                 Hasil Audit
                             </button>
@@ -232,7 +197,6 @@
                                     {!! nl2br(e($bb->content)) !!}
                                 </p>
                                 @if($bb->status_text || ($bb->link_url && $bb->link_text))
-                                    <div class="pt-2 flex flex-wrap items-center gap-4 text-xs font-bold text-emerald-800">
                                     <div class="pt-2 flex flex-wrap items-center gap-4 text-xs font-bold text-[#0F4C81]">
                                         @if($bb->status_text)
                                             <span>{{ $bb->status_text }}</span>
@@ -258,7 +222,6 @@
                             <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
                                 Pengurus mengumumkan bahwa Rapat Anggota Tahunan (RAT) telah menetapkan alokasi Sisa Hasil Usaha (SHU) sebesar <strong>40% untuk Jasa Modal dan Jasa Anggota</strong>. Anggota yang telah melunasi Simpanan Pokok dan Wajib dapat langsung memeriksa simulasi hak perolehan SHU pada menu akuntansi di dashboard anggota.
                             </p>
-                            <div class="pt-2 flex items-center gap-4 text-xs font-bold text-emerald-800">
                             <div class="pt-2 flex items-center gap-4 text-xs font-bold text-[#0F4C81]">
                                 <span>Status: Pelaksanaan Berjalan</span>
                                 <span>&bull;</span>
@@ -276,7 +239,6 @@
                             <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
                                 KSP Sahabat Sejahtera meluncurkan fasilitas pembiayaan mikro mingguan (tenor 4 s.d. 24 minggu) dengan margin anuitas bersahabat mulai 0.40% per minggu. Persyaratan mudah: cukup upload foto tempat usaha saat mengajukan permohonan melalui sistem koperasi online ini.
                             </p>
-                            <div class="pt-2 flex items-center gap-4 text-xs font-bold text-emerald-800">
                             <div class="pt-2 flex items-center gap-4 text-xs font-bold text-[#0F4C81]">
                                 <a href="#produk" class="hover:underline">Lihat Rincian Plafon Produk Pinjaman &rarr;</a>
                             </div>
@@ -292,7 +254,6 @@
                             <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
                                 Anggota kini dapat melakukan setoran simpanan sukarela dan pembayaran angsuran menggunakan QRIS dinamis serta Virtual Account resmi Bank Mandiri, BRI, BCA, dan BNI. Transaksi terverifikasi otomatis melalui webhook server-to-server tanpa perlu konfirmasi manual bukti transfer.
                             </p>
-                            <div class="pt-2 flex items-center gap-4 text-xs font-bold text-emerald-800">
                             <div class="pt-2 flex items-center gap-4 text-xs font-bold text-[#0F4C81]">
                                 <a href="#panduan" class="hover:underline">Lihat Panduan Pembayaran Digital &rarr;</a>
                             </div>
@@ -308,7 +269,6 @@
                             <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
                                 Berdasarkan hasil pengawasan dan audit independen tata kelola koperasi, KSP Sahabat Sejahtera dinyatakan berstatus <strong>KOPERASI SEHAT</strong> dengan rasio likuiditas aman, kepatuhan batas maksimal denda non-compounding, serta pemisahan tugas kewenangan <em>(Maker-Checker Segregation of Duties)</em>.
                             </p>
-                            <div class="pt-2 flex items-center gap-4 text-xs font-bold text-emerald-800">
                             <div class="pt-2 flex items-center gap-4 text-xs font-bold text-[#0F4C81]">
                                 <a href="#tentang-kami" class="hover:underline">Informasi Legalitas & Kontak Pengurus &rarr;</a>
                             </div>
@@ -320,15 +280,12 @@
             {{-- STANDAR LAYANAN KOPERASI (4 PILAR KEUNGGULAN) --}}
             <div class="space-y-6">
                 <div class="text-center max-w-2xl mx-auto space-y-1">
-                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-800">Komitmen Integritas</span>
                     <span class="text-xs font-bold uppercase tracking-wider text-[#0F4C81]">Komitmen Integritas</span>
                     <h2 class="text-2xl font-black text-slate-900">Standar Layanan KSP Sahabat Sejahtera</h2>
                     <p class="text-xs sm:text-sm text-slate-500">Prinsip operasional terpercaya yang menjadi landasan setiap pelayanan kami kepada anggota.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div class="card p-5 border-t-4 border-t-emerald-600 hover:shadow-md transition">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center font-bold mb-3">
                     <div class="card p-5 border-t-4 border-t-[#0F4C81] hover:shadow-md transition">
                         <div class="w-10 h-10 rounded-xl bg-[#EAF2F8] text-[#0F4C81] flex items-center justify-center font-bold mb-3">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -339,8 +296,6 @@
                         </p>
                     </div>
 
-                    <div class="card p-5 border-t-4 border-t-blue-600 hover:shadow-md transition">
-                        <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-800 flex items-center justify-center font-bold mb-3">
                     <div class="card p-5 border-t-4 border-t-[#2A9D8F] hover:shadow-md transition">
                         <div class="w-10 h-10 rounded-xl bg-[#EAF6F5] text-[#2A9D8F] flex items-center justify-center font-bold mb-3">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -351,8 +306,6 @@
                         </p>
                     </div>
 
-                    <div class="card p-5 border-t-4 border-t-amber-600 hover:shadow-md transition">
-                        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-800 flex items-center justify-center font-bold mb-3">
                     <div class="card p-5 border-t-4 border-t-[#D4AF37] hover:shadow-md transition">
                         <div class="w-10 h-10 rounded-xl bg-[#FFF9E6] text-[#D4AF37] flex items-center justify-center font-bold mb-3">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
@@ -363,8 +316,6 @@
                         </p>
                     </div>
 
-                    <div class="card p-5 border-t-4 border-t-emerald-800 hover:shadow-md transition">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-900 flex items-center justify-center font-bold mb-3">
                     <div class="card p-5 border-t-4 border-t-[#1B263B] hover:shadow-md transition">
                         <div class="w-10 h-10 rounded-xl bg-[#F8F5F0] text-[#1B263B] flex items-center justify-center font-bold mb-3">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
@@ -378,15 +329,12 @@
             </div>
 
             {{-- FAQ & INFORMASI KOPERASI --}}
-            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 space-y-6">
             <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E8E2D8] space-y-6">
                 <div class="flex items-center gap-3 pb-3 border-b border-slate-100">
-                    <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center font-bold">
                     <div class="w-9 h-9 rounded-xl bg-[#EAF6F5] text-[#0F4C81] flex items-center justify-center font-bold">
                         ?
                     </div>
                     <div>
-                        <span class="text-2xs font-bold text-emerald-800 uppercase tracking-wider block">Pusat Informasi Anggota</span>
                         <span class="text-2xs font-bold text-[#0F4C81] uppercase tracking-wider block">Pusat Informasi Anggota</span>
                         <h2 class="text-lg font-black text-slate-900">Pertanyaan yang Sering Diajukan (FAQ)</h2>
                     </div>
@@ -395,7 +343,6 @@
                 <div class="space-y-3" id="faqAccordion">
                     {{-- FAQ Item 1 --}}
                     <div class="border border-slate-200 rounded-2xl overflow-hidden transition-all">
-                        <button type="button" onclick="toggleFaq('faq-1')" class="w-full text-left p-4 bg-slate-50/70 hover:bg-slate-100/70 flex items-center justify-between gap-4 font-bold text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500" aria-expanded="false" id="btn-faq-1">
                         <button type="button" onclick="toggleFaq('faq-1')" class="w-full text-left p-4 bg-slate-50/70 hover:bg-[#F8F5F0] flex items-center justify-between gap-4 font-bold text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]" aria-expanded="false" id="btn-faq-1">
                             <span>1. Apa saja syarat utama untuk mendaftar menjadi anggota KSP Sahabat Sejahtera?</span>
                             <span class="text-slate-400 font-normal text-lg" id="icon-faq-1">+</span>
@@ -407,7 +354,6 @@
 
                     {{-- FAQ Item 2 --}}
                     <div class="border border-slate-200 rounded-2xl overflow-hidden transition-all">
-                        <button type="button" onclick="toggleFaq('faq-2')" class="w-full text-left p-4 bg-slate-50/70 hover:bg-slate-100/70 flex items-center justify-between gap-4 font-bold text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500" aria-expanded="false" id="btn-faq-2">
                         <button type="button" onclick="toggleFaq('faq-2')" class="w-full text-left p-4 bg-slate-50/70 hover:bg-[#F8F5F0] flex items-center justify-between gap-4 font-bold text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]" aria-expanded="false" id="btn-faq-2">
                             <span>2. Berapa nominal Simpanan Pokok dan Simpanan Wajib?</span>
                             <span class="text-slate-400 font-normal text-lg" id="icon-faq-2">+</span>
@@ -419,7 +365,6 @@
 
                     {{-- FAQ Item 3 --}}
                     <div class="border border-slate-200 rounded-2xl overflow-hidden transition-all">
-                        <button type="button" onclick="toggleFaq('faq-3')" class="w-full text-left p-4 bg-slate-50/70 hover:bg-slate-100/70 flex items-center justify-between gap-4 font-bold text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500" aria-expanded="false" id="btn-faq-3">
                         <button type="button" onclick="toggleFaq('faq-3')" class="w-full text-left p-4 bg-slate-50/70 hover:bg-[#F8F5F0] flex items-center justify-between gap-4 font-bold text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]" aria-expanded="false" id="btn-faq-3">
                             <span>3. Bagaimana cara mengajukan pinjaman permodalan usaha secara online?</span>
                             <span class="text-slate-400 font-normal text-lg" id="icon-faq-3">+</span>
@@ -431,7 +376,6 @@
 
                     {{-- FAQ Item 4 --}}
                     <div class="border border-slate-200 rounded-2xl overflow-hidden transition-all">
-                        <button type="button" onclick="toggleFaq('faq-4')" class="w-full text-left p-4 bg-slate-50/70 hover:bg-slate-100/70 flex items-center justify-between gap-4 font-bold text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500" aria-expanded="false" id="btn-faq-4">
                         <button type="button" onclick="toggleFaq('faq-4')" class="w-full text-left p-4 bg-slate-50/70 hover:bg-[#F8F5F0] flex items-center justify-between gap-4 font-bold text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]" aria-expanded="false" id="btn-faq-4">
                             <span>4. Bagaimana cara pembayaran angsuran dan apakah ada denda jika terlambat?</span>
                             <span class="text-slate-400 font-normal text-lg" id="icon-faq-4">+</span>
@@ -450,11 +394,9 @@
          2. FITUR PRODUK SEPERTI PADA SCREENSHOT
          (Katalog Produk Pinjaman Mingguan/Bulanan & Simpanan Anggota)
        ========================================================================= --}}
-    <section id="produk" class="py-16 bg-slate-50 border-b border-slate-200" aria-labelledby="heading-produk">
     <section id="produk" class="py-16 bg-slate-50 border-b border-[#E8E2D8]" aria-labelledby="heading-produk">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             <div class="text-center max-w-2xl mx-auto space-y-2">
-                <span class="text-xs font-bold uppercase tracking-wider text-emerald-800">Katalog Lengkap</span>
                 <span class="text-xs font-bold uppercase tracking-wider text-[#0F4C81]">Katalog Lengkap</span>
                 <h2 id="heading-produk" class="text-2xl sm:text-3xl font-black text-slate-900">Produk Pembiayaan & Simpanan</h2>
                 <p class="text-xs sm:text-sm text-slate-500">Pilihan fasilitas permodalan adil dan simpanan terencana yang dirancang khusus untuk anggota KSP Sahabat Sejahtera.</p>
@@ -464,11 +406,9 @@
             <div>
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
                         <span class="w-2.5 h-2.5 rounded-full bg-[#0F4C81]"></span>
                         Produk Pinjaman Anggota
                     </h3>
-                    <a href="{{ route('loans.products') }}" class="text-xs font-bold text-emerald-800 hover:underline">
                     <a href="{{ route('loans.products') }}" class="text-xs font-bold text-[#0F4C81] hover:underline">
                         Lihat Semua Rincian &rarr;
                     </a>
@@ -476,7 +416,6 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach($products as $p)
-                    <div class="card p-6 border-t-4 border-t-emerald-700 flex flex-col justify-between hover:shadow-lg transition-all duration-200 bg-white">
                     <div class="card p-6 border-t-4 border-t-[#0F4C81] flex flex-col justify-between hover:shadow-lg transition-all duration-200 bg-white">
                         <div class="space-y-4">
                             <div class="flex items-center justify-between">
@@ -489,11 +428,9 @@
                                 <p class="text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">{{ $p->description }}</p>
                             </div>
 
-                            <div class="bg-slate-50 rounded-2xl p-4 text-xs space-y-2.5 border border-slate-100">
                             <div class="bg-[#F8F5F0] rounded-2xl p-4 text-xs space-y-2.5 border border-[#E8E2D8]">
                                 <div class="flex items-center justify-between">
                                     <span class="text-slate-500">Suku Bunga:</span>
-                                    <strong class="text-emerald-900 font-black">{{ $p->interest_rate_per_period }}% / {{ strtolower($p->tenor_unit_label) }}</strong>
                                     <strong class="text-[#0F4C81] font-black">{{ $p->interest_rate_per_period }}% / {{ strtolower($p->tenor_unit_label) }}</strong>
                                 </div>
                                 <div class="flex items-center justify-between">
@@ -532,18 +469,14 @@
             <div class="pt-6">
                 <div class="mb-4">
                     <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
                         <span class="w-2.5 h-2.5 rounded-full bg-[#0F4C81]"></span>
                         Produk Simpanan Anggota
                     </h3>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="card p-6 border-l-4 border-l-emerald-600 bg-white space-y-3">
                     <div class="card p-6 border-l-4 border-l-[#0F4C81] bg-white space-y-3">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-emerald-800 uppercase tracking-wider">Simpanan Wajib Awal</span>
-                            <span class="badge badge-success text-2xs">Saham Koperasi</span>
                             <span class="text-xs font-bold text-[#0F4C81] uppercase tracking-wider">Simpanan Wajib Awal</span>
                             <span class="badge badge-info text-2xs">Saham Koperasi</span>
                         </div>
@@ -554,11 +487,8 @@
                         </p>
                     </div>
 
-                    <div class="card p-6 border-l-4 border-l-blue-600 bg-white space-y-3">
                     <div class="card p-6 border-l-4 border-l-[#2A9D8F] bg-white space-y-3">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-blue-800 uppercase tracking-wider">Rutin Bulanan</span>
-                            <span class="badge badge-info text-2xs">Dasar SHU</span>
                             <span class="text-xs font-bold text-[#2A9D8F] uppercase tracking-wider">Rutin Bulanan</span>
                             <span class="badge badge-success text-2xs">Dasar SHU</span>
                         </div>
@@ -569,10 +499,8 @@
                         </p>
                     </div>
 
-                    <div class="card p-6 border-l-4 border-l-amber-600 bg-white space-y-3">
                     <div class="card p-6 border-l-4 border-l-[#D4AF37] bg-white space-y-3">
                         <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-amber-800 uppercase tracking-wider">Fleksibel & Likuid</span>
                             <span class="text-xs font-bold text-[#B45309] uppercase tracking-wider">Fleksibel & Likuid</span>
                             <span class="badge badge-warning text-2xs">Bagi Hasil</span>
                         </div>
@@ -592,12 +520,10 @@
          3. FITUR PANDUAN MENJADI ANGGOTA & PANDUAN SIMPAN PINJAM
          (Alur Registrasi e-KYC, Alur Transaksi, Syarat Umum Koperasi Online)
        ========================================================================= --}}
-    <section id="panduan" class="py-16 bg-white border-b border-slate-200" aria-labelledby="heading-panduan">
     <section id="panduan" class="py-16 bg-white border-b border-[#E8E2D8]" aria-labelledby="heading-panduan">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
             
             <div class="text-center max-w-2xl mx-auto space-y-2">
-                <span class="text-xs font-bold uppercase tracking-wider text-emerald-800">Petunjuk Praktis</span>
                 <span class="text-xs font-bold uppercase tracking-wider text-[#0F4C81]">Petunjuk Praktis</span>
                 <h2 id="heading-panduan" class="text-2xl sm:text-3xl font-black text-slate-900">Panduan Menjadi Anggota & Simpan Pinjam</h2>
                 <p class="text-xs sm:text-sm text-slate-500">Langkah mudah bergabung dan alur operasional koperasi online yang transparan dan aman.</p>
@@ -611,8 +537,6 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="card p-5 bg-slate-50/70 border border-slate-200 space-y-3 relative">
-                        <div class="w-9 h-9 rounded-xl bg-emerald-800 text-white font-black flex items-center justify-center text-sm shadow-xs">
                     <div class="card p-5 bg-[#F8F5F0] border border-[#E8E2D8] space-y-3 relative">
                         <div class="w-9 h-9 rounded-xl bg-[#0F4C81] text-white font-black flex items-center justify-center text-sm shadow-xs">
                             1
@@ -623,8 +547,6 @@
                         </p>
                     </div>
 
-                    <div class="card p-5 bg-slate-50/70 border border-slate-200 space-y-3 relative">
-                        <div class="w-9 h-9 rounded-xl bg-emerald-800 text-white font-black flex items-center justify-center text-sm shadow-xs">
                     <div class="card p-5 bg-[#F8F5F0] border border-[#E8E2D8] space-y-3 relative">
                         <div class="w-9 h-9 rounded-xl bg-[#0F4C81] text-white font-black flex items-center justify-center text-sm shadow-xs">
                             2
@@ -635,8 +557,6 @@
                         </p>
                     </div>
 
-                    <div class="card p-5 bg-slate-50/70 border border-slate-200 space-y-3 relative">
-                        <div class="w-9 h-9 rounded-xl bg-emerald-800 text-white font-black flex items-center justify-center text-sm shadow-xs">
                     <div class="card p-5 bg-[#F8F5F0] border border-[#E8E2D8] space-y-3 relative">
                         <div class="w-9 h-9 rounded-xl bg-[#0F4C81] text-white font-black flex items-center justify-center text-sm shadow-xs">
                             3
@@ -647,8 +567,6 @@
                         </p>
                     </div>
 
-                    <div class="card p-5 bg-slate-50/70 border border-slate-200 space-y-3 relative">
-                        <div class="w-9 h-9 rounded-xl bg-emerald-800 text-white font-black flex items-center justify-center text-sm shadow-xs">
                     <div class="card p-5 bg-[#F8F5F0] border border-[#E8E2D8] space-y-3 relative">
                         <div class="w-9 h-9 rounded-xl bg-[#0F4C81] text-white font-black flex items-center justify-center text-sm shadow-xs">
                             4
@@ -664,9 +582,6 @@
             {{-- Alur Transaksi Simpan Pinjam Online --}}
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {{-- Alur Simpanan --}}
-                <div class="card p-6 bg-slate-50 border border-slate-200 space-y-4">
-                    <div class="flex items-center gap-2.5 pb-3 border-b border-slate-200">
-                        <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
                 <div class="card p-6 bg-[#F8F5F0] border border-[#E8E2D8] space-y-4">
                     <div class="flex items-center gap-2.5 pb-3 border-b border-[#E8E2D8]">
                         <div class="w-8 h-8 rounded-lg bg-[#EAF6F5] text-[#0F4C81] flex items-center justify-center font-bold">
@@ -680,17 +595,14 @@
 
                     <ul class="space-y-3 text-xs text-slate-600">
                         <li class="flex items-start gap-2.5">
-                            <span class="w-5 h-5 rounded-full bg-emerald-200 text-emerald-900 flex items-center justify-center font-bold text-2xs mt-0.5 shrink-0">&check;</span>
                             <span class="w-5 h-5 rounded-full bg-[#EAF6F5] text-[#2A9D8F] flex items-center justify-center font-bold text-2xs mt-0.5 shrink-0">&check;</span>
                             <div><strong>Setoran Mandiri:</strong> Anggota memilih rekening simpanan sukarela di dasbor, menginput nominal, lalu membayar via QRIS/VA atau transfer bank.</div>
                         </li>
                         <li class="flex items-start gap-2.5">
-                            <span class="w-5 h-5 rounded-full bg-emerald-200 text-emerald-900 flex items-center justify-center font-bold text-2xs mt-0.5 shrink-0">&check;</span>
                             <span class="w-5 h-5 rounded-full bg-[#EAF6F5] text-[#2A9D8F] flex items-center justify-center font-bold text-2xs mt-0.5 shrink-0">&check;</span>
                             <div><strong>Konfirmasi Otomatis:</strong> Sistem payment gateway mendeteksi pembayaran server-to-server dan saldo simpanan bertambah seketika.</div>
                         </li>
                         <li class="flex items-start gap-2.5">
-                            <span class="w-5 h-5 rounded-full bg-emerald-200 text-emerald-900 flex items-center justify-center font-bold text-2xs mt-0.5 shrink-0">&check;</span>
                             <span class="w-5 h-5 rounded-full bg-[#EAF6F5] text-[#2A9D8F] flex items-center justify-center font-bold text-2xs mt-0.5 shrink-0">&check;</span>
                             <div><strong>Penarikan Simpanan Sukarela:</strong> Dapat diajukan melalui portal online dan diverifikasi oleh teller kasir untuk dicairkan ke rekening bank Anda.</div>
                         </li>
@@ -698,9 +610,6 @@
                 </div>
 
                 {{-- Alur Pinjaman --}}
-                <div class="card p-6 bg-slate-50 border border-slate-200 space-y-4">
-                    <div class="flex items-center gap-2.5 pb-3 border-b border-slate-200">
-                        <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-800 flex items-center justify-center font-bold">
                 <div class="card p-6 bg-[#F8F5F0] border border-[#E8E2D8] space-y-4">
                     <div class="flex items-center gap-2.5 pb-3 border-b border-[#E8E2D8]">
                         <div class="w-8 h-8 rounded-lg bg-[#EAF2F8] text-[#0F4C81] flex items-center justify-center font-bold">
@@ -714,17 +623,14 @@
 
                     <ul class="space-y-3 text-xs text-slate-600">
                         <li class="flex items-start gap-2.5">
-                            <span class="w-5 h-5 rounded-full bg-blue-200 text-blue-900 flex items-center justify-center font-bold text-2xs mt-0.5 shrink-0">&check;</span>
                             <span class="w-5 h-5 rounded-full bg-[#EAF2F8] text-[#0F4C81] flex items-center justify-center font-bold text-2xs mt-0.5 shrink-0">&check;</span>
                             <div><strong>Pengajuan & Foto Usaha:</strong> Anggota mengisi jumlah permohonan pinjaman dan melampirkan foto tempat usaha secara live atau unggah berkas.</div>
                         </li>
                         <li class="flex items-start gap-2.5">
-                            <span class="w-5 h-5 rounded-full bg-blue-200 text-blue-900 flex items-center justify-center font-bold text-2xs mt-0.5 shrink-0">&check;</span>
                             <span class="w-5 h-5 rounded-full bg-[#EAF2F8] text-[#0F4C81] flex items-center justify-center font-bold text-2xs mt-0.5 shrink-0">&check;</span>
                             <div><strong>Analisis Kredit & Otorisasi:</strong> Analis kredit meneliti kelayakan kapasitas bayar, disetujui manajer koperasi secara berjenjang <em>(Maker-Checker)</em>.</div>
                         </li>
                         <li class="flex items-start gap-2.5">
-                            <span class="w-5 h-5 rounded-full bg-blue-200 text-blue-900 flex items-center justify-center font-bold text-2xs mt-0.5 shrink-0">&check;</span>
                             <span class="w-5 h-5 rounded-full bg-[#EAF2F8] text-[#0F4C81] flex items-center justify-center font-bold text-2xs mt-0.5 shrink-0">&check;</span>
                             <div><strong>Akad Digital & Pencairan:</strong> Anggota menandatangani akad digital dengan 1 klik, dan dana pinjaman langsung dicairkan tanpa potongan liar.</div>
                         </li>
@@ -733,15 +639,12 @@
             </div>
 
             {{-- Syarat-Syarat Umum Koperasi Online --}}
-            <div class="bg-emerald-900 text-white rounded-3xl p-6 sm:p-8 space-y-4">
             <div class="bg-[#1B263B] text-white rounded-3xl p-6 sm:p-8 space-y-4 border border-[#24344E]">
                 <div class="flex items-center gap-2">
-                    <span class="px-2.5 py-1 rounded-md bg-emerald-800 text-emerald-200 text-2xs font-bold uppercase tracking-wider">Legalitas & Kepatuhan</span>
                     <span class="px-2.5 py-1 rounded-md bg-[#0F4C81] text-white text-2xs font-bold uppercase tracking-wider">Legalitas & Kepatuhan</span>
                     <h3 class="text-lg font-black">Syarat & Ketentuan Umum Anggota KSP Sahabat Sejahtera</h3>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-emerald-100/90 leading-relaxed pt-2">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-300 leading-relaxed pt-2">
                     <div>
                         <strong class="text-white block mb-1 text-sm">1. Syarat Keanggotaan:</strong>
