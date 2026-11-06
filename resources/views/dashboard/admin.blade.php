@@ -628,24 +628,36 @@
                 <h2 class="text-xl font-black text-[#1B263B] tracking-tight">Antrean Operasional &amp; Evaluasi Layanan</h2>
                 <p class="text-xs text-slate-500 mt-0.5">Manajemen antrean pengajuan kredit, verifikasi berkas anggota, dan pencairan dana</p>
             </div>
+        </div>
 
-            <!-- Tab Buttons Berbentuk Capsule Pills -->
-            <div class="inline-flex p-1 bg-[#F8F5F0] rounded-full border border-[#E6E0D5] text-xs font-bold self-start md:self-auto gap-1 flex-wrap">
-                <button type="button" onclick="switchAdminTab('tab-loans')" id="btn-tab-loans" 
-                        class="px-3.5 py-1.5 rounded-full bg-white text-[#1B263B] shadow-2xs font-bold transition-all flex items-center gap-1.5 cursor-pointer">
-                    <span>Pengajuan Kredit</span>
-                    <span class="px-2 py-0.5 rounded-full bg-[#EAF6F5] text-[#2A9D8F] text-[10px] font-extrabold">{{ $stats['pending_loan_applications'] }}</span>
-                </button>
-                <button type="button" onclick="switchAdminTab('tab-members')" id="btn-tab-members" 
-                        class="px-3.5 py-1.5 rounded-full text-slate-500 hover:text-[#1B263B] font-bold transition-all flex items-center gap-1.5 cursor-pointer">
-                    <span>Verifikasi Anggota</span>
-                    <span class="px-2 py-0.5 rounded-full bg-slate-200 text-slate-700 text-[10px] font-extrabold">{{ $stats['pending_members'] }}</span>
-                </button>
-                <button type="button" onclick="switchAdminTab('tab-disburse')" id="btn-tab-disburse" 
-                        class="px-3.5 py-1.5 rounded-full text-slate-500 hover:text-[#1B263B] font-bold transition-all flex items-center gap-1.5 cursor-pointer">
-                    <span>Siap Cair</span>
-                    <span class="px-2 py-0.5 rounded-full bg-[#EDF2F7] text-[#0F4C81] text-[10px] font-extrabold">{{ $stats['ready_to_disburse_loans'] }}</span>
-                </button>
+        <!-- Bar Tab Pratinjau Antrean & Tautan Langsung Halaman Penuh -->
+        <div class="px-6 py-3 bg-[#FAF9F5] border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+            <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-slate-400 font-bold uppercase text-[10px] tracking-wider">Pratinjau Antrean di Dashboard:</span>
+                <div class="inline-flex p-0.5 bg-slate-200/70 rounded-lg text-xs font-semibold gap-1">
+                    <button type="button" onclick="switchAdminTab('tab-loans')" id="btn-tab-loans" 
+                            class="px-3 py-1.5 rounded-md bg-white text-[#1B263B] shadow-2xs font-bold transition-all flex items-center gap-1.5 cursor-pointer">
+                        <span>Pengajuan Kredit</span>
+                        <span class="px-1.5 py-0.2 rounded-full bg-[#EAF6F5] text-[#2A9D8F] text-[10px] font-extrabold">{{ $stats['pending_loan_applications'] }}</span>
+                    </button>
+                    <button type="button" onclick="switchAdminTab('tab-members')" id="btn-tab-members" 
+                            class="px-3 py-1.5 rounded-md text-slate-600 hover:text-[#1B263B] font-bold transition-all flex items-center gap-1.5 cursor-pointer">
+                        <span>Verifikasi Anggota</span>
+                        <span class="px-1.5 py-0.2 rounded-full bg-slate-200 text-slate-700 text-[10px] font-extrabold">{{ $stats['pending_members'] }}</span>
+                    </button>
+                    <button type="button" onclick="switchAdminTab('tab-disburse')" id="btn-tab-disburse" 
+                            class="px-3 py-1.5 rounded-md text-slate-600 hover:text-[#1B263B] font-bold transition-all flex items-center gap-1.5 cursor-pointer">
+                        <span>Siap Cair</span>
+                        <span class="px-1.5 py-0.2 rounded-full bg-[#EDF2F7] text-[#0F4C81] text-[10px] font-extrabold">{{ $stats['ready_to_disburse_loans'] }}</span>
+                    </button>
+                </div>
+            </div>
+            <div>
+                <a id="btn-full-page-link" href="{{ route('loans.applications') }}" 
+                   class="text-xs font-bold text-[#0F4C81] hover:text-[#D4AF37] inline-flex items-center gap-1.5 transition-colors group">
+                    <span id="txt-full-page-link">Buka Halaman Pengajuan Kredit Lengkap</span>
+                    <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+                </a>
             </div>
         </div>
 
@@ -829,22 +841,48 @@
 
 <!-- Script Interaktif Tab & Filter Cepat Admin Dashboard UI V2 -->
 <script>
+    const adminTabsConfig = {
+        'tab-loans': {
+            btnId: 'btn-tab-loans',
+            url: '{{ route('loans.applications') }}',
+            label: 'Buka Halaman Pengajuan Kredit Lengkap'
+        },
+        'tab-members': {
+            btnId: 'btn-tab-members',
+            url: '{{ route('members.index', ['status' => 'pending']) }}',
+            label: 'Buka Halaman Verifikasi Anggota Lengkap'
+        },
+        'tab-disburse': {
+            btnId: 'btn-tab-disburse',
+            url: '{{ route('loans.index', ['status' => 'approved_awaiting_disbursement']) }}',
+            label: 'Buka Halaman Pinjaman Siap Cair Lengkap'
+        }
+    };
+
     function switchAdminTab(tabId) {
         document.querySelectorAll('.admin-tab-pane').forEach(el => el.classList.add('hidden'));
         const activePane = document.getElementById(tabId);
         if (activePane) activePane.classList.remove('hidden');
 
         // Reset tab button states
-        ['tab-loans', 'tab-members', 'tab-disburse'].forEach(id => {
-            const btn = document.getElementById('btn-' + id);
+        Object.keys(adminTabsConfig).forEach(id => {
+            const btn = document.getElementById(adminTabsConfig[id].btnId);
             if (btn) {
                 if (id === tabId) {
-                    btn.className = 'px-3.5 py-1.5 rounded-full bg-white text-[#1B263B] shadow-2xs font-bold transition-all flex items-center gap-1.5 cursor-pointer';
+                    btn.className = 'px-3 py-1.5 rounded-md bg-white text-[#1B263B] shadow-2xs font-bold transition-all flex items-center gap-1.5 cursor-pointer';
                 } else {
-                    btn.className = 'px-3.5 py-1.5 rounded-full text-slate-500 hover:text-[#1B263B] font-bold transition-all flex items-center gap-1.5 cursor-pointer';
+                    btn.className = 'px-3 py-1.5 rounded-md text-slate-600 hover:text-[#1B263B] font-bold transition-all flex items-center gap-1.5 cursor-pointer';
                 }
             }
         });
+
+        // Update link cepat ke halaman penuh
+        const fullLink = document.getElementById('btn-full-page-link');
+        const txtLink = document.getElementById('txt-full-page-link');
+        if (fullLink && txtLink && adminTabsConfig[tabId]) {
+            fullLink.href = adminTabsConfig[tabId].url;
+            txtLink.textContent = adminTabsConfig[tabId].label;
+        }
 
         if (window.initResponsiveTables) {
             window.initResponsiveTables();
