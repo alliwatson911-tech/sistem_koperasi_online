@@ -62,27 +62,27 @@
 <div class="mb-8">
     <div class="flex items-center justify-between mb-3">
         <h2 class="text-base font-bold text-slate-800 tracking-tight">Saldo Rekening Simpanan Anda</h2>
-        <a href="{{ route('savings.index') }}" class="text-xs font-semibold text-emerald-700 hover:text-emerald-900">Lihat Semua Mutasi &rarr;</a>
+        <a href="{{ route('savings.index') }}" class="text-xs font-semibold text-[#0F4C81] hover:text-[#1B263B]">Lihat Semua Mutasi &rarr;</a>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         @foreach($savingsAccounts as $acc)
-        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs relative overflow-hidden transition-all hover:shadow-md">
-            <div class="w-1.5 h-full absolute top-0 left-0 {{ $acc->type === 'pokok' ? 'bg-emerald-600' : ($acc->type === 'wajib' ? 'bg-sky-600' : 'bg-amber-500') }}"></div>
+        <div class="bg-white rounded-2xl p-5 border border-[#E8E2D8] shadow-xs relative overflow-hidden transition-all hover:shadow-md">
+            <div class="w-1.5 h-full absolute top-0 left-0 {{ $acc->type === 'pokok' ? 'bg-[#0F4C81]' : ($acc->type === 'wajib' ? 'bg-[#2A9D8F]' : 'bg-[#D4AF37]') }}"></div>
             <div class="pl-2">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-xs font-bold uppercase tracking-wider text-slate-500">
                         Simpanan {{ ucfirst($acc->type) }}
                     </span>
-                    <span class="text-[11px] font-mono font-medium text-slate-400 bg-slate-50 px-2 py-0.5 rounded border border-slate-100">
+                    <span class="text-[11px] font-mono font-medium text-slate-500 bg-[#F8F5F0] px-2 py-0.5 rounded border border-[#E8E2D8]">
                         {{ $acc->account_no }}
                     </span>
                 </div>
-                <div class="text-2xl font-black text-slate-900 mb-4 tracking-tight">
+                <div class="text-2xl font-black text-[#1B263B] mb-4 tracking-tight">
                     Rp {{ number_format($acc->balance, 0, ',', '.') }}
                 </div>
                 <div class="flex items-center justify-between pt-2 border-t border-slate-100">
-                    <a href="{{ route('savings.show', $acc->id) }}" class="text-xs font-bold text-emerald-700 hover:text-emerald-900 flex items-center gap-1">
+                    <a href="{{ route('savings.show', $acc->id) }}" class="text-xs font-bold text-[#0F4C81] hover:text-[#1B263B] flex items-center gap-1">
                         Buku Mutasi
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     </a>
@@ -105,11 +105,11 @@
     <div class="lg:col-span-2 space-y-4">
         <div class="flex items-center justify-between">
             <h2 class="text-base font-bold text-slate-800 tracking-tight">Pinjaman Aktif Anda</h2>
-            <a href="{{ route('loans.my') }}" class="text-xs font-semibold text-emerald-700 hover:text-emerald-900">Riwayat Pengajuan &rarr;</a>
+            <a href="{{ route('loans.my') }}" class="text-xs font-semibold text-[#0F4C81] hover:text-[#1B263B]">Riwayat Pengajuan &rarr;</a>
         </div>
 
         @forelse($activeLoans as $loan)
-        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs">
+        <div class="bg-white rounded-2xl p-5 border border-[#E8E2D8] shadow-xs">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pb-3 mb-3 border-b border-slate-100">
                 <div>
                     <span class="text-xs font-bold text-slate-400 font-mono">{{ $loan->loan_no }}</span>
@@ -129,7 +129,7 @@
                 </div>
                 <div>
                     <span class="text-slate-400 block font-medium">Sisa Pokok:</span>
-                    <span class="font-bold text-emerald-700 text-sm">Rp {{ number_format($loan->outstanding_principal, 0, ',', '.') }}</span>
+                    <span class="font-bold text-[#0F4C81] text-sm">Rp {{ number_format($loan->outstanding_principal, 0, ',', '.') }}</span>
                 </div>
                 <div>
                     <span class="text-slate-400 block font-medium">Sisa Bunga:</span>
@@ -154,7 +154,7 @@
             </div>
         </div>
         @empty
-        <div class="bg-white rounded-2xl p-8 border border-slate-200 text-center text-slate-500">
+        <div class="bg-white rounded-2xl p-8 border border-[#E8E2D8] text-center text-slate-500">
             <svg class="w-12 h-12 mx-auto text-slate-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             <p class="font-semibold text-slate-700 text-sm">Anda tidak memiliki kewajiban pinjaman aktif saat ini.</p>
             <p class="text-xs text-slate-400 mt-1">Butuh modal kerja atau dana kebutuhan keluarga? Simulasikan angsuran pinjaman sekarang.</p>
@@ -170,9 +170,9 @@
         <h2 class="text-base font-bold text-slate-800 tracking-tight">Jadwal Angsuran Terdekat</h2>
 
         @if(!empty($upcomingSchedules) && $upcomingSchedules->isNotEmpty())
-            <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs">
+            <div class="bg-white rounded-2xl p-5 border border-[#E8E2D8] shadow-xs">
                 @foreach($upcomingSchedules as $sched)
-                <div class="p-3.5 rounded-xl border border-slate-100 bg-slate-50/70 mb-3 last:mb-0">
+                <div class="p-3.5 rounded-xl border border-slate-100 bg-[#F8F5F0] mb-3 last:mb-0">
                     <div class="flex items-center justify-between mb-1">
                         <span class="text-xs font-bold text-slate-800">Bulan Ke-{{ $sched->installment_no }}</span>
                         <span class="badge badge-{{ $sched->status === 'overdue' ? 'danger' : 'warning' }}">
@@ -190,7 +190,7 @@
                 @endforeach
             </div>
         @else
-            <div class="bg-white rounded-2xl p-6 border border-slate-200 text-center text-slate-400 text-xs">
+            <div class="bg-white rounded-2xl p-6 border border-[#E8E2D8] text-center text-slate-400 text-xs">
                 Tidak ada jadwal angsuran tertunggak atau mendekati jatuh tempo.
             </div>
         @endif

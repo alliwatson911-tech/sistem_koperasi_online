@@ -5,14 +5,14 @@
 @section('content')
 <div class="max-w-xl mx-auto py-6 px-4">
     <div class="mb-4">
-        <a href="{{ route('loans.show', $loan->id) }}" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 text-xs font-bold transition-all shadow-2xs" title="Kembali ke halaman sebelumnya">
-            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+        <a href="{{ route('loans.show', $loan->id) }}" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-[#F8F5F0] text-[#0F4C81] hover:text-[#1B263B] border border-[#E8E2D8] text-xs font-bold transition-all shadow-2xs" title="Kembali ke halaman sebelumnya">
+            <svg class="w-4 h-4 text-[#0F4C81]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
             <span>Kembali ke Halaman Sebelumnya</span>
         </a>
     </div>
 
-    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="p-6 bg-slate-50 border-b border-slate-200">
+    <div class="bg-white rounded-2xl border border-[#E8E2D8] shadow-sm overflow-hidden">
+        <div class="p-6 bg-slate-50 border-b border-[#E8E2D8]">
             <h1 class="text-xl font-black text-slate-900">Pembayaran Angsuran Pinjaman</h1>
             <p class="text-xs text-slate-500 mt-1">
                 No. Pinjaman: <strong class="text-slate-800">{{ $loan->loan_no }}</strong> &bull; Peminjam: <strong class="text-slate-800">{{ $loan->member->user->name }}</strong>
@@ -42,7 +42,7 @@
                     <span>Rp {{ number_format($nextSchedule->penalty_amount, 0, ',', '.') }}</span>
                 </div>
                 @endif
-                <div class="border-t border-slate-200 pt-2 flex justify-between text-sm font-bold text-emerald-800">
+                <div class="border-t border-slate-200 pt-2 flex justify-between text-sm font-bold text-[#0F4C81]">
                     <span>Total Tagihan Tertunggak:</span>
                     <span>Rp {{ number_format($nextSchedule->total_amount + $nextSchedule->penalty_amount - ($nextSchedule->paid_principal + $nextSchedule->paid_interest + $nextSchedule->paid_penalty), 0, ',', '.') }}</span>
                 </div>

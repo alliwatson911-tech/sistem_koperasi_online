@@ -44,25 +44,30 @@
     {{-- Design System Tokens & Base Component Styles --}}
     <style>
         :root {
-            --primary: #047857;
-            --primary-dark: #065f46;
-            --primary-light: #ecfdf5;
-            --secondary: #0284c7;
-            --dark: #0f172a;
-            --gray: #64748b;
-            --light: #f8fafc;
-            --border: #e2e8f0;
-            --card: #ffffff;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --success: #10b981;
+            --primary: #0F4C81;
+            --primary-dark: #1B263B;
+            --primary-light: #EAF6F5;
+            --secondary: #2A9D8F;
+            --secondary-dark: #21867A;
+            --secondary-light: #EAF6F5;
+            --sage: #A3B18A;
+            --accent-gold: #D4AF37;
+            --accent-gold-hover: #C59F2D;
+            --dark: #1B263B;
+            --gray: #5C6B73;
+            --light: #F8F5F0;
+            --border: #E8E2D8;
+            --card: #FFFFFF;
+            --danger: #E11D48;
+            --warning: #D4AF37;
+            --success: #2A9D8F;
         }
 
         * { box-sizing: border-box; }
         body {
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
+            background-color: #F8F5F0;
+            color: #1B263B;
             line-height: 1.5;
             min-height: 100vh;
             display: flex;
@@ -70,17 +75,17 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Navigasi */
+        /* Navigasi Brand Badge */
         .navbar-brand-badge {
-            background-color: #047857;
-            box-shadow: 0 2px 8px rgba(4, 120, 87, 0.25);
+            background-color: #0F4C81;
+            box-shadow: 0 2px 8px rgba(15, 76, 129, 0.25);
         }
 
         /* Komponen Card Desain Sistem */
         .ksp-card {
             background: #ffffff;
             border-radius: 14px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #E8E2D8;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
             padding: 1.5rem;
             margin-bottom: 1.5rem;
@@ -89,7 +94,7 @@
         .card {
             background: #ffffff;
             border-radius: 14px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #E8E2D8;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
             padding: 1.5rem;
             margin-bottom: 1.5rem;
@@ -100,12 +105,12 @@
             justify-content: space-between;
             margin-bottom: 1.25rem;
             padding-bottom: 0.85rem;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid #F1ECE4;
         }
         .card-title {
             font-size: 1.15rem;
             font-weight: 700;
-            color: #0f172a;
+            color: #1B263B;
             letter-spacing: -0.01em;
         }
 
@@ -114,7 +119,7 @@
             background: #ffffff;
             border-radius: 14px;
             padding: 1.25rem;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #E8E2D8;
             box-shadow: 0 1px 3px rgba(0,0,0,0.03);
             display: flex;
             flex-direction: column;
@@ -123,24 +128,24 @@
         }
         .stat-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(15, 76, 129, 0.08);
         }
         .stat-label {
             font-size: 0.725rem;
             text-transform: uppercase;
-            color: #64748b;
+            color: #5C6B73;
             font-weight: 700;
             letter-spacing: 0.05em;
         }
         .stat-value {
             font-size: 1.5rem;
             font-weight: 800;
-            color: #0f172a;
+            color: #1B263B;
             line-height: 1.2;
         }
         .stat-meta {
             font-size: 0.75rem;
-            color: #64748b;
+            color: #5C6B73;
             font-weight: 500;
         }
 
@@ -174,33 +179,46 @@
             white-space: nowrap;
         }
         .btn:focus-visible {
-            outline: 2px solid #047857;
+            outline: 2px solid #2A9D8F;
             outline-offset: 2px;
         }
         .btn-primary {
-            background-color: #047857;
+            background-color: #0F4C81;
             color: #ffffff;
-            box-shadow: 0 1px 2px rgba(4, 120, 87, 0.2);
+            border-color: #1B263B;
+            box-shadow: 0 1px 2px rgba(15, 76, 129, 0.25);
         }
         .btn-primary:hover {
-            background-color: #065f46;
-            box-shadow: 0 2px 4px rgba(4, 120, 87, 0.3);
+            background-color: #1B263B;
+            box-shadow: 0 2px 4px rgba(15, 76, 129, 0.35);
         }
         .btn-secondary {
-            background-color: #f1f5f9;
-            color: #334155;
-            border-color: #e2e8f0;
+            background-color: #ffffff;
+            color: #1B263B;
+            border-color: #E8E2D8;
         }
         .btn-secondary:hover {
-            background-color: #e2e8f0;
-            color: #0f172a;
+            background-color: #F8F5F0;
+            color: #0F4C81;
+            border-color: #2A9D8F;
+        }
+        .btn-gold {
+            background-color: #D4AF37;
+            color: #1B263B;
+            font-weight: 700;
+            border-color: #C59F2D;
+            box-shadow: 0 1px 2px rgba(212, 175, 55, 0.3);
+        }
+        .btn-gold:hover {
+            background-color: #C59F2D;
+            box-shadow: 0 2px 4px rgba(212, 175, 55, 0.4);
         }
         .btn-danger {
-            background-color: #ef4444;
+            background-color: #E11D48;
             color: #ffffff;
         }
         .btn-danger:hover {
-            background-color: #dc2626;
+            background-color: #BE123C;
         }
         .btn-sm {
             padding: 0.35rem 0.75rem;
@@ -217,26 +235,26 @@
             margin-bottom: 0.35rem;
             font-size: 0.8125rem;
             font-weight: 600;
-            color: #334155;
+            color: #1B263B;
         }
         .form-control {
             width: 100%;
             padding: 0.6rem 0.85rem;
             font-size: 0.875rem;
-            border: 1px solid #cbd5e1;
+            border: 1px solid #CBD5E1;
             border-radius: 9px;
             background-color: #ffffff;
-            color: #1e293b;
+            color: #1B263B;
             outline: none;
             transition: border-color 0.15s ease, box-shadow 0.15s ease;
         }
         .form-control:focus {
-            border-color: #047857;
-            box-shadow: 0 0 0 3px rgba(4, 120, 87, 0.15);
+            border-color: #2A9D8F;
+            box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.2);
         }
         .form-text {
             font-size: 0.75rem;
-            color: #64748b;
+            color: #5C6B73;
             margin-top: 0.3rem;
             display: block;
         }
@@ -246,7 +264,7 @@
             width: 100%;
             overflow-x: auto;
             border-radius: 10px;
-            border: 1px solid #f1f5f9;
+            border: 1px solid #E8E2D8;
         }
         table {
             width: 100%;
@@ -255,26 +273,26 @@
             text-align: left;
         }
         th {
-            background-color: #f8fafc;
-            color: #475569;
+            background-color: #F8F5F0;
+            color: #1B263B;
             font-weight: 700;
             padding: 0.85rem 1rem;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #E8E2D8;
             text-transform: uppercase;
             font-size: 0.7rem;
             letter-spacing: 0.05em;
         }
         td {
             padding: 0.9rem 1rem;
-            border-bottom: 1px solid #f1f5f9;
-            color: #334155;
+            border-bottom: 1px solid #F1ECE4;
+            color: #1B263B;
             vertical-align: middle;
         }
         tr:last-child td {
             border-bottom: none;
         }
         tr:hover td {
-            background-color: #f8fafc;
+            background-color: #F8F5F0;
         }
 
         /* Badge Status */
@@ -289,11 +307,11 @@
             text-transform: uppercase;
             letter-spacing: 0.04em;
         }
-        .badge-success { background-color: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
-        .badge-warning { background-color: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
-        .badge-danger  { background-color: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
-        .badge-info    { background-color: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
-        .badge-gray    { background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+        .badge-success { background-color: #EAF6F5; color: #2A9D8F; border: 1px solid #B8E4DF; }
+        .badge-warning { background-color: #FFF9E6; color: #B45309; border: 1px solid #FDE68A; }
+        .badge-danger  { background-color: #FFE4E6; color: #BE123C; border: 1px solid #FECDD3; }
+        .badge-info    { background-color: #EAF2F8; color: #0F4C81; border: 1px solid #BDD7EE; }
+        .badge-gray    { background-color: #F8F5F0; color: #5C6B73; border: 1px solid #E8E2D8; }
 
         /* Role Badges */
         .role-badge {
@@ -304,11 +322,11 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
-        .role-admin   { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
-        .role-manager { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
-        .role-analyst { background: #e0e7ff; color: #3730a3; border: 1px solid #c7d2fe; }
-        .role-teller  { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
-        .role-member  { background: #e0f2fe; color: #075985; border: 1px solid #bae6fd; }
+        .role-admin   { background: #D4AF37; color: #1B263B; border: 1px solid #C59F2D; font-weight: 800; }
+        .role-manager { background: #0F4C81; color: #ffffff; border: 1px solid #1B263B; font-weight: 700; }
+        .role-analyst { background: #EAF2F8; color: #0F4C81; border: 1px solid #BDD7EE; font-weight: 700; }
+        .role-teller  { background: #EAF6F5; color: #2A9D8F; border: 1px solid #B8E4DF; font-weight: 700; }
+        .role-member  { background: #EAF6F5; color: #0F4C81; border: 1px solid #B8E4DF; font-weight: 700; }
 
         /* Notifikasi Alert */
         .alert {
@@ -321,105 +339,56 @@
             justify-content: space-between;
             gap: 1rem;
         }
-        .alert-success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
-        .alert-error   { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
-        .alert-info    { background: #f0f9ff; color: #075985; border: 1px solid #bae6fd; }
-    /* Scrollbar Halus untuk Sidebar - Nuansa Solid Emerald Koperasi */
-    .sidebar-scroll::-webkit-scrollbar {
-        width: 5px;
-    }
-    .sidebar-scroll::-webkit-scrollbar-track {
-        background: #042d22;
-    }
-    .sidebar-scroll::-webkit-scrollbar-thumb {
-        background: #085240;
-        border-radius: 9999px;
-    }
-    .sidebar-scroll::-webkit-scrollbar-thumb:hover {
-        background: #047857;
-    }
+        .alert-success { background: #EAF6F5; color: #0F4C81; border: 1px solid #B8E4DF; }
+        .alert-error   { background: #FFF1F2; color: #BE123C; border: 1px solid #FECDD3; }
+        .alert-info    { background: #EAF2F8; color: #0F4C81; border: 1px solid #BDD7EE; }
 
-    /* Skip to Content untuk Aksesibilitas */
-    .skip-to-content {
-        position: absolute;
-        top: -100px;
-        left: 1rem;
-        z-index: 100;
-        padding: 0.5rem 1rem;
-        background: #047857;
-        color: #ffffff;
-        font-weight: 700;
-        border-radius: 0.5rem;
-        transition: top 0.2s;
-    }
-    .skip-to-content:focus {
-        top: 1rem;
-    }
-</style>
+        /* Scrollbar Halus untuk Sidebar - Solid Dark Navy & Toska */
+        .sidebar-scroll::-webkit-scrollbar,
+        .sidebar-scroll-admin::-webkit-scrollbar {
+            width: 5px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-track,
+        .sidebar-scroll-admin::-webkit-scrollbar-track {
+            background: #101927;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb,
+        .sidebar-scroll-admin::-webkit-scrollbar-thumb {
+            background: #24344E;
+            border-radius: 9999px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb:hover,
+        .sidebar-scroll-admin::-webkit-scrollbar-thumb:hover {
+            background: #2A9D8F;
+        }
+
+        /* Skip to Content untuk Aksesibilitas */
+        .skip-to-content {
+            position: absolute;
+            top: -100px;
+            left: 1rem;
+            z-index: 100;
+            padding: 0.5rem 1rem;
+            background: #1B263B;
+            color: #ffffff;
+            font-weight: 700;
+            border-radius: 0.5rem;
+            transition: top 0.2s;
+        }
+        .skip-to-content:focus {
+            top: 1rem;
+        }
+    </style>
 @php
     $isAdmin = auth()->check() && auth()->user()->isAdmin();
     $isStaffSidebar = auth()->check() && !auth()->user()->isMember() && !request()->routeIs('home');
     $isMember = auth()->check() && auth()->user()->isMember() && !request()->routeIs('home');
 @endphp
-@if($isAdmin)
-    {{-- Palet Biru & Hijau (Kepercayaan & Pertumbuhan): Biru Navy #1B263B/#0F4C81, Hijau Toska #2A9D8F, Sage #A3B18A, Off-white #F8F5F0, Gold #D4AF37 --}}
-    <style>
-        :root {
-            --primary: #0F4C81;
-            --primary-dark: #1B263B;
-            --primary-light: #EAF6F5;
-            --secondary: #2A9D8F;
-            --accent-gold: #D4AF37;
-            --accent-gold-hover: #C59F2D;
-            --bg-offwhite: #F8F5F0;
-            --card-white: #FFFFFF;
-            --text-navy: #1B263B;
-            --border-light: #E8E2D8;
-        }
-        body {
-            background-color: #F8F5F0 !important;
-            color: #1B263B !important;
-        }
-        .btn-primary {
-            background-color: #0F4C81 !important;
-            color: #ffffff !important;
-            border-color: #1B263B !important;
-            box-shadow: 0 1px 2px rgba(15, 76, 129, 0.25) !important;
-        }
-        .btn-primary:hover {
-            background-color: #1B263B !important;
-            box-shadow: 0 2px 4px rgba(15, 76, 129, 0.35) !important;
-        }
-        .form-control:focus {
-            border-color: #2A9D8F !important;
-            box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.2) !important;
-        }
-        .role-admin {
-            background-color: #D4AF37 !important;
-            color: #1B263B !important;
-            border: 1px solid #C59F2D !important;
-            font-weight: 800 !important;
-        }
-        .sidebar-scroll-admin::-webkit-scrollbar {
-            width: 5px;
-        }
-        .sidebar-scroll-admin::-webkit-scrollbar-track {
-            background: #101927;
-        }
-        .sidebar-scroll-admin::-webkit-scrollbar-thumb {
-            background: #24344E;
-            border-radius: 9999px;
-        }
-        .sidebar-scroll-admin::-webkit-scrollbar-thumb:hover {
-            background: #2A9D8F;
-        }
-    </style>
-@endif
 @yield('styles')
 </head>
-<body class="{{ $isAdmin ? 'bg-[#F8F5F0] text-[#1B263B] selection:bg-[#2A9D8F] selection:text-white' : 'bg-slate-50 text-slate-800 selection:bg-emerald-500 selection:text-white' }} antialiased">
+<body class="bg-[#F8F5F0] text-[#1B263B] selection:bg-[#2A9D8F] selection:text-white antialiased">
     <!-- Aksesibilitas: Lewati ke Konten Utama -->
-    <a href="#main-content" class="skip-to-content focus:outline-none focus:ring-2 {{ $isAdmin ? 'focus:ring-[#2A9D8F] bg-[#1B263B]' : 'focus:ring-emerald-400 bg-[#047857]' }}">
+    <a href="#main-content" class="skip-to-content focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] bg-[#1B263B]">
         Lewati ke Konten Utama &rarr;
     </a>
 
@@ -427,19 +396,19 @@
     {{-- ========================================================================= --}}
     {{-- TAMPILAN TOP NAVBAR: PUBLIK, GUEST, & KHUSUS ROLE MEMBER (SEBELUMNYA)    --}}
     {{-- ========================================================================= --}}
-    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all" role="banner">
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-[#E8E2D8] shadow-xs transition-all" role="banner">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <!-- Brand Logo -->
-                <a href="{{ auth()->check() ? route('dashboard') : url('/') }}" class="flex items-center gap-3 group text-slate-900 no-underline" aria-label="Beranda KSP Sahabat Sejahtera">
+                <a href="{{ auth()->check() ? route('dashboard') : url('/') }}" class="flex items-center gap-3 group text-[#1B263B] no-underline" aria-label="Beranda KSP Sahabat Sejahtera">
                     <div class="w-10 h-10 rounded-xl navbar-brand-badge flex items-center justify-center text-white font-extrabold text-xl shadow group-hover:scale-105 transition-transform">
                         K
                     </div>
                     <div>
-                        <div class="font-bold text-base tracking-tight text-slate-900 group-hover:text-emerald-800 transition-colors">
+                        <div class="font-bold text-base tracking-tight text-[#1B263B] group-hover:text-[#0F4C81] transition-colors">
                             KSP Sahabat Sejahtera
                         </div>
-                        <div class="text-[11px] font-medium text-slate-500">
+                        <div class="text-[11px] font-medium text-[#5C6B73]">
                             Koperasi Simpan Pinjam Online
                         </div>
                     </div>
@@ -448,19 +417,19 @@
                 @if($isMember)
                     {{-- Navigasi Horizontal Khusus Role Member --}}
                     <nav class="hidden lg:flex items-center gap-1.5" aria-label="Navigasi Anggota Koperasi">
-                        <a href="{{ route('dashboard') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('dashboard') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                        <a href="{{ route('dashboard') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('dashboard') ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold border border-[#B8E4DF]' : 'text-slate-600 hover:text-[#0F4C81] hover:bg-[#F8F5F0]' }}">
                             Dasbor
                         </a>
-                        <a href="{{ route('savings.index') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('savings.*') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                        <a href="{{ route('savings.index') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('savings.*') ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold border border-[#B8E4DF]' : 'text-slate-600 hover:text-[#0F4C81] hover:bg-[#F8F5F0]' }}">
                             Simpanan
                         </a>
-                        <a href="{{ route('loans.my') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('loans.my*') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                        <a href="{{ route('loans.my') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('loans.my*') ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold border border-[#B8E4DF]' : 'text-slate-600 hover:text-[#0F4C81] hover:bg-[#F8F5F0]' }}">
                             Pinjaman Saya
                         </a>
-                        <a href="{{ route('loans.simulation') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('loans.simulation') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                        <a href="{{ route('loans.simulation') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('loans.simulation') ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold border border-[#B8E4DF]' : 'text-slate-600 hover:text-[#0F4C81] hover:bg-[#F8F5F0]' }}">
                             Simulasi
                         </a>
-                        <a href="{{ route('members.profile') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('members.profile') ? 'bg-emerald-50 text-emerald-800 font-semibold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100' }}">
+                        <a href="{{ route('members.profile') }}" class="px-3 py-1.5 rounded-lg text-sm font-medium transition-all {{ request()->routeIs('members.profile') ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold border border-[#B8E4DF]' : 'text-slate-600 hover:text-[#0F4C81] hover:bg-[#F8F5F0]' }}">
                             Profil
                         </a>
                     </nav>
@@ -470,7 +439,7 @@
                         <span class="role-badge role-member">
                             MEMBER
                         </span>
-                        <span class="text-xs font-bold text-slate-800">{{ auth()->user()->name }}</span>
+                        <span class="text-xs font-bold text-[#1B263B]">{{ auth()->user()->name }}</span>
                         <form action="{{ route('logout') }}" method="POST" class="inline">
                             @csrf
                             <button type="submit" class="btn btn-secondary btn-sm" title="Keluar">
@@ -481,19 +450,19 @@
                 @else
                     {{-- Navigasi Publik Sesuai Urutan Standar --}}
                     <nav class="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Navigasi Utama Landing Page">
-                        <a href="{{ url('/#dashboard') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <a href="{{ url('/#dashboard') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-[#0F4C81] hover:bg-[#F8F5F0] transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]">
                             Dashboard
                         </a>
-                        <a href="{{ url('/#produk') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <a href="{{ url('/#produk') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-[#0F4C81] hover:bg-[#F8F5F0] transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]">
                             Produk
                         </a>
-                        <a href="{{ url('/#panduan') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <a href="{{ url('/#panduan') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-[#0F4C81] hover:bg-[#F8F5F0] transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]">
                             Panduan
                         </a>
-                        <a href="{{ url('/#simulasi') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <a href="{{ url('/#simulasi') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-[#0F4C81] hover:bg-[#F8F5F0] transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]">
                             Simulasi Pinjaman
                         </a>
-                        <a href="{{ url('/#tentang-kami') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-emerald-800 hover:bg-slate-100 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <a href="{{ url('/#tentang-kami') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-[#0F4C81] hover:bg-[#F8F5F0] transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]">
                             Tentang Kami
                         </a>
 
@@ -503,10 +472,10 @@
                                 Dasbor Koperasi
                             </a>
                         @else
-                            <a href="{{ route('login') }}" class="px-3 py-1.5 rounded-lg text-xs xl:text-sm font-bold text-emerald-800 hover:bg-emerald-50 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <a href="{{ route('login') }}" class="px-3 py-1.5 rounded-lg text-xs xl:text-sm font-bold text-[#0F4C81] hover:bg-[#EAF6F5] transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]">
                                 Masuk Akun
                             </a>
-                            <a href="{{ route('register') }}" class="ml-1 btn btn-primary btn-sm px-3.5 py-1.5 rounded-xl font-bold shadow-xs hover:shadow transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <a href="{{ route('register') }}" class="ml-1 px-4 py-1.5 rounded-xl font-extrabold text-xs xl:text-sm bg-[#D4AF37] hover:bg-[#C59F2D] text-[#1B263B] border border-[#C59F2D] shadow-xs hover:shadow transition-all focus:outline-none focus:ring-2 focus:ring-[#D4AF37]">
                                 Daftar Anggota Baru
                             </a>
                         @endauth
@@ -515,7 +484,7 @@
 
                 <!-- Mobile Hamburger Button -->
                 <div class="lg:hidden flex items-center">
-                    <button type="button" id="mobileMenuBtn" aria-label="Buka Menu Navigasi" aria-expanded="false" class="p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <button type="button" id="mobileMenuBtn" aria-label="Buka Menu Navigasi" aria-expanded="false" class="p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path id="menuIconBars" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                             <path id="menuIconClose" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -526,46 +495,46 @@
         </div>
 
         <!-- Mobile Drawer Navigation -->
-        <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-4 space-y-1 shadow-lg" role="navigation" aria-label="Navigasi Menu Ponsel">
+        <div id="mobileMenu" class="hidden lg:hidden border-t border-[#E8E2D8] bg-white px-4 pt-3 pb-4 space-y-1 shadow-lg" role="navigation" aria-label="Navigasi Menu Ponsel">
             @if($isMember)
                 <div class="flex items-center justify-between pb-3 mb-2 border-b border-slate-100">
                     <div class="flex items-center gap-2">
                         <span class="role-badge role-member">MEMBER</span>
-                        <span class="text-sm font-bold text-slate-800">{{ auth()->user()->name }}</span>
+                        <span class="text-sm font-bold text-[#1B263B]">{{ auth()->user()->name }}</span>
                     </div>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-secondary btn-sm">Keluar</button>
                     </form>
                 </div>
-                <a href="{{ route('dashboard') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('dashboard') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
+                <a href="{{ route('dashboard') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('dashboard') ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold' : 'text-slate-600 hover:bg-[#F8F5F0]' }}">
                     Dasbor Utama
                 </a>
-                <a href="{{ route('savings.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('savings.*') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
+                <a href="{{ route('savings.index') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('savings.*') ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold' : 'text-slate-600 hover:bg-[#F8F5F0]' }}">
                     Rekening Simpanan
                 </a>
-                <a href="{{ route('loans.my') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('loans.my*') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
+                <a href="{{ route('loans.my') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('loans.my*') ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold' : 'text-slate-600 hover:bg-[#F8F5F0]' }}">
                     Pinjaman Saya
                 </a>
-                <a href="{{ route('loans.simulation') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('loans.simulation') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
+                <a href="{{ route('loans.simulation') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('loans.simulation') ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold' : 'text-slate-600 hover:bg-[#F8F5F0]' }}">
                     Simulasi Pinjaman
                 </a>
-                <a href="{{ route('members.profile') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('members.profile') ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-600 hover:bg-slate-50' }}">
+                <a href="{{ route('members.profile') }}" class="block px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('members.profile') ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold' : 'text-slate-600 hover:bg-[#F8F5F0]' }}">
                     Profil Saya
                 </a>
             @else
-                <a href="{{ url('/#dashboard') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Dashboard</a>
-                <a href="{{ url('/#produk') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Produk</a>
-                <a href="{{ url('/#panduan') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Panduan</a>
-                <a href="{{ url('/#simulasi') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Simulasi Pinjaman</a>
-                <a href="{{ url('/#tentang-kami') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50">Tentang Kami</a>
+                <a href="{{ url('/#dashboard') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-[#F8F5F0]">Dashboard</a>
+                <a href="{{ url('/#produk') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-[#F8F5F0]">Produk</a>
+                <a href="{{ url('/#panduan') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-[#F8F5F0]">Panduan</a>
+                <a href="{{ url('/#simulasi') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-[#F8F5F0]">Simulasi Pinjaman</a>
+                <a href="{{ url('/#tentang-kami') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-[#F8F5F0]">Tentang Kami</a>
                 
                 <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 mt-2">
                     @auth
                         <a href="{{ route('dashboard') }}" class="btn btn-primary col-span-2 text-center py-2 text-xs font-bold">Buka Dasbor Koperasi &rarr;</a>
                     @else
                         <a href="{{ route('login') }}" class="btn btn-secondary text-center py-2 text-xs font-bold">Masuk Akun</a>
-                        <a href="{{ route('register') }}" class="btn btn-primary text-center py-2 text-xs font-bold">Daftar Anggota</a>
+                        <a href="{{ route('register') }}" class="btn btn-gold text-center py-2 text-xs font-bold">Daftar Anggota</a>
                     @endauth
                 </div>
             @endif
@@ -577,30 +546,30 @@
         @if(session('success'))
             <div class="alert alert-success shadow-sm" role="alert">
                 <div class="flex items-center gap-2">
-                    <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <svg class="w-5 h-5 text-[#2A9D8F] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     <span>{{ session('success') }}</span>
                 </div>
-                <button type="button" onclick="this.closest('.alert').remove()" class="text-emerald-800 hover:text-emerald-950 font-bold text-lg" aria-label="Tutup notifikasi">&times;</button>
+                <button type="button" onclick="this.closest('.alert').remove()" class="text-[#0F4C81] hover:text-[#1B263B] font-bold text-lg" aria-label="Tutup notifikasi">&times;</button>
             </div>
         @endif
 
         @if(session('error'))
             <div class="alert alert-error shadow-sm" role="alert">
                 <div class="flex items-center gap-2">
-                    <svg class="w-5 h-5 text-red-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <svg class="w-5 h-5 text-rose-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     <span>{{ session('error') }}</span>
                 </div>
-                <button type="button" onclick="this.closest('.alert').remove()" class="text-red-800 hover:text-red-950 font-bold text-lg" aria-label="Tutup notifikasi">&times;</button>
+                <button type="button" onclick="this.closest('.alert').remove()" class="text-rose-800 hover:text-rose-950 font-bold text-lg" aria-label="Tutup notifikasi">&times;</button>
             </div>
         @endif
 
         @if(session('info'))
             <div class="alert alert-info shadow-sm" role="alert">
                 <div class="flex items-center gap-2">
-                    <svg class="w-5 h-5 text-blue-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <svg class="w-5 h-5 text-[#0F4C81] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     <span>{{ session('info') }}</span>
                 </div>
-                <button type="button" onclick="this.closest('.alert').remove()" class="text-blue-800 hover:text-blue-950 font-bold text-lg" aria-label="Tutup notifikasi">&times;</button>
+                <button type="button" onclick="this.closest('.alert').remove()" class="text-[#0F4C81] hover:text-[#1B263B] font-bold text-lg" aria-label="Tutup notifikasi">&times;</button>
             </div>
         @endif
 
@@ -608,35 +577,35 @@
     </main>
 
     <!-- Footer Publik & Portal Anggota (Dikembalikan Sesuai Permintaan Khusus Role Member) -->
-    <footer class="bg-white border-t border-slate-200 mt-auto py-6" role="contentinfo">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-500 space-y-1">
-            <p class="font-semibold text-slate-700">&copy; {{ date('Y') }} KSP Sahabat Sejahtera. Badan Hukum No. AHU-0012345.AH.01.26.TAHUN 2026.</p>
+    <footer class="bg-white border-t border-[#E8E2D8] mt-auto py-6" role="contentinfo">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-[#5C6B73] space-y-1">
+            <p class="font-semibold text-[#1B263B]">&copy; {{ date('Y') }} KSP Sahabat Sejahtera. Badan Hukum No. AHU-0012345.AH.01.26.TAHUN 2026.</p>
             <p>Sistem Informasi Manajemen Koperasi Simpan Pinjam Online &bull; Berintegritas, Transparan, & Melayani Anggota.</p>
-            <p class="pt-1.5 text-xs text-slate-500">
-                Developed by <a href="https://www.linyjayainformatika.co.id/" target="_blank" rel="noopener" class="font-bold text-emerald-800 hover:text-emerald-950 underline hover:no-underline transition-colors focus:outline-none focus:ring-1 focus:ring-emerald-500">Liny Jaya Informatika</a>
+            <p class="pt-1.5 text-xs text-[#5C6B73]">
+                Developed by <a href="https://www.linyjayainformatika.co.id/" target="_blank" rel="noopener" class="font-bold text-[#0F4C81] hover:text-[#1B263B] underline hover:no-underline transition-colors focus:outline-none focus:ring-1 focus:ring-[#2A9D8F]">Liny Jaya Informatika</a>
             </p>
         </div>
     </footer>
 
 @else
     {{-- ========================================================================= --}}
-    {{-- TAMPILAN OPERASIONAL INTERNAL STAKEHOLDER (SIDEBAR ELEGAN SENADA BRAND KSP) --}}
+    {{-- TAMPILAN OPERASIONAL INTERNAL STAKEHOLDER (SIDEBAR SOLID NAVY ELEGAN)     --}}
     {{-- ========================================================================= --}}
-    <div class="min-h-screen flex flex-col lg:flex-row {{ $isAdmin ? 'bg-[#F8F5F0]' : 'bg-slate-50' }}">
+    <div class="min-h-screen flex flex-col lg:flex-row bg-[#F8F5F0]">
 
         <!-- DESKTOP SIDEBAR (WARNA SOLID SENADA LOGO BRAND KSP - TANPA GRADASI) -->
-        <aside id="desktopSidebar" class="hidden lg:flex lg:flex-col lg:w-72 lg:fixed lg:inset-y-0 lg:z-40 {{ $isAdmin ? 'bg-[#1B263B] border-r border-[#24344E] text-slate-100' : 'bg-[#063f31] border-r border-[#085240] text-emerald-100' }} shadow-xl" role="navigation" aria-label="Navigasi Sidebar Stakeholder">
+        <aside id="desktopSidebar" class="hidden lg:flex lg:flex-col lg:w-72 lg:fixed lg:inset-y-0 lg:z-40 bg-[#1B263B] border-r border-[#24344E] text-slate-100 shadow-xl" role="navigation" aria-label="Navigasi Sidebar Stakeholder">
             <!-- Brand & Koperasi Emblem Header -->
-            <div class="p-5 {{ $isAdmin ? 'border-b border-[#24344E] bg-[#101927]' : 'border-b border-[#085240] bg-[#042d22]' }} flex items-center justify-between">
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 no-underline group focus:outline-none focus:ring-2 {{ $isAdmin ? 'focus:ring-[#2A9D8F]' : 'focus:ring-emerald-400' }} rounded-xl" aria-label="Dasbor Koperasi">
-                    <div class="w-10 h-10 rounded-xl {{ $isAdmin ? 'bg-[#0F4C81] border border-[#2A9D8F]/60' : 'bg-[#047857] border border-emerald-500/30' }} flex items-center justify-center text-white font-extrabold text-xl shadow-xs group-hover:scale-105 transition-transform">
+            <div class="p-5 border-b border-[#24344E] bg-[#101927] flex items-center justify-between">
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 no-underline group focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] rounded-xl" aria-label="Dasbor Koperasi">
+                    <div class="w-10 h-10 rounded-xl bg-[#0F4C81] border border-[#2A9D8F]/60 flex items-center justify-center text-white font-extrabold text-xl shadow-xs group-hover:scale-105 transition-transform">
                         K
                     </div>
                     <div>
-                        <div class="font-extrabold text-sm tracking-tight text-white {{ $isAdmin ? 'group-hover:text-[#A3B18A]' : 'group-hover:text-emerald-300' }} transition-colors">
+                        <div class="font-extrabold text-sm tracking-tight text-white group-hover:text-[#A3B18A] transition-colors">
                             KSP Sahabat Sejahtera
                         </div>
-                        <div class="text-[10px] font-bold {{ $isAdmin ? 'text-[#2A9D8F]' : 'text-emerald-300' }} uppercase tracking-wider">
+                        <div class="text-[10px] font-bold text-[#2A9D8F] uppercase tracking-wider">
                             Sistem Operasional
                         </div>
                     </div>
@@ -644,32 +613,32 @@
             </div>
 
             <!-- Role Stakeholder Chip -->
-            <div class="px-5 py-2.5 {{ $isAdmin ? 'bg-[#0d1520] border-b border-[#24344E]' : 'bg-[#03231a] border-b border-[#085240]' }} flex items-center justify-between">
-                <span class="text-[10px] font-extrabold tracking-wider {{ $isAdmin ? 'text-[#A3B18A]' : 'text-emerald-300' }} uppercase">Panel Stakeholder</span>
+            <div class="px-5 py-2.5 bg-[#0d1520] border-b border-[#24344E] flex items-center justify-between">
+                <span class="text-[10px] font-extrabold tracking-wider text-[#A3B18A] uppercase">Panel Stakeholder</span>
                 <span class="role-badge role-{{ auth()->user()->role }}">
                     {{ auth()->user()->role }}
                 </span>
             </div>
 
             <!-- Scrollable Navigation Items -->
-            <nav class="flex-1 overflow-y-auto px-3.5 py-4 space-y-5 text-xs {{ $isAdmin ? 'sidebar-scroll-admin' : 'sidebar-scroll' }}" aria-label="Daftar Menu">
+            <nav class="flex-1 overflow-y-auto px-3.5 py-4 space-y-5 text-xs sidebar-scroll-admin" aria-label="Daftar Menu">
                 @include('layouts.partials.sidebar_nav')
             </nav>
 
             <!-- Sidebar Footer (Lihat Beranda + Profil Akun + Logout) -->
-            <div class="p-4 {{ $isAdmin ? 'border-t border-[#24344E] bg-[#0d1520]' : 'border-t border-[#085240] bg-[#03231a]' }} space-y-3">
-                <a href="{{ url('/') }}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-xl {{ $isAdmin ? 'bg-[#1B263B] hover:bg-[#24344E] text-slate-200 hover:text-white border border-[#24344E]' : 'bg-[#063f31] hover:bg-[#085240] text-emerald-100 hover:text-white border border-[#0a6650]' }} transition-all text-xs font-semibold focus:outline-none focus:ring-2 {{ $isAdmin ? 'focus:ring-[#2A9D8F]' : 'focus:ring-emerald-400' }}">
+            <div class="p-4 border-t border-[#24344E] bg-[#0d1520] space-y-3">
+                <a href="{{ url('/') }}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-xl bg-[#1B263B] hover:bg-[#24344E] text-slate-200 hover:text-white border border-[#24344E] transition-all text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]">
                     <span class="flex items-center gap-2">
-                        <svg class="w-4 h-4 {{ $isAdmin ? 'text-[#2A9D8F]' : 'text-emerald-300' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                        <svg class="w-4 h-4 text-[#2A9D8F]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                         Lihat Beranda Publik
                     </span>
-                    <span class="text-3xs {{ $isAdmin ? 'text-[#2A9D8F]' : 'text-emerald-300' }} font-mono">↗</span>
+                    <span class="text-3xs text-[#2A9D8F] font-mono">↗</span>
                 </a>
 
-                <div class="flex items-center justify-between gap-2 pt-2 {{ $isAdmin ? 'border-t border-[#24344E]' : 'border-t border-[#085240]' }}">
+                <div class="flex items-center justify-between gap-2 pt-2 border-t border-[#24344E]">
                     <div class="min-w-0 flex-1">
                         <div class="font-bold text-xs text-white truncate">{{ auth()->user()->name }}</div>
-                        <div class="text-[10px] {{ $isAdmin ? 'text-[#A3B18A]' : 'text-emerald-300' }} font-mono truncate">
+                        <div class="text-[10px] text-[#A3B18A] font-mono truncate">
                             @if(auth()->user()->isStaff())
                                 {{ auth()->user()->employee_code_formatted }}
                             @else
@@ -679,7 +648,7 @@
                     </div>
                     <form action="{{ route('logout') }}" method="POST" class="shrink-0">
                         @csrf
-                        <button type="submit" class="px-3 py-1.5 rounded-lg {{ $isAdmin ? 'bg-[#101927] hover:bg-rose-950/80 text-slate-300 hover:text-rose-200 border border-[#24344E] hover:border-rose-700/70' : 'bg-[#042d22] hover:bg-rose-950/80 text-emerald-200 hover:text-rose-200 border border-[#085240] hover:border-rose-700/70' }} font-extrabold text-xs shadow-2xs transition-all focus:outline-none focus:ring-2 {{ $isAdmin ? 'focus:ring-[#2A9D8F]' : 'focus:ring-emerald-400' }}" title="Keluar dari sistem">
+                        <button type="submit" class="px-3 py-1.5 rounded-lg bg-[#101927] hover:bg-rose-950/80 text-slate-300 hover:text-rose-200 border border-[#24344E] hover:border-rose-700/70 font-extrabold text-xs shadow-2xs transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]" title="Keluar dari sistem">
                             Keluar
                         </button>
                     </form>
@@ -693,38 +662,38 @@
             <div id="mobileSidebarBackdrop" class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs transition-opacity"></div>
 
             <!-- Drawer Panel -->
-            <div class="fixed inset-y-0 left-0 w-72 max-w-full {{ $isAdmin ? 'bg-[#1B263B] text-slate-100 border-r border-[#24344E]' : 'bg-[#063f31] text-emerald-100 border-r border-[#085240]' }} flex flex-col shadow-2xl z-10 transform transition-transform">
-                <div class="p-4 {{ $isAdmin ? 'border-b border-[#24344E] bg-[#101927]' : 'border-b border-[#085240] bg-[#042d22]' }} flex items-center justify-between">
+            <div class="fixed inset-y-0 left-0 w-72 max-w-full bg-[#1B263B] text-slate-100 border-r border-[#24344E] flex flex-col shadow-2xl z-10 transform transition-transform">
+                <div class="p-4 border-b border-[#24344E] bg-[#101927] flex items-center justify-between">
                     <div class="flex items-center gap-2.5">
-                        <div class="w-8 h-8 rounded-lg {{ $isAdmin ? 'bg-[#0F4C81] border border-[#2A9D8F]/60' : 'bg-[#047857] border border-emerald-500/30' }} flex items-center justify-center text-white font-extrabold text-sm">
+                        <div class="w-8 h-8 rounded-lg bg-[#0F4C81] border border-[#2A9D8F]/60 flex items-center justify-center text-white font-extrabold text-sm">
                             K
                         </div>
                         <span class="font-bold text-xs text-white">KSP Sahabat Sejahtera</span>
                     </div>
-                    <button type="button" id="closeMobileSidebarBtn" class="p-1.5 rounded-lg {{ $isAdmin ? 'text-slate-300 hover:text-white hover:bg-[#24344E] focus:ring-[#2A9D8F]' : 'text-emerald-300 hover:text-white hover:bg-[#085240] focus:ring-emerald-400' }} focus:outline-none focus:ring-2" aria-label="Tutup navigasi">
+                    <button type="button" id="closeMobileSidebarBtn" class="p-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-[#24344E] focus:ring-[#2A9D8F] focus:outline-none focus:ring-2" aria-label="Tutup navigasi">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
                 </div>
 
-                <div class="px-4 py-2 {{ $isAdmin ? 'bg-[#0d1520] border-b border-[#24344E]' : 'bg-[#03231a] border-b border-[#085240]' }} flex items-center justify-between">
-                    <span class="text-[10px] uppercase font-bold {{ $isAdmin ? 'text-[#A3B18A]' : 'text-emerald-300' }}">Panel {{ auth()->user()->role }}</span>
+                <div class="px-4 py-2 bg-[#0d1520] border-b border-[#24344E] flex items-center justify-between">
+                    <span class="text-[10px] uppercase font-bold text-[#A3B18A]">Panel {{ auth()->user()->role }}</span>
                     <span class="role-badge role-{{ auth()->user()->role }}">{{ auth()->user()->role }}</span>
                 </div>
 
-                <nav class="flex-1 overflow-y-auto px-3 py-3 space-y-4 text-xs {{ $isAdmin ? 'sidebar-scroll-admin' : 'sidebar-scroll' }}" aria-label="Menu Ponsel">
+                <nav class="flex-1 overflow-y-auto px-3 py-3 space-y-4 text-xs sidebar-scroll-admin" aria-label="Menu Ponsel">
                     @include('layouts.partials.sidebar_nav')
                 </nav>
 
-                <div class="p-3 {{ $isAdmin ? 'border-t border-[#24344E] bg-[#0d1520]' : 'border-t border-[#085240] bg-[#03231a]' }} space-y-2">
-                    <a href="{{ url('/') }}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-lg {{ $isAdmin ? 'bg-[#1B263B] text-slate-200' : 'bg-[#063f31] text-emerald-200' }} text-xs">
+                <div class="p-3 border-t border-[#24344E] bg-[#0d1520] space-y-2">
+                    <a href="{{ url('/') }}" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-lg bg-[#1B263B] text-slate-200 text-xs">
                         <span>Lihat Beranda Publik</span>
-                        <span class="{{ $isAdmin ? 'text-[#2A9D8F]' : 'text-emerald-300' }}">↗</span>
+                        <span class="text-[#2A9D8F]">↗</span>
                     </a>
                     <div class="flex items-center justify-between pt-1">
                         <span class="text-xs font-bold text-white truncate">{{ auth()->user()->name }}</span>
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
-                            <button type="submit" class="px-2.5 py-1 rounded {{ $isAdmin ? 'bg-[#101927] text-slate-200 border border-[#24344E]' : 'bg-[#042d22] text-emerald-200 border border-[#085240]' }} hover:text-rose-200 font-bold text-xs">Keluar</button>
+                            <button type="submit" class="px-2.5 py-1 rounded bg-[#101927] text-slate-200 border border-[#24344E] hover:text-rose-200 font-bold text-xs">Keluar</button>
                         </form>
                     </div>
                 </div>
@@ -732,32 +701,23 @@
         </div>
 
         <!-- RIGHT SIDE CONTENT AREA -->
-        <div class="flex-1 min-w-0 lg:pl-72 flex flex-col min-h-screen {{ $isAdmin ? 'bg-[#F8F5F0]' : 'bg-slate-50' }}">
+        <div class="flex-1 min-w-0 lg:pl-72 flex flex-col min-h-screen bg-[#F8F5F0]">
             <!-- STICKY OPERATIONAL TOPBAR -->
-            <header class="sticky top-0 z-30 {{ $isAdmin ? 'bg-white/95 border-b border-[#E8E2D8]' : 'bg-white/95 border-b border-emerald-100' }} backdrop-blur-md shadow-2xs h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8">
+            <header class="sticky top-0 z-30 bg-white/95 border-b border-[#E8E2D8] backdrop-blur-md shadow-2xs h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center gap-3">
                     <!-- Hamburger Toggle Button Mobile -->
-                    <button type="button" id="openMobileSidebarBtn" class="lg:hidden p-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:ring-2 {{ $isAdmin ? 'focus:ring-[#2A9D8F]' : 'focus:ring-emerald-500' }}" aria-label="Buka Menu Navigasi" aria-expanded="false">
+                    <button type="button" id="openMobileSidebarBtn" class="lg:hidden p-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]" aria-label="Buka Menu Navigasi" aria-expanded="false">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                     </button>
 
                     <div class="hidden sm:block">
                         <div class="flex items-center gap-2 text-xs font-medium">
-                            @if($isAdmin)
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1B263B] text-white text-xs font-bold border border-[#2A9D8F]/50 shadow-xs">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse"></span>
-                                    Sistem Operasional Koperasi
-                                </span>
-                                <span class="text-slate-400">&bull;</span>
-                                <span class="text-[#1B263B] font-bold">{{ date('d M Y') }}</span>
-                            @else
-                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200/80">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
-                                    Sistem Operasional Koperasi
-                                </span>
-                                <span class="text-slate-300">&bull;</span>
-                                <span class="text-slate-700 font-bold">{{ date('d M Y') }}</span>
-                            @endif
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1B263B] text-white text-xs font-bold border border-[#2A9D8F]/50 shadow-xs">
+                                <span class="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse"></span>
+                                Sistem Operasional Koperasi
+                            </span>
+                            <span class="text-slate-400">&bull;</span>
+                            <span class="text-[#1B263B] font-bold">{{ date('d M Y') }}</span>
                         </div>
                     </div>
                 </div>
@@ -776,8 +736,8 @@
                             {{ auth()->user()->role }}
                         </span>
                         <div class="hidden md:flex flex-col text-right">
-                            <span class="text-xs font-bold {{ $isAdmin ? 'text-[#1B263B]' : 'text-slate-800' }} leading-tight">{{ auth()->user()->name }}</span>
-                            <span class="text-[10px] {{ $isAdmin ? 'text-[#5C6B73]' : 'text-slate-400' }} font-mono">
+                            <span class="text-xs font-bold text-[#1B263B] leading-tight">{{ auth()->user()->name }}</span>
+                            <span class="text-[10px] text-[#5C6B73] font-mono">
                                 {{ auth()->user()->isStaff() ? auth()->user()->employee_code_formatted : (auth()->user()->member?->member_number ?? 'ANGGOTA') }}
                             </span>
                         </div>
@@ -790,10 +750,10 @@
                 @if(session('success'))
                     <div class="alert alert-success shadow-sm" role="alert">
                         <div class="flex items-center gap-2">
-                            <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <svg class="w-5 h-5 text-[#2A9D8F] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             <span>{{ session('success') }}</span>
                         </div>
-                        <button type="button" onclick="this.closest('.alert').remove()" class="text-emerald-800 hover:text-emerald-950 font-bold text-lg" aria-label="Tutup notifikasi">&times;</button>
+                        <button type="button" onclick="this.closest('.alert').remove()" class="text-[#0F4C81] hover:text-[#1B263B] font-bold text-lg" aria-label="Tutup notifikasi">&times;</button>
                     </div>
                 @endif
 

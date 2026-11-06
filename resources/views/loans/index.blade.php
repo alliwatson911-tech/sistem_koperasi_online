@@ -6,9 +6,9 @@
 <!-- Navigasi Kembali ke Halaman Sebelumnya (Kiri Atas) -->
 <div class="mb-4">
     <a href="{{ route('dashboard') }}" 
-       class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 text-xs font-bold transition-all shadow-2xs"
+       class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-[#F8F5F0] text-[#0F4C81] hover:text-[#1B263B] border border-[#E8E2D8] text-xs font-bold transition-all shadow-2xs"
        title="Kembali ke halaman sebelumnya">
-        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <svg class="w-4 h-4 text-[#0F4C81]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
         <span>Kembali ke Halaman Sebelumnya</span>
     </a>
 </div>
@@ -17,8 +17,8 @@
 <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6 pb-4 border-b border-slate-200/80">
     <div>
         <div class="flex items-center gap-2 mb-1">
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-800 text-[11px] font-bold border border-emerald-200">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#EAF6F5] text-[#0F4C81] text-[11px] font-bold border border-[#2A9D8F]/30">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#2A9D8F]"></span>
                 Portofolio Pembiayaan
             </span>
             <span class="text-xs text-slate-400 font-medium">&bull; Layanan Kredit Anggota</span>
@@ -28,8 +28,8 @@
     </div>
 
     <!-- Ringkasan Outstanding Card -->
-    <div class="bg-white border border-slate-200/90 rounded-2xl p-4 shadow-xs flex items-center gap-4 shrink-0 border-l-4 border-l-emerald-600">
-        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 border border-emerald-100">
+    <div class="bg-white border border-[#E8E2D8] rounded-2xl p-4 shadow-xs flex items-center gap-4 shrink-0 border-l-4 border-l-[#0F4C81]">
+        <div class="w-10 h-10 rounded-xl bg-[#EAF6F5] text-[#0F4C81] flex items-center justify-center shrink-0 border border-[#2A9D8F]/20">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </div>
         <div>
@@ -40,7 +40,7 @@
 </div>
 
 <!-- Filter & Pencarian Rapih & Proporsional -->
-<div class="bg-white rounded-2xl shadow-xs border border-slate-200/90 p-5 mb-6">
+<div class="bg-white rounded-2xl shadow-xs border border-[#E8E2D8] p-5 mb-6">
     <form action="{{ route('loans.index') }}" method="GET" class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-end">
         <div class="sm:col-span-5">
             <label class="block text-xs font-bold text-slate-700 mb-1.5">Cari Anggota / No. Pinjaman</label>
@@ -48,12 +48,12 @@
                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                 </span>
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama anggota, no. pinjaman, NIK..." class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama anggota, no. pinjaman, NIK..." class="w-full pl-9 pr-3 py-2 text-xs sm:text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] transition-all">
             </div>
         </div>
         <div class="sm:col-span-4">
             <label class="block text-xs font-bold text-slate-700 mb-1.5">Status Pinjaman</label>
-            <select name="status" class="w-full py-2 px-3 text-xs sm:text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 bg-white transition-all">
+            <select name="status" class="w-full py-2 px-3 text-xs sm:text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#2A9D8F] focus:border-[#2A9D8F] bg-white transition-all">
                 <option value="">Semua Status Pinjaman</option>
                 <option value="approved_awaiting_disbursement" {{ request('status') === 'approved_awaiting_disbursement' ? 'selected' : '' }}>Menunggu Akad / Cair</option>
                 <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Aktif Lancar</option>
@@ -95,7 +95,7 @@
                 @forelse($loans as $loan)
                 <tr class="hover:bg-slate-50/70 transition-colors">
                     <td class="px-5 py-3.5">
-                        <a href="{{ route('loans.show', $loan->id) }}" class="font-bold font-mono text-emerald-800 hover:text-emerald-950 hover:underline">
+                        <a href="{{ route('loans.show', $loan->id) }}" class="font-bold font-mono text-[#0F4C81] hover:text-[#1B263B] hover:underline">
                             {{ $loan->loan_no }}
                         </a>
                         <span class="block text-[11px] text-slate-400 font-normal mt-0.5">

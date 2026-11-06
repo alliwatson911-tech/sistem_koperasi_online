@@ -4,8 +4,11 @@
 
 @section('content')
 <div style="max-width: 520px; margin: 1.5rem auto;">
-    <div style="margin-bottom: 1rem;">
-        <a href="{{ route('savings.show', $account->id) }}" style="color: var(--primary); text-decoration: none; font-size: 0.85rem; font-weight: 600;">&larr; Kembali ke Rekening</a>
+    <div class="mb-4">
+        <a href="{{ route('savings.show', $account->id) }}" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-[#F8F5F0] text-[#0F4C81] hover:text-[#1B263B] border border-[#E8E2D8] text-xs font-bold transition-all shadow-2xs" title="Kembali ke halaman sebelumnya">
+            <svg class="w-4 h-4 text-[#0F4C81]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            <span>Kembali ke Halaman Sebelumnya</span>
+        </a>
     </div>
 
     <div class="card">

@@ -4,7 +4,17 @@
 
 @section('content')
 <div class="max-w-3xl mx-auto py-6 px-4">
-    <div class="card shadow-sm border border-slate-200">
+    <!-- Navigasi Kembali ke Halaman Sebelumnya (Kiri Atas) -->
+    <div class="mb-4">
+        <a href="{{ route('dashboard') }}" 
+           class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-[#F8F5F0] text-[#0F4C81] hover:text-[#1B263B] border border-[#E8E2D8] text-xs font-bold transition-all shadow-2xs"
+           title="Kembali ke halaman sebelumnya">
+            <svg class="w-4 h-4 text-[#0F4C81]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            <span>Kembali ke Halaman Sebelumnya</span>
+        </a>
+    </div>
+
+    <div class="card shadow-sm border border-[#E8E2D8]">
         <div class="card-header pb-4 border-b border-slate-100 flex items-center justify-between">
             <div>
                 <h1 class="card-title text-xl font-bold text-slate-900">Pengajuan Pinjaman Koperasi Online</h1>

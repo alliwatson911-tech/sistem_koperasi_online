@@ -4,9 +4,9 @@
 
 @section('content')
 <div class="max-w-2xl mx-auto my-6 px-4">
-    <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-6 sm:p-8">
+    <div class="bg-white rounded-2xl border border-[#E8E2D8] shadow-sm p-6 sm:p-8">
         <div class="border-b border-slate-100 pb-5 mb-6">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200/60 mb-2">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#EAF6F5] text-[#0F4C81] border border-[#2A9D8F]/30 mb-2">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
                 Pendaftaran Anggota Baru
             </span>
@@ -20,7 +20,7 @@
             <!-- Bagian 1: Data Akun & Kontak -->
             <div>
                 <div class="flex items-center gap-2 mb-3">
-                    <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-bold">1</span>
+                    <span class="w-6 h-6 rounded-full bg-[#EAF6F5] text-[#0F4C81] flex items-center justify-center text-xs font-bold">1</span>
                     <h2 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Data Akun & Kontak</h2>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -57,7 +57,7 @@
             <!-- Bagian 2: Identitas Diri (KTP) -->
             <div class="pt-4 border-t border-slate-100">
                 <div class="flex items-center gap-2 mb-3">
-                    <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-bold">2</span>
+                    <span class="w-6 h-6 rounded-full bg-[#EAF6F5] text-[#0F4C81] flex items-center justify-center text-xs font-bold">2</span>
                     <h2 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Identitas Diri (KTP) & Domisili</h2>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -107,7 +107,7 @@
             <!-- Bagian 3: Rekening & Unggah Berkas -->
             <div class="pt-4 border-t border-slate-100">
                 <div class="flex items-center gap-2 mb-3">
-                    <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center text-xs font-bold">3</span>
+                    <span class="w-6 h-6 rounded-full bg-[#EAF6F5] text-[#0F4C81] flex items-center justify-center text-xs font-bold">3</span>
                     <h2 class="text-xs font-bold text-slate-900 uppercase tracking-wider">Rekening Pencairan & Unggah Berkas</h2>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -136,9 +136,9 @@
             </div>
 
             <!-- Ketentuan Keanggotaan -->
-            <div class="rounded-xl p-4 bg-slate-50 border border-slate-200/80 text-xs text-slate-600 space-y-1.5">
+            <div class="rounded-xl p-4 bg-[#F8F5F0] border border-[#E8E2D8] text-xs text-slate-600 space-y-1.5">
                 <div class="font-bold text-slate-800 flex items-center gap-1.5">
-                    <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <svg class="w-4 h-4 text-[#0F4C81]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     Ketentuan & Tata Tertib Keanggotaan:
                 </div>
                 <ul class="list-disc list-inside space-y-1 text-slate-500 ml-1">
@@ -154,7 +154,7 @@
         </form>
 
         <div class="text-center mt-6 pt-5 border-t border-slate-100 text-xs text-slate-500">
-            Sudah memiliki akun anggota terdaftar? <a href="{{ route('login') }}" class="text-emerald-700 font-bold hover:underline">Masuk ke Portal Anggota</a>
+            Sudah memiliki akun anggota terdaftar? <a href="{{ route('login') }}" class="text-[#0F4C81] font-bold hover:underline">Masuk ke Portal Anggota</a>
         </div>
     </div>
 </div>

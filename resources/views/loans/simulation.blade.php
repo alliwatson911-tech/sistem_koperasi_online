@@ -3,9 +3,19 @@
 @section('title', 'Kalkulator Simulasi Pinjaman')
 
 @section('content')
+<!-- Navigasi Kembali ke Halaman Sebelumnya (Kiri Atas) -->
+<div class="mb-4">
+    <a href="{{ route('dashboard') }}" 
+       class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-[#F8F5F0] text-[#0F4C81] hover:text-[#1B263B] border border-[#E8E2D8] text-xs font-bold transition-all shadow-2xs"
+       title="Kembali ke halaman sebelumnya">
+        <svg class="w-4 h-4 text-[#0F4C81]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <span>Kembali ke Halaman Sebelumnya</span>
+    </a>
+</div>
+
 <div class="mb-6 pb-4 border-b border-slate-200/80">
     <div class="flex items-center gap-2 mb-1">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200/60">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#EAF6F5] text-[#0F4C81] border border-[#2A9D8F]/30">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
             Kalkulator Finansial Transparan
         </span>
@@ -117,15 +127,15 @@
         @if($simulationResult)
             <!-- Ringkasan Biaya Simulasi -->
             <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-                <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs border-l-4 border-l-emerald-600">
+                <div class="bg-white rounded-2xl p-4 border border-[#E8E2D8] shadow-xs border-l-4 border-l-[#0F4C81]">
                     <span class="text-2xs font-semibold text-slate-500 uppercase tracking-wider block">Angsuran {{ $simulationResult['tenor_unit_label'] }} Ke-1</span>
-                    <div class="text-lg font-extrabold text-emerald-700 tracking-tight mt-1">
+                    <div class="text-lg font-extrabold text-[#0F4C81] tracking-tight mt-1">
                         Rp {{ number_format($simulationResult['first_installment'] ?? $simulationResult['first_month_installment'], 0, ',', '.') }}
                     </div>
                     <span class="text-3xs text-slate-400 mt-1 block">{{ ucfirst($simulationResult['method']) }} ({{ $simulationResult['rate_per_period'] }}%/{{ strtolower($simulationResult['tenor_unit_label']) }})</span>
                 </div>
 
-                <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs border-l-4 border-l-sky-600">
+                <div class="bg-white rounded-2xl p-4 border border-[#E8E2D8] shadow-xs border-l-4 border-l-[#2A9D8F]">
                     <span class="text-2xs font-semibold text-slate-500 uppercase tracking-wider block">Total Bunga / Jasa</span>
                     <div class="text-lg font-extrabold text-slate-900 tracking-tight mt-1">
                         Rp {{ number_format($simulationResult['total_interest'], 0, ',', '.') }}
@@ -133,15 +143,15 @@
                     <span class="text-3xs text-slate-400 mt-1 block">Akumulasi jasa pinjaman</span>
                 </div>
 
-                <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs border-l-4 border-l-indigo-600">
+                <div class="bg-white rounded-2xl p-4 border border-[#E8E2D8] shadow-xs border-l-4 border-l-[#0F4C81]">
                     <span class="text-2xs font-semibold text-slate-500 uppercase tracking-wider block">Total Biaya (Bunga + Adm)</span>
-                    <div class="text-lg font-extrabold text-indigo-700 tracking-tight mt-1">
+                    <div class="text-lg font-extrabold text-[#0F4C81] tracking-tight mt-1">
                         Rp {{ number_format($simulationResult['total_cost'], 0, ',', '.') }}
                     </div>
                     <span class="text-3xs text-slate-400 mt-1 block">Adm: Rp {{ number_format($simulationResult['admin_fee'], 0, ',', '.') }}</span>
                 </div>
 
-                <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs border-l-4 border-l-amber-600">
+                <div class="bg-white rounded-2xl p-4 border border-[#E8E2D8] shadow-xs border-l-4 border-l-[#D4AF37]">
                     <span class="text-2xs font-semibold text-slate-500 uppercase tracking-wider block">Total Pengembalian</span>
                     <div class="text-lg font-extrabold text-slate-900 tracking-tight mt-1">
                         Rp {{ number_format($simulationResult['total_payable'], 0, ',', '.') }}
@@ -151,10 +161,10 @@
             </div>
 
             <!-- Kartu Transparansi Biaya Setara Per Tahun (APR & AER) -->
-            <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-indigo-950 rounded-2xl p-5 text-white shadow-md border border-emerald-800/40">
+            <div class="bg-[#1B263B] text-white rounded-2xl p-5 shadow-md border border-[#24344E]">
                 <div class="flex items-start justify-between gap-4 flex-col sm:flex-row">
                     <div>
-                        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-3xs font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 mb-2">
+                        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-3xs font-bold uppercase tracking-wider bg-[#2A9D8F]/20 text-[#2A9D8F] border border-[#2A9D8F]/30 mb-2">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                             Transparansi Finansial Perlindungan Anggota
                         </div>
@@ -162,7 +172,7 @@
                         <p class="text-xs text-slate-300 mt-0.5">Memudahkan anggota membandingkan biaya riil produk mingguan vs bulanan secara adil dan terbuka.</p>
                     </div>
                     <div class="text-right sm:self-center bg-white/10 px-4 py-2 rounded-xl backdrop-blur-xs border border-white/10 shrink-0">
-                        <span class="text-3xs uppercase tracking-wider text-emerald-300 font-bold block">Biaya Setara Tahunan (APR)</span>
+                        <span class="text-3xs uppercase tracking-wider text-[#D4AF37] font-bold block">Biaya Setara Tahunan (APR)</span>
                         <span class="text-2xl font-black text-white tracking-tight">{{ number_format($simulationResult['annual_equivalent_cost_rate'], 2, ',', '.') }}% <span class="text-xs font-normal text-slate-300">/ thn</span></span>
                     </div>
                 </div>
@@ -180,7 +190,7 @@
                     </div>
                     <div class="col-span-2 sm:col-span-1">
                         <span class="text-3xs text-slate-400 uppercase font-semibold block">Total Beban Finansial</span>
-                        <span class="text-sm font-bold text-emerald-400">Rp {{ number_format($simulationResult['total_cost'], 0, ',', '.') }}</span>
+                        <span class="text-sm font-bold text-[#2A9D8F]">Rp {{ number_format($simulationResult['total_cost'], 0, ',', '.') }}</span>
                         <span class="text-3xs text-slate-400 block">Bunga Rp {{ number_format($simulationResult['total_interest'], 0, ',', '.') }} + Adm Rp {{ number_format($simulationResult['admin_fee'], 0, ',', '.') }}</span>
                     </div>
                 </div>

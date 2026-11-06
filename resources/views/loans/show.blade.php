@@ -13,18 +13,18 @@
                     $backUrl = url()->previous();
                 }
             @endphp
-            <a href="{{ $backUrl }}" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 text-xs font-bold transition-all shadow-2xs mb-3" title="Kembali ke halaman sebelumnya">
-                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            <a href="{{ $backUrl }}" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-[#F8F5F0] text-[#0F4C81] hover:text-[#1B263B] border border-[#E8E2D8] text-xs font-bold transition-all shadow-2xs mb-3" title="Kembali ke halaman sebelumnya">
+                <svg class="w-4 h-4 text-[#0F4C81]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 <span>Kembali ke Halaman Sebelumnya</span>
             </a>
             <div class="flex flex-wrap items-center gap-2.5">
                 <h1 class="text-2xl font-black text-slate-800 tracking-tight">Kontrak Pinjaman: {{ $loan->loan_no }}</h1>
                 @php
                     $statusStyles = match($loan->status) {
-                        'active' => 'bg-emerald-100 text-emerald-800 border-emerald-300 ring-2 ring-emerald-100',
+                        'active' => 'bg-[#EAF6F5] text-[#0F4C81] border-[#2A9D8F]/40 ring-2 ring-[#2A9D8F]/20',
                         'overdue' => 'bg-rose-100 text-rose-800 border-rose-300 ring-2 ring-rose-100',
                         'paid_off' => 'bg-slate-100 text-slate-800 border-slate-300',
-                        'approved_awaiting_disbursement' => 'bg-blue-100 text-blue-800 border-blue-300 ring-2 ring-blue-100',
+                        'approved_awaiting_disbursement' => 'bg-[#EAF2F8] text-[#0F4C81] border-[#0F4C81]/30 ring-2 ring-[#0F4C81]/20',
                         default => 'bg-slate-100 text-slate-800 border-slate-300',
                     };
 
@@ -47,11 +47,11 @@
 
         <div class="flex items-center gap-2">
             @if(in_array($loan->status, ['active', 'overdue']))
-                <button type="button" onclick="document.getElementById('modal-early-repay').classList.remove('hidden')" class="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold border border-indigo-200 shadow-xs transition">
+                <button type="button" onclick="document.getElementById('modal-early-repay').classList.remove('hidden')" class="inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-[#EAF6F5] hover:bg-[#d8ecea] text-[#0F4C81] text-xs font-bold border border-[#2A9D8F]/30 shadow-xs transition">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     Pelunasan Dipercepat
                 </button>
-                <a href="{{ route('loans.pay', $loan->id) }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow transition">
+                <a href="{{ route('loans.pay', $loan->id) }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0F4C81] hover:bg-[#1B263B] text-white text-xs font-bold shadow transition">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     Bayar Angsuran
                 </a>
@@ -149,7 +149,7 @@
     <div class="bg-white rounded-2xl shadow-sm border border-emerald-200 p-6 space-y-4">
         <div class="flex items-center justify-between pb-3 border-b border-slate-100">
             <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center shadow-sm">
+                <div class="w-8 h-8 rounded-lg bg-[#0F4C81] text-white flex items-center justify-center shadow-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                 </div>
                 <div>
@@ -216,7 +216,7 @@
     <div class="bg-white rounded-2xl shadow-sm border border-blue-200 p-6 space-y-4">
         <div class="flex items-center justify-between pb-3 border-b border-slate-100">
             <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center shadow-sm">
+                <div class="w-8 h-8 rounded-lg bg-[#0F4C81] text-white flex items-center justify-center shadow-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path></svg>
                 </div>
                 <div>

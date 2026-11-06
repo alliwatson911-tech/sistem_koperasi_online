@@ -43,34 +43,34 @@
     <!-- KOTAK BESAR KIRI: TOTAL DANA SIMPANAN (INTERAKTIF KE HALAMAN SIMPANAN)     -->
     <!-- ========================================================================= -->
     <a href="{{ route('savings.index') }}" 
-       class="lg:col-span-5 bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/90 border-l-4 border-l-[#047857] shadow-xs hover:border-[#047857] hover:shadow-md hover:-translate-y-0.5 transition-all flex flex-col justify-between group cursor-pointer text-slate-800 no-underline"
+       class="lg:col-span-5 bg-white rounded-2xl p-6 sm:p-7 border border-[#E8E2D8] border-l-4 border-l-[#0F4C81] shadow-xs hover:border-[#0F4C81] hover:shadow-md hover:-translate-y-0.5 transition-all flex flex-col justify-between group cursor-pointer text-slate-800 no-underline"
        title="Klik untuk membuka Kelola Rekening Simpanan">
         <div>
             <!-- Header Kartu Simpanan -->
             <div class="flex items-start justify-between gap-3 mb-4">
                 <div>
                     <div class="flex items-center gap-2 mb-1.5">
-                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-800 text-[11px] font-bold border border-emerald-200">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#EAF6F5] text-[#0F4C81] text-[11px] font-bold border border-[#2A9D8F]/30">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#2A9D8F]"></span>
                             Likuiditas Kas Koperasi
                         </span>
                         <span class="text-xs text-slate-400 font-medium">Buku Kas Utama</span>
                     </div>
-                    <h2 class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-500 group-hover:text-emerald-800 transition-colors">
+                    <h2 class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-500 group-hover:text-[#0F4C81] transition-colors">
                         Total Dana Simpanan Anggota
                     </h2>
                 </div>
-                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 group-hover:bg-[#047857] group-hover:text-white flex items-center justify-center shrink-0 border border-emerald-100 transition-all">
+                <div class="w-12 h-12 rounded-xl bg-[#EAF6F5] text-[#0F4C81] group-hover:bg-[#0F4C81] group-hover:text-white flex items-center justify-center shrink-0 border border-[#2A9D8F]/20 transition-all">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </div>
             </div>
 
             <!-- Nominal Utama & Keterangan -->
             <div class="my-3">
-                <div class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-2 group-hover:text-emerald-950 transition-colors">
+                <div class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-2 group-hover:text-[#1B263B] transition-colors">
                     Rp {{ number_format($stats['total_savings'] / 1000000, 1) }} <span class="text-xl sm:text-2xl font-bold text-slate-500">jt</span>
                 </div>
-                <div class="font-mono text-xs sm:text-sm font-bold text-emerald-800 bg-emerald-50 inline-block px-3 py-1 rounded-lg border border-emerald-200/80 mb-3">
+                <div class="font-mono text-xs sm:text-sm font-bold text-[#0F4C81] bg-[#EAF6F5] inline-block px-3 py-1 rounded-lg border border-[#2A9D8F]/30 mb-3">
                     Rp {{ number_format($stats['total_savings'], 0, ',', '.') }}
                 </div>
                 <p class="text-xs text-slate-500 leading-relaxed">
@@ -81,12 +81,12 @@
 
         <!-- Tombol Aksi Bawah -->
         <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between gap-2 flex-wrap">
-            <span class="btn btn-primary btn-sm rounded-xl px-4 py-2 text-xs font-bold shadow-xs group-hover:bg-[#035d43] transition-all inline-flex items-center gap-1.5">
+            <span class="btn btn-primary btn-sm rounded-xl px-4 py-2 text-xs font-bold shadow-xs group-hover:bg-[#1B263B] transition-all inline-flex items-center gap-1.5">
                 <span>Kelola Simpanan & Kas</span>
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </span>
-            <span class="text-xs font-bold text-emerald-800 group-hover:underline inline-flex items-center gap-1">
-                <span>Buka Rekening Simpanan</span>
+            <span class="text-xs font-bold text-[#0F4C81] group-hover:underline inline-flex items-center gap-1">
+                <span>Buku Besar</span>
                 <span class="text-3xs">&rarr;</span>
             </span>
         </div>
@@ -98,14 +98,14 @@
     <div class="lg:col-span-7 flex flex-col justify-between gap-3.5">
         <!-- Kotak 1: Total Anggota Aktif (INTERAKTIF KE KELOLA ANGGOTA) -->
         <a href="{{ route('members.index') }}" 
-           class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 border-l-4 border-l-emerald-600 shadow-xs hover:border-emerald-600 hover:shadow-md hover:-translate-y-0.5 transition-all flex items-center justify-between gap-4 group cursor-pointer text-slate-800 no-underline"
+           class="bg-white rounded-2xl p-4 sm:p-5 border border-[#E8E2D8] border-l-4 border-l-[#2A9D8F] shadow-xs hover:border-[#2A9D8F] hover:shadow-md hover:-translate-y-0.5 transition-all flex items-center justify-between gap-4 group cursor-pointer text-slate-800 no-underline"
            title="Klik untuk membuka Kelola Anggota">
             <div class="flex items-center gap-3.5 min-w-0">
-                <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-700 group-hover:bg-emerald-600 group-hover:text-white flex items-center justify-center shrink-0 border border-emerald-100 transition-all">
+                <div class="w-11 h-11 rounded-xl bg-[#EAF6F5] text-[#2A9D8F] group-hover:bg-[#2A9D8F] group-hover:text-white flex items-center justify-center shrink-0 border border-[#2A9D8F]/20 transition-all">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                 </div>
                 <div class="min-w-0">
-                    <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 group-hover:text-emerald-800 transition-colors mb-0.5">
+                    <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 group-hover:text-[#2A9D8F] transition-colors mb-0.5">
                         TOTAL ANGGOTA AKTIF
                     </div>
                     <div class="text-xs text-slate-500">
@@ -115,17 +115,17 @@
                                 {{ $stats['pending_members'] }} verifikasi pending
                             </span>
                         @else
-                            <span class="text-emerald-700 font-semibold">Semua anggota terverifikasi</span>
+                            <span class="text-[#2A9D8F] font-semibold">Semua anggota terverifikasi</span>
                         @endif
                     </div>
                 </div>
             </div>
             <div class="text-right shrink-0">
-                <div class="text-2xl font-black text-slate-900 group-hover:text-emerald-950 transition-colors tracking-tight">
+                <div class="text-2xl font-black text-slate-900 group-hover:text-[#1B263B] transition-colors tracking-tight">
                     {{ number_format($stats['active_members']) }}
                     <span class="text-xs font-semibold text-slate-400">/ {{ $stats['total_members'] }} total</span>
                 </div>
-                <span class="text-[11px] font-bold text-emerald-800 group-hover:underline inline-flex items-center gap-1 mt-0.5">
+                <span class="text-[11px] font-bold text-[#2A9D8F] group-hover:underline inline-flex items-center gap-1 mt-0.5">
                     Kelola Anggota &rarr;
                 </span>
             </div>
@@ -133,14 +133,14 @@
 
         <!-- Kotak 2: Sisa Pokok Pinjaman (INTERAKTIF KE PORTOFOLIO PINJAMAN) -->
         <a href="{{ route('loans.manage') }}" 
-           class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 border-l-4 border-l-teal-600 shadow-xs hover:border-teal-600 hover:shadow-md hover:-translate-y-0.5 transition-all flex items-center justify-between gap-4 group cursor-pointer text-slate-800 no-underline"
+           class="bg-white rounded-2xl p-4 sm:p-5 border border-[#E8E2D8] border-l-4 border-l-[#0F4C81] shadow-xs hover:border-[#0F4C81] hover:shadow-md hover:-translate-y-0.5 transition-all flex items-center justify-between gap-4 group cursor-pointer text-slate-800 no-underline"
            title="Klik untuk membuka Portofolio Pinjaman">
             <div class="flex items-center gap-3.5 min-w-0">
-                <div class="w-11 h-11 rounded-xl bg-teal-50 text-teal-700 group-hover:bg-teal-600 group-hover:text-white flex items-center justify-center shrink-0 border border-teal-100 transition-all">
+                <div class="w-11 h-11 rounded-xl bg-[#EAF2F8] text-[#0F4C81] group-hover:bg-[#0F4C81] group-hover:text-white flex items-center justify-center shrink-0 border border-[#0F4C81]/20 transition-all">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
                 </div>
                 <div class="min-w-0">
-                    <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 group-hover:text-teal-800 transition-colors mb-0.5">
+                    <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 group-hover:text-[#0F4C81] transition-colors mb-0.5">
                         SISA POKOK PINJAMAN
                     </div>
                     <div class="text-xs text-slate-500 truncate">
@@ -149,7 +149,7 @@
                 </div>
             </div>
             <div class="text-right shrink-0">
-                <div class="text-2xl font-black text-slate-900 group-hover:text-teal-950 transition-colors tracking-tight">
+                <div class="text-2xl font-black text-slate-900 group-hover:text-[#1B263B] transition-colors tracking-tight">
                     Rp {{ number_format($stats['total_loans_active'] / 1000000, 1) }} <span class="text-xs font-semibold text-slate-400">jt</span>
                 </div>
                 <div class="text-[11px] font-mono font-medium text-slate-500">
@@ -160,7 +160,7 @@
 
         <!-- Kotak 3: Pinjaman Menunggak (NPL) (INTERAKTIF KE LAPORAN TUNGGAKAN / NPL) -->
         <a href="{{ route('reports.overdue') }}" 
-           class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 border-l-4 border-l-rose-600 shadow-xs hover:border-rose-600 hover:shadow-md hover:-translate-y-0.5 transition-all flex items-center justify-between gap-4 group cursor-pointer text-slate-800 no-underline"
+           class="bg-white rounded-2xl p-4 sm:p-5 border border-[#E8E2D8] border-l-4 border-l-rose-600 shadow-xs hover:border-rose-600 hover:shadow-md hover:-translate-y-0.5 transition-all flex items-center justify-between gap-4 group cursor-pointer text-slate-800 no-underline"
            title="Klik untuk membuka Laporan Kolektibilitas / NPL">
             <div class="flex items-center gap-3.5 min-w-0">
                 <div class="w-11 h-11 rounded-xl bg-rose-50 text-rose-700 group-hover:bg-rose-600 group-hover:text-white flex items-center justify-center shrink-0 border border-rose-100 transition-all">
@@ -306,15 +306,15 @@
 
 <!-- Pinjaman Siap Dicairkan (Menunggu Teller) -->
 @if($awaitingDisbursementLoans->isNotEmpty())
-<div class="bg-white rounded-2xl border border-teal-200 shadow-sm overflow-hidden mb-6">
-    <div class="px-5 py-4 border-b border-teal-100 bg-teal-50/60 flex items-center justify-between">
+<div class="bg-white rounded-2xl border border-[#2A9D8F]/30 shadow-sm overflow-hidden mb-6">
+    <div class="px-5 py-4 border-b border-[#2A9D8F]/20 bg-[#EAF6F5]/60 flex items-center justify-between">
         <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-teal-600 text-white flex items-center justify-center font-bold">
+            <div class="w-9 h-9 rounded-xl bg-[#2A9D8F] text-white flex items-center justify-center font-bold">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
             </div>
             <div>
-                <h2 class="text-base font-bold text-teal-900 tracking-tight">Pinjaman Telah Disetujui (Siap Dicairkan)</h2>
-                <p class="text-xs text-teal-700">Akad disetujui Manajer. Teller dapat mencairkan dana ke kas tunai atau rekening transfer bank anggota.</p>
+                <h2 class="text-base font-bold text-[#1B263B] tracking-tight">Pinjaman Telah Disetujui (Siap Dicairkan)</h2>
+                <p class="text-xs text-[#2A9D8F]">Akad disetujui Manajer. Teller dapat mencairkan dana ke kas tunai atau rekening transfer bank anggota.</p>
             </div>
         </div>
         <span class="badge badge-info px-3 py-1 font-bold text-xs">{{ $awaitingDisbursementLoans->count() }} Antrean Pencairan</span>
@@ -335,7 +335,7 @@
             </thead>
             <tbody class="divide-y divide-slate-100">
                 @foreach($awaitingDisbursementLoans as $abl)
-                <tr class="hover:bg-teal-50/30 transition-colors">
+                <tr class="hover:bg-slate-50 transition-colors">
                     <td class="py-3 px-4 font-mono font-bold text-slate-800">{{ $abl->loan_no }}</td>
                     <td class="py-3 px-3">
                         <div class="font-bold text-slate-800">{{ $abl->member->user->name }}</div>
@@ -344,14 +344,14 @@
                     <td class="py-3 px-3 text-slate-600">{{ $abl->loanProduct->name }}</td>
                     <td class="py-3 px-3 font-semibold text-slate-800">Rp {{ number_format($abl->principal_amount, 0, ',', '.') }}</td>
                     <td class="py-3 px-3 text-slate-500">Rp {{ number_format($abl->total_admin_fee, 0, ',', '.') }}</td>
-                    <td class="py-3 px-3 font-extrabold text-teal-700">
+                    <td class="py-3 px-3 font-extrabold text-[#0F4C81]">
                         Rp {{ number_format($abl->principal_amount - $abl->total_admin_fee, 0, ',', '.') }}
                     </td>
                     <td class="py-3 px-4 text-right">
                         <form action="{{ route('loans.disburse', $abl->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin mencairkan dana pinjaman sebesar Rp {{ number_format($abl->principal_amount - $abl->total_admin_fee, 0, ',', '.') }} kepada anggota ini?');">
                             @csrf
                             <input type="hidden" name="payment_method" value="transfer">
-                            <button type="submit" class="btn btn-success btn-sm text-xs py-1.5 px-3 shadow-2xs font-bold">
+                            <button type="submit" class="btn btn-primary btn-sm text-xs py-1.5 px-3 shadow-2xs font-bold">
                                 Cairkan Sekarang
                             </button>
                         </form>
