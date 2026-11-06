@@ -186,6 +186,7 @@ class SidebarAndBillboardManagementTest extends TestCase
     public function test_admin_gets_admin_dashboard_v2_with_clean_white_theme_and_charts(): void
     {
         $admin = User::where('role', User::ROLE_ADMIN)->first();
+        $manager = User::where('role', User::ROLE_MANAGER)->first();
         $teller = User::where('role', User::ROLE_TELLER)->first();
 
         // 1. Admin mendapatkan Admin Dashboard UI V2 (Clean White Theme, Analytics & Charts, Minimal & Premium)
@@ -198,10 +199,21 @@ class SidebarAndBillboardManagementTest extends TestCase
         $responseAdmin->assertSee('Antrean Operasional &amp; Evaluasi Layanan', false);
         $responseAdmin->assertSee('adminGlobalSearch');
 
-        // 2. Stakeholder non-admin (teller) tetap mendapatkan dashboard staff operasional standar
+        // 2. Manager juga mendapatkan Manager Dashboard UI V2 (Clean White Theme, Analytics & Charts)
+        $responseManager = $this->actingAs($manager)->get(route('dashboard'));
+        $responseManager->assertStatus(200);
+        $responseManager->assertSee('Manager Dashboard UI V2');
+        $responseManager->assertSee('Clean White Theme');
+        $responseManager->assertSee('Tren Arus Finansial Bulanan');
+        $responseManager->assertSee('Rasio Kesehatan Kas');
+        $responseManager->assertSee('Antrean Operasional &amp; Evaluasi Layanan', false);
+        $responseManager->assertSee('adminGlobalSearch');
+        $responseManager->assertSee('Tutup Buku &amp; SHU', false);
+
+        // 3. Stakeholder non-eksekutif (teller) tetap mendapatkan dashboard staff operasional standar
         $responseTeller = $this->actingAs($teller)->get(route('dashboard'));
         $responseTeller->assertStatus(200);
-        $responseTeller->assertDontSee('Admin Dashboard UI V2');
+        $responseTeller->assertDontSee('Dashboard UI V2');
         $responseTeller->assertSee('Panel Operasional Koperasi');
     }
 

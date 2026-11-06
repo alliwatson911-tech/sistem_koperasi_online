@@ -22,7 +22,7 @@ class DashboardController extends Controller
             return $this->memberDashboard($user);
         }
 
-        if ($user->isAdmin()) {
+        if ($user->isAdmin() || $user->isManager()) {
             return $this->adminDashboard($user);
         }
 

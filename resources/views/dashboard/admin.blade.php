@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Admin Dashboard V2 - KSP Sahabat Sejahtera')
+@section('title', (auth()->user()->isAdmin() ? 'Admin' : 'Manajer') . ' Dashboard V2 - KSP Sahabat Sejahtera')
 
 @section('content')
-<!-- Custom Styles & Animations Khusus Admin Dashboard UI V2 (Clean White Theme, Framer Motion-inspired Transitions) -->
+<!-- Custom Styles & Animations Khusus Dashboard UI V2 (Clean White Theme, Framer Motion-inspired Transitions) -->
 <style>
     @keyframes barRise {
         from { transform: scaleY(0); }
@@ -28,14 +28,14 @@
 
 <div class="space-y-6">
     <!-- ========================================================================= -->
-    <!-- 1. HEADER SECTION & GLOBAL SEARCH (ADMIN DASHBOARD UI V2)                 -->
+    <!-- 1. HEADER SECTION & GLOBAL SEARCH (DASHBOARD UI V2)                       -->
     <!-- ========================================================================= -->
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-4 border-b border-slate-200/80">
         <div>
             <div class="flex items-center gap-2 mb-1.5">
                 <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 text-[11px] font-extrabold border border-emerald-200/90 shadow-2xs">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
-                    Admin Dashboard UI V2
+                    {{ auth()->user()->isAdmin() ? 'Admin Dashboard UI V2' : 'Manager Dashboard UI V2' }}
                 </span>
                 <span class="text-xs text-slate-400 font-semibold">&bull; Clean White Theme &bull; Panel Eksekutif</span>
             </div>
@@ -48,12 +48,21 @@
             </p>
         </div>
 
-        <!-- Quick Executive Actions & Kelola Billboard -->
+        <!-- Quick Executive Actions -->
         <div class="flex items-center gap-2.5 flex-wrap">
-            <a href="{{ route('admin.billboards.index') }}" class="btn btn-secondary btn-sm rounded-xl px-3.5 py-2 text-xs font-bold shadow-2xs flex items-center gap-1.5 hover:bg-slate-100 transition-all border border-slate-200" title="Kelola Billboard Pengumuman Resmi">
-                <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
-                <span>Kelola Billboard</span>
-            </a>
+            @if(auth()->user()->isAdmin())
+                <a href="{{ route('admin.billboards.index') }}" class="btn btn-secondary btn-sm rounded-xl px-3.5 py-2 text-xs font-bold shadow-2xs flex items-center gap-1.5 hover:bg-slate-100 transition-all border border-slate-200" title="Kelola Billboard Pengumuman Resmi">
+                    <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+                    <span>Kelola Billboard</span>
+                </a>
+            @endif
+
+            @if(auth()->user()->isManager())
+                <a href="{{ route('accounting.shu') }}" class="btn btn-secondary btn-sm rounded-xl px-3.5 py-2 text-xs font-bold shadow-2xs flex items-center gap-1.5 hover:bg-slate-100 transition-all border border-slate-200" title="Tutup Buku & Pembagian SHU">
+                    <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>Tutup Buku &amp; SHU</span>
+                </a>
+            @endif
 
             <a href="{{ route('loans.applications') }}" class="btn btn-primary btn-sm rounded-xl px-3.5 py-2 text-xs font-bold shadow-xs flex items-center gap-1.5 bg-[#047857] hover:bg-[#065f46] text-white transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
@@ -551,13 +560,19 @@
                                     Rp {{ number_format($abl->principal_amount - $abl->total_admin_fee, 0, ',', '.') }}
                                 </td>
                                 <td class="py-3.5 px-5 text-right">
-                                    <form action="{{ route('loans.disburse', $abl->id) }}" method="POST" class="inline" onsubmit="return confirm('Cairkan dana pinjaman sebesar Rp {{ number_format($abl->principal_amount - $abl->total_admin_fee, 0, ',', '.') }}?');">
-                                        @csrf
-                                        <input type="hidden" name="payment_method" value="transfer">
-                                        <button type="submit" class="btn btn-success btn-sm rounded-lg px-3 py-1.5 text-xs font-bold shadow-2xs">
-                                            Cairkan Dana
-                                        </button>
-                                    </form>
+                                    @if(in_array(auth()->user()->role, ['teller', 'admin']))
+                                        <form action="{{ route('loans.disburse', $abl->id) }}" method="POST" class="inline" onsubmit="return confirm('Cairkan dana pinjaman sebesar Rp {{ number_format($abl->principal_amount - $abl->total_admin_fee, 0, ',', '.') }}?');">
+                                            @csrf
+                                            <input type="hidden" name="payment_method" value="transfer">
+                                            <button type="submit" class="btn btn-success btn-sm rounded-lg px-3 py-1.5 text-xs font-bold shadow-2xs">
+                                                Cairkan Dana
+                                            </button>
+                                        </form>
+                                    @else
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-teal-50 text-teal-800 text-[11px] font-bold border border-teal-200">
+                                            Menunggu Kasir Teller
+                                        </span>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -611,3 +626,4 @@
     });
 </script>
 @endsection
+
