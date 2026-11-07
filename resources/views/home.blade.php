@@ -33,41 +33,41 @@
          1. FITUR NAV HEADER PERTAMA: DASHBOARD / BERANDA UTAMA
          (Sambutan & Ringkasan Organisasi, Billboard Pengumuman, Standar Layanan, FAQ)
        ========================================================================= --}}
-    <section id="dashboard" class="hero-gradient border-b border-[#E8E2D8] pt-10 pb-16 lg:pt-16 lg:pb-24" aria-labelledby="heading-dashboard">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <section id="dashboard" class="hero-gradient border-b border-[#E8E2D8] pt-8 pb-12 sm:pt-10 sm:pb-16 lg:pt-16 lg:pb-24 overflow-hidden w-full max-w-full" aria-labelledby="heading-dashboard">
+        <div class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12 min-w-0">
             
             {{-- Sambutan & Ringkasan Organisasi Koperasi --}}
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-                <div class="lg:col-span-7 space-y-6">
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#EAF6F5] text-[#0F4C81] border border-[#2A9D8F]/40 shadow-2xs">
-                        <span class="w-2 h-2 rounded-full bg-[#2A9D8F] animate-pulse"></span>
-                        BADAN HUKUM RESMI KEMENKOP UKM RI &bull; AHU-0012345.AH.01.26.TAHUN 2026
+                <div class="lg:col-span-7 space-y-5 sm:space-y-6 min-w-0">
+                    <div class="inline-flex max-w-full items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-xl sm:rounded-full text-[10px] sm:text-xs font-bold bg-[#EAF6F5] text-[#0F4C81] border border-[#2A9D8F]/40 shadow-2xs leading-snug">
+                        <span class="w-2 h-2 rounded-full bg-[#2A9D8F] animate-pulse shrink-0"></span>
+                        <span class="break-words">BADAN HUKUM RESMI KEMENKOP UKM RI &bull; AHU-0012345.AH.01.26.TAHUN 2026</span>
                     </div>
 
-                    <h1 id="heading-dashboard" class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+                    <h1 id="heading-dashboard" class="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
                         Koperasi Simpan Pinjam Digital: <span class="text-[#0F4C81]">Amanah, Transparan, & Melayani Anggota.</span>
                     </h1>
 
-                    <p class="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl">
+                    <p class="text-xs sm:text-base text-slate-600 leading-relaxed max-w-2xl">
                         Selamat datang di <strong>KSP Sahabat Sejahtera</strong>. Lembaga keuangan koperasi modern berasaskan kekeluargaan dan gotong-royong. Kami menyediakan permodalan mikro UMKM tanpa agunan rumit, simpanan bagi hasil berkah bulanan, serta transaksi digital 24 jam dengan standar akuntansi publik yang akuntabel.
                     </p>
 
-                    <div class="flex flex-wrap items-center gap-3 pt-2">
-                        <a href="{{ route('register') }}" class="px-6 py-3 rounded-xl font-extrabold text-sm shadow-sm hover:shadow transition-all flex items-center gap-2 bg-[#D4AF37] hover:bg-[#C59F2D] text-[#1B263B] border border-[#C59F2D]">
+                    <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3 pt-2 w-full">
+                        <a href="{{ route('register') }}" class="px-5 sm:px-6 py-3 rounded-xl font-extrabold text-xs sm:text-sm shadow-sm hover:shadow transition-all flex items-center justify-center gap-2 bg-[#D4AF37] hover:bg-[#C59F2D] text-[#1B263B] border border-[#C59F2D]">
                             <span>Daftar Anggota Baru</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                         </a>
-                        <a href="#simulasi" class="btn btn-secondary px-6 py-3 rounded-xl font-bold text-sm hover:bg-[#F8F5F0] text-[#0F4C81] border border-[#E8E2D8] transition-all">
+                        <a href="#simulasi" class="btn btn-secondary px-5 sm:px-6 py-3 rounded-xl font-bold text-xs sm:text-sm hover:bg-[#F8F5F0] text-[#0F4C81] border border-[#E8E2D8] transition-all justify-center">
                             Simulasi Pinjaman
                         </a>
-                        <a href="https://wa.me/6282197233174?text=Halo%20Admin%20KSP%20Sahabat%20Sejahtera,%20saya%20ingin%20konsultasi%20layanan%20koperasi" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-3 rounded-xl text-xs sm:text-sm font-bold text-[#0F4C81] hover:text-[#1B263B] hover:bg-[#EAF6F5] transition-all">
-                            <span class="w-2.5 h-2.5 rounded-full bg-[#2A9D8F]"></span>
+                        <a href="https://wa.me/6282197233174?text=Halo%20Admin%20KSP%20Sahabat%20Sejahtera,%20saya%20ingin%20konsultasi%20layanan%20koperasi" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-xs sm:text-sm font-bold text-[#0F4C81] hover:text-[#1B263B] hover:bg-[#EAF6F5] transition-all">
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#2A9D8F] shrink-0"></span>
                             Chat CS 24 Jam WhatsApp
                         </a>
                     </div>
 
                     {{-- Fitur Unggulan Singkat --}}
-                    <div class="pt-4 border-t border-[#E8E2D8] grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs text-slate-600 font-medium">
+                    <div class="pt-4 border-t border-[#E8E2D8] grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 text-xs text-slate-600 font-medium">
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-[#2A9D8F] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                             <span>Bagi Hasil SHU Tahunan</span>
@@ -84,43 +84,43 @@
                 </div>
 
                 {{-- Ringkasan Organisasi & Statistik Card --}}
-                <div class="lg:col-span-5">
-                    <div class="bg-white rounded-3xl p-6 sm:p-7 border border-[#E8E2D8] shadow-xl space-y-6 relative overflow-hidden">
+                <div class="lg:col-span-5 min-w-0">
+                    <div class="bg-white rounded-3xl p-4 sm:p-7 border border-[#E8E2D8] shadow-xl space-y-5 sm:space-y-6 relative overflow-hidden">
                         <div class="flex items-center justify-between pb-4 border-b border-slate-100">
-                            <div class="flex items-center gap-3">
-                                <div class="w-12 h-12 rounded-2xl navbar-brand-badge flex items-center justify-center text-white font-black text-2xl shadow-sm">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl navbar-brand-badge flex items-center justify-center text-white font-black text-xl sm:text-2xl shadow-sm shrink-0">
                                     K
                                 </div>
-                                <div>
-                                    <h2 class="text-base font-bold text-slate-900">KSP Sahabat Sejahtera</h2>
-                                    <p class="text-xs text-slate-500">Ringkasan Organisasi & Tata Kelola</p>
+                                <div class="min-w-0">
+                                    <h2 class="text-sm sm:text-base font-bold text-slate-900 truncate">KSP Sahabat Sejahtera</h2>
+                                    <p class="text-2xs sm:text-xs text-slate-500 truncate">Ringkasan Organisasi & Tata Kelola</p>
                                 </div>
                             </div>
-                            <span class="badge badge-success text-2xs">Terakreditasi</span>
+                            <span class="badge badge-success text-2xs shrink-0">Terakreditasi</span>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-3.5">
-                            <div class="p-3.5 rounded-2xl bg-[#F8F5F0] border border-[#E8E2D8]">
+                        <div class="grid grid-cols-2 gap-2.5 sm:gap-3.5">
+                            <div class="p-3 sm:p-3.5 rounded-2xl bg-[#F8F5F0] border border-[#E8E2D8]">
                                 <span class="text-2xs font-bold uppercase tracking-wider text-slate-500 block">Anggota Aktif</span>
-                                <span class="text-xl sm:text-2xl font-black text-[#0F4C81] mt-1 block">{{ number_format($stats['total_members']) }}+</span>
+                                <span class="text-lg sm:text-2xl font-black text-[#0F4C81] mt-1 block">{{ number_format($stats['total_members']) }}+</span>
                                 <span class="text-3xs text-slate-400">Terdaftar di seluruh wilayah</span>
                             </div>
 
-                            <div class="p-3.5 rounded-2xl bg-[#F8F5F0] border border-[#E8E2D8]">
+                            <div class="p-3 sm:p-3.5 rounded-2xl bg-[#F8F5F0] border border-[#E8E2D8]">
                                 <span class="text-2xs font-bold uppercase tracking-wider text-slate-500 block">Aset Dikelola</span>
-                                <span class="text-xl sm:text-2xl font-black text-[#1B263B] mt-1 block">Rp {{ number_format($stats['total_savings_managed']/1000000000, 1) }} M</span>
+                                <span class="text-lg sm:text-2xl font-black text-[#1B263B] mt-1 block">Rp {{ number_format($stats['total_savings_managed']/1000000000, 1) }} M</span>
                                 <span class="text-3xs text-slate-400">Simpanan Pokok, Wajib, Sukarela</span>
                             </div>
 
-                            <div class="p-3.5 rounded-2xl bg-[#F8F5F0] border border-[#E8E2D8]">
+                            <div class="p-3 sm:p-3.5 rounded-2xl bg-[#F8F5F0] border border-[#E8E2D8]">
                                 <span class="text-2xs font-bold uppercase tracking-wider text-slate-500 block">Modal UMKM Tersalur</span>
-                                <span class="text-xl sm:text-2xl font-black text-[#2A9D8F] mt-1 block">Rp {{ number_format($stats['total_loan_distributed']/1000000000, 1) }} M</span>
+                                <span class="text-lg sm:text-2xl font-black text-[#2A9D8F] mt-1 block">Rp {{ number_format($stats['total_loan_distributed']/1000000000, 1) }} M</span>
                                 <span class="text-3xs text-slate-400">Pemberdayaan sektor produktif</span>
                             </div>
 
-                            <div class="p-3.5 rounded-2xl bg-[#F8F5F0] border border-[#E8E2D8]">
+                            <div class="p-3 sm:p-3.5 rounded-2xl bg-[#F8F5F0] border border-[#E8E2D8]">
                                 <span class="text-2xs font-bold uppercase tracking-wider text-slate-500 block">Kolektibilitas</span>
-                                <span class="text-xl sm:text-2xl font-black text-[#0F4C81] mt-1 block">98.6%</span>
+                                <span class="text-lg sm:text-2xl font-black text-[#0F4C81] mt-1 block">98.6%</span>
                                 <span class="text-3xs text-slate-400">Rasio lancar (NPL sehat)</span>
                             </div>
                         </div>
@@ -133,14 +133,14 @@
             </div>
 
             {{-- TAMPILAN BILLBOARD UNTUK PENGUMUMAN RESMI --}}
-            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E8E2D8] shadow-md">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 gap-3">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-[#FFF9E6] text-[#D4AF37] flex items-center justify-center font-bold">
+            <div class="bg-white rounded-3xl p-4 sm:p-6 lg:p-8 border border-[#E8E2D8] shadow-md overflow-hidden min-w-0 w-full">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 gap-3 min-w-0 w-full">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-10 h-10 rounded-xl bg-[#FFF9E6] text-[#D4AF37] flex items-center justify-center font-bold shrink-0">
                             <svg class="w-5 h-5 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
                         </div>
-                        <div>
-                            <div class="flex items-center gap-2">
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
                                 <span class="text-2xs font-bold text-[#B45309] uppercase tracking-wider block">Papan Informasi Resmi</span>
                                 @if(auth()->check() && auth()->user()->isAdmin())
                                     <a href="{{ route('admin.billboards.index') }}" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#FFF9E6] hover:bg-[#FDF0C8] text-[#1B263B] text-3xs font-extrabold uppercase tracking-wider transition-colors border border-[#F5E0A0] shadow-2xs" title="Kelola Papan Informasi">
@@ -149,7 +149,7 @@
                                     </a>
                                 @endif
                             </div>
-                            <h2 class="text-lg font-extrabold text-slate-900">Billboard Pengumuman Koperasi</h2>
+                            <h2 class="text-base sm:text-lg font-extrabold text-slate-900 truncate sm:whitespace-normal">Billboard Pengumuman Koperasi</h2>
                         </div>
                     </div>
 
@@ -157,27 +157,29 @@
                     @php
                         $displayBillboards = (isset($billboards) && $billboards->isNotEmpty()) ? $billboards : null;
                     @endphp
-                    <div class="flex items-center gap-1.5 bg-[#F8F5F0] border border-[#E8E2D8] p-1 rounded-xl self-start sm:self-auto text-xs overflow-x-auto max-w-full" role="tablist">
-                        @if($displayBillboards)
-                            @foreach($displayBillboards as $idx => $bb)
-                                <button type="button" onclick="switchBillboard({{ $idx }})" id="bb-tab-{{ $idx }}" class="billboard-tab-btn px-3 py-1.5 rounded-lg whitespace-nowrap {{ $idx === 0 ? 'font-bold bg-[#0F4C81] text-white shadow-2xs' : 'font-semibold text-slate-600 hover:text-[#0F4C81]' }} transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]" role="tab" aria-selected="{{ $idx === 0 ? 'true' : 'false' }}">
-                                    {{ $bb->tab_title }}
+                    <div class="w-full sm:w-auto min-w-0 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
+                        <div class="inline-flex items-center gap-1.5 bg-[#F8F5F0] border border-[#E8E2D8] p-1 rounded-xl text-xs whitespace-nowrap min-w-max" role="tablist">
+                            @if($displayBillboards)
+                                @foreach($displayBillboards as $idx => $bb)
+                                    <button type="button" onclick="switchBillboard({{ $idx }})" id="bb-tab-{{ $idx }}" class="billboard-tab-btn px-3 py-1.5 rounded-lg whitespace-nowrap {{ $idx === 0 ? 'font-bold bg-[#0F4C81] text-white shadow-2xs' : 'font-semibold text-slate-600 hover:text-[#0F4C81]' }} transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]" role="tab" aria-selected="{{ $idx === 0 ? 'true' : 'false' }}">
+                                        {{ $bb->tab_title }}
+                                    </button>
+                                @endforeach
+                            @else
+                                <button type="button" onclick="switchBillboard(0)" id="bb-tab-0" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-bold bg-[#0F4C81] text-white shadow-2xs transition-all" role="tab" aria-selected="true">
+                                    RAT & SHU
                                 </button>
-                            @endforeach
-                        @else
-                            <button type="button" onclick="switchBillboard(0)" id="bb-tab-0" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-bold bg-[#0F4C81] text-white shadow-2xs transition-all" role="tab" aria-selected="true">
-                                RAT & SHU
-                            </button>
-                            <button type="button" onclick="switchBillboard(1)" id="bb-tab-1" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-[#0F4C81] transition-all" role="tab" aria-selected="false">
-                                Modal UMKM
-                            </button>
-                            <button type="button" onclick="switchBillboard(2)" id="bb-tab-2" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-[#0F4C81] transition-all" role="tab" aria-selected="false">
-                                Pembayaran QRIS & VA
-                            </button>
-                            <button type="button" onclick="switchBillboard(3)" id="bb-tab-3" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-[#0F4C81] transition-all" role="tab" aria-selected="false">
-                                Hasil Audit
-                            </button>
-                        @endif
+                                <button type="button" onclick="switchBillboard(1)" id="bb-tab-1" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-[#0F4C81] transition-all" role="tab" aria-selected="false">
+                                    Modal UMKM
+                                </button>
+                                <button type="button" onclick="switchBillboard(2)" id="bb-tab-2" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-[#0F4C81] transition-all" role="tab" aria-selected="false">
+                                    Pembayaran QRIS & VA
+                                </button>
+                                <button type="button" onclick="switchBillboard(3)" id="bb-tab-3" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-[#0F4C81] transition-all" role="tab" aria-selected="false">
+                                    Hasil Audit
+                                </button>
+                            @endif
+                        </div>
                     </div>
                 </div>
 
@@ -205,7 +207,10 @@
                                             <span>&bull;</span>
                                         @endif
                                         @if($bb->link_url && $bb->link_text)
-                                            <a href="{{ $bb->link_url }}" class="hover:underline flex items-center gap-1">{{ $bb->link_text }} &rarr;</a>
+                                            @php
+                                                $cleanLinkText = rtrim($bb->link_text, " \t\n\r\0\x0B→->");
+                                            @endphp
+                                            <a href="{{ $bb->link_url }}" class="hover:underline flex items-center gap-1">{{ $cleanLinkText }} &rarr;</a>
                                         @endif
                                     </div>
                                 @endif
@@ -285,8 +290,8 @@
                     <p class="text-xs sm:text-sm text-slate-500">Prinsip operasional terpercaya yang menjadi landasan setiap pelayanan kami kepada anggota.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div class="card p-5 border-t-4 border-t-[#0F4C81] hover:shadow-md transition">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+                    <div class="card p-4 sm:p-5 border-t-4 border-t-[#0F4C81] hover:shadow-md transition">
                         <div class="w-10 h-10 rounded-xl bg-[#EAF2F8] text-[#0F4C81] flex items-center justify-center font-bold mb-3">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         </div>
@@ -296,7 +301,7 @@
                         </p>
                     </div>
 
-                    <div class="card p-5 border-t-4 border-t-[#2A9D8F] hover:shadow-md transition">
+                    <div class="card p-4 sm:p-5 border-t-4 border-t-[#2A9D8F] hover:shadow-md transition">
                         <div class="w-10 h-10 rounded-xl bg-[#EAF6F5] text-[#2A9D8F] flex items-center justify-center font-bold mb-3">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         </div>
@@ -306,7 +311,7 @@
                         </p>
                     </div>
 
-                    <div class="card p-5 border-t-4 border-t-[#D4AF37] hover:shadow-md transition">
+                    <div class="card p-4 sm:p-5 border-t-4 border-t-[#D4AF37] hover:shadow-md transition">
                         <div class="w-10 h-10 rounded-xl bg-[#FFF9E6] text-[#D4AF37] flex items-center justify-center font-bold mb-3">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
                         </div>
@@ -316,7 +321,7 @@
                         </p>
                     </div>
 
-                    <div class="card p-5 border-t-4 border-t-[#1B263B] hover:shadow-md transition">
+                    <div class="card p-4 sm:p-5 border-t-4 border-t-[#1B263B] hover:shadow-md transition">
                         <div class="w-10 h-10 rounded-xl bg-[#F8F5F0] text-[#1B263B] flex items-center justify-center font-bold mb-3">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                         </div>
@@ -329,7 +334,7 @@
             </div>
 
             {{-- FAQ & INFORMASI KOPERASI --}}
-            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#E8E2D8] space-y-6">
+            <div class="bg-white rounded-3xl p-4 sm:p-6 lg:p-8 border border-[#E8E2D8] space-y-5 sm:space-y-6 overflow-hidden">
                 <div class="flex items-center gap-3 pb-3 border-b border-slate-100">
                     <div class="w-9 h-9 rounded-xl bg-[#EAF6F5] text-[#0F4C81] flex items-center justify-center font-bold">
                         ?
@@ -394,8 +399,8 @@
          2. FITUR PRODUK SEPERTI PADA SCREENSHOT
          (Katalog Produk Pinjaman Mingguan/Bulanan & Simpanan Anggota)
        ========================================================================= --}}
-    <section id="produk" class="py-16 bg-slate-50 border-b border-[#E8E2D8]" aria-labelledby="heading-produk">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+    <section id="produk" class="py-12 sm:py-16 bg-slate-50 border-b border-[#E8E2D8] w-full max-w-full overflow-hidden" aria-labelledby="heading-produk">
+        <div class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10 min-w-0">
             <div class="text-center max-w-2xl mx-auto space-y-2">
                 <span class="text-xs font-bold uppercase tracking-wider text-[#0F4C81]">Katalog Lengkap</span>
                 <h2 id="heading-produk" class="text-2xl sm:text-3xl font-black text-slate-900">Produk Pembiayaan & Simpanan</h2>
@@ -520,8 +525,8 @@
          3. FITUR PANDUAN MENJADI ANGGOTA & PANDUAN SIMPAN PINJAM
          (Alur Registrasi e-KYC, Alur Transaksi, Syarat Umum Koperasi Online)
        ========================================================================= --}}
-    <section id="panduan" class="py-16 bg-white border-b border-[#E8E2D8]" aria-labelledby="heading-panduan">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <section id="panduan" class="py-12 sm:py-16 bg-white border-b border-[#E8E2D8] w-full max-w-full overflow-hidden" aria-labelledby="heading-panduan">
+        <div class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12 min-w-0">
             
             <div class="text-center max-w-2xl mx-auto space-y-2">
                 <span class="text-xs font-bold uppercase tracking-wider text-[#0F4C81]">Petunjuk Praktis</span>
@@ -668,8 +673,8 @@
          4. FITUR SIMULASI PINJAMAN (PRAKTEK KALKULATOR INTERAKTIF)
          (Sesuai Alur & Tampilan Yang Sudah Ada)
        ========================================================================= --}}
-    <section id="simulasi" class="py-16 bg-slate-50 border-b border-[#E8E2D8]" aria-labelledby="heading-simulasi">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+    <section id="simulasi" class="py-12 sm:py-16 bg-slate-50 border-b border-[#E8E2D8] w-full max-w-full overflow-hidden" aria-labelledby="heading-simulasi">
+        <div class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10 min-w-0">
             
             <div class="text-center max-w-2xl mx-auto space-y-2">
                 <span class="text-xs font-bold uppercase tracking-wider text-[#0F4C81]">Kalkulator Finansial</span>
@@ -838,11 +843,11 @@
                                     <tbody>
                                         @foreach(array_slice($simulationResult['schedules'], 0, 5) as $s)
                                         <tr>
-                                            <td><strong>Ke-{{ $s['installment_no'] }}</strong></td>
-                                            <td>{{ \Carbon\Carbon::parse($s['due_date'])->format('d/m/Y') }}</td>
-                                            <td>Rp {{ number_format($s['principal_amount'], 0, ',', '.') }}</td>
-                                            <td>Rp {{ number_format($s['interest_amount'], 0, ',', '.') }}</td>
-                                            <td><strong class="text-[#0F4C81]">Rp {{ number_format($s['total_amount'], 0, ',', '.') }}</strong></td>
+                                            <td data-label="Periode"><strong>Ke-{{ $s['installment_no'] }}</strong></td>
+                                            <td data-label="Jatuh Tempo">{{ \Carbon\Carbon::parse($s['due_date'])->format('d/m/Y') }}</td>
+                                            <td data-label="Pokok">Rp {{ number_format($s['principal_amount'], 0, ',', '.') }}</td>
+                                            <td data-label="Bunga">Rp {{ number_format($s['interest_amount'], 0, ',', '.') }}</td>
+                                            <td data-label="Total Angsuran"><strong class="text-[#0F4C81]">Rp {{ number_format($s['total_amount'], 0, ',', '.') }}</strong></td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -868,8 +873,8 @@
          5. FITUR TENTANG KAMI
          (Kontak Layanan Admin, Lokasi Kantor Pusat, Tampilan GMaps, Email & Medsos)
        ========================================================================= --}}
-    <section id="tentang-kami" class="py-16 bg-white border-b border-[#E8E2D8]" aria-labelledby="heading-tentang">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <section id="tentang-kami" class="py-12 sm:py-16 bg-white border-b border-[#E8E2D8] w-full max-w-full overflow-hidden" aria-labelledby="heading-tentang">
+        <div class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12 min-w-0">
             
             <div class="text-center max-w-2xl mx-auto space-y-2">
                 <span class="text-xs font-bold uppercase tracking-wider text-[#0F4C81]">Hubungi & Kunjungi Kami</span>
@@ -1012,12 +1017,12 @@
     {{-- =========================================================================
          6. FITUR MASUKKAN AKUN & 7. DAFTAR ANGGOTA BARU (CALL TO ACTION)
        ========================================================================= --}}
-    <section id="masuk-daftar" class="py-16 bg-[#F8F5F0] border-t border-[#E8E2D8]" aria-labelledby="heading-cta">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="masuk-daftar" class="py-12 sm:py-16 bg-[#F8F5F0] border-t border-[#E8E2D8] w-full max-w-full overflow-hidden" aria-labelledby="heading-cta">
+        <div class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 min-w-0">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
                 {{-- Masukkan Akun (Login) --}}
-                <div class="bg-white rounded-3xl p-8 border border-[#E8E2D8] shadow-sm flex flex-col justify-between space-y-6">
+                <div class="bg-white rounded-3xl p-5 sm:p-8 border border-[#E8E2D8] shadow-sm flex flex-col justify-between space-y-6">
                     <div class="space-y-3">
                         <div class="w-12 h-12 rounded-2xl bg-[#F8F5F0] text-[#0F4C81] flex items-center justify-center font-bold">
                             <svg class="w-6 h-6 text-[#0F4C81]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
@@ -1035,7 +1040,7 @@
                 </div>
 
                 {{-- Daftar Anggota Baru (Register) --}}
-                <div class="bg-[#1B263B] text-white rounded-3xl p-8 border border-[#24344E] shadow-xl flex flex-col justify-between space-y-6 relative overflow-hidden">
+                <div class="bg-[#1B263B] text-white rounded-3xl p-5 sm:p-8 border border-[#24344E] shadow-xl flex flex-col justify-between space-y-6 relative overflow-hidden">
                     <div class="space-y-3 relative z-10">
                         <div class="w-12 h-12 rounded-2xl bg-white/10 text-[#D4AF37] flex items-center justify-center font-bold">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>

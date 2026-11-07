@@ -64,6 +64,10 @@
         }
 
         * { box-sizing: border-box; }
+        html {
+            overflow-x: hidden;
+            max-width: 100vw;
+        }
         body {
             font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: #F8F5F0;
@@ -73,6 +77,9 @@
             display: flex;
             flex-direction: column;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            overflow-x: clip;
+            max-width: 100%;
         }
 
         /* Navigasi Brand Badge */
@@ -566,7 +573,7 @@
 @endphp
 @yield('styles')
 </head>
-<body class="bg-[#F8F5F0] text-[#1B263B] selection:bg-[#2A9D8F] selection:text-white antialiased">
+<body class="bg-[#F8F5F0] text-[#1B263B] selection:bg-[#2A9D8F] selection:text-white antialiased overflow-x-hidden w-full max-w-full">
     <!-- Aksesibilitas: Lewati ke Konten Utama -->
     <a href="#main-content" class="skip-to-content focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] bg-[#1B263B]">
         Lewati ke Konten Utama &rarr;
@@ -576,19 +583,19 @@
     {{-- ========================================================================= --}}
     {{-- TAMPILAN TOP NAVBAR: PUBLIK, GUEST, & KHUSUS ROLE MEMBER (SEBELUMNYA)    --}}
     {{-- ========================================================================= --}}
-    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-[#E8E2D8] shadow-xs transition-all" role="banner">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+    <header class="sticky top-0 z-50 w-full max-w-full bg-white/95 backdrop-blur-md border-b border-[#E8E2D8] shadow-xs transition-all" role="banner">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="flex items-center justify-between h-16 gap-2">
                 <!-- Brand Logo -->
-                <a href="{{ auth()->check() ? route('dashboard') : url('/') }}" class="flex items-center gap-3 group text-[#1B263B] no-underline" aria-label="Beranda KSP Sahabat Sejahtera">
-                    <div class="w-10 h-10 rounded-xl navbar-brand-badge flex items-center justify-center text-white font-extrabold text-xl shadow group-hover:scale-105 transition-transform">
+                <a href="{{ auth()->check() ? route('dashboard') : url('/') }}" class="flex items-center gap-2.5 sm:gap-3 group text-[#1B263B] no-underline min-w-0" aria-label="Beranda KSP Sahabat Sejahtera">
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl navbar-brand-badge flex items-center justify-center text-white font-extrabold text-lg sm:text-xl shadow group-hover:scale-105 transition-transform shrink-0">
                         K
                     </div>
-                    <div>
-                        <div class="font-bold text-base tracking-tight text-[#1B263B] group-hover:text-[#0F4C81] transition-colors">
+                    <div class="min-w-0">
+                        <div class="font-bold text-sm sm:text-base tracking-tight text-[#1B263B] group-hover:text-[#0F4C81] transition-colors truncate">
                             KSP Sahabat Sejahtera
                         </div>
-                        <div class="text-[11px] font-medium text-[#5C6B73]">
+                        <div class="text-[10px] sm:text-[11px] font-medium text-[#5C6B73] truncate">
                             Koperasi Simpan Pinjam Online
                         </div>
                     </div>
@@ -663,7 +670,7 @@
                 @endif
 
                 <!-- Mobile Hamburger Button -->
-                <div class="lg:hidden flex items-center">
+                <div class="lg:hidden flex items-center shrink-0">
                     <button type="button" id="mobileMenuBtn" aria-label="Buka Menu Navigasi" aria-expanded="false" class="p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path id="menuIconBars" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -722,7 +729,7 @@
     </header>
 
     <!-- Main Content Container Publik & Member -->
-    <main id="main-content" class="flex-1 @yield('container-class', 'max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6')">
+    <main id="main-content" class="flex-1 w-full max-w-full min-w-0 @yield('container-class', 'max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6')">
         @if(session('success'))
             <div class="alert alert-success shadow-sm" role="alert">
                 <div class="flex items-center gap-2">
@@ -881,9 +888,9 @@
         </div>
 
         <!-- RIGHT SIDE CONTENT AREA -->
-        <div class="flex-1 min-w-0 lg:pl-72 flex flex-col min-h-screen bg-[#F8F5F0]">
+        <div class="flex-1 min-w-0 w-full max-w-full lg:pl-72 flex flex-col min-h-screen bg-[#F8F5F0]">
             <!-- STICKY OPERATIONAL TOPBAR -->
-            <header class="sticky top-0 z-30 bg-white/95 border-b border-[#E8E2D8] backdrop-blur-md shadow-2xs h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8">
+            <header class="sticky top-0 z-30 w-full max-w-full bg-white/95 border-b border-[#E8E2D8] backdrop-blur-md shadow-2xs h-16 flex items-center justify-between px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center gap-3">
                     <!-- Hamburger Toggle Button Mobile -->
                     <button type="button" id="openMobileSidebarBtn" class="lg:hidden p-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]" aria-label="Buka Menu Navigasi" aria-expanded="false">
@@ -926,7 +933,7 @@
             </header>
 
             <!-- MAIN OPERATIONAL CONTENT (FOOTER DIHILANGKAN UNTUK RUANG KERJA BERSIH) -->
-            <main id="main-content" class="flex-1 @yield('container-class', 'w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-20')">
+            <main id="main-content" class="flex-1 w-full max-w-full min-w-0 @yield('container-class', 'w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-20')">
                 @if(session('success'))
                     <div class="alert alert-success shadow-sm" role="alert">
                         <div class="flex items-center gap-2">
