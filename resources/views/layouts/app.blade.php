@@ -65,7 +65,8 @@
 
         * { box-sizing: border-box; }
         html {
-            overflow-x: hidden;
+            scroll-behavior: smooth;
+            scroll-padding-top: 4.5rem;
             max-width: 100vw;
         }
         body {
@@ -77,8 +78,6 @@
             display: flex;
             flex-direction: column;
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-            overflow-x: clip;
             max-width: 100%;
         }
 
@@ -573,7 +572,7 @@
 @endphp
 @yield('styles')
 </head>
-<body class="bg-[#F8F5F0] text-[#1B263B] selection:bg-[#2A9D8F] selection:text-white antialiased overflow-x-hidden w-full max-w-full">
+<body class="bg-[#F8F5F0] text-[#1B263B] selection:bg-[#2A9D8F] selection:text-white antialiased w-full max-w-full">
     <!-- Aksesibilitas: Lewati ke Konten Utama -->
     <a href="#main-content" class="skip-to-content focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] bg-[#1B263B]">
         Lewati ke Konten Utama &rarr;
@@ -583,7 +582,7 @@
     {{-- ========================================================================= --}}
     {{-- TAMPILAN TOP NAVBAR: PUBLIK, GUEST, & KHUSUS ROLE MEMBER (SEBELUMNYA)    --}}
     {{-- ========================================================================= --}}
-    <header class="sticky top-0 z-50 w-full max-w-full bg-white/95 backdrop-blur-md border-b border-[#E8E2D8] shadow-xs transition-all" role="banner">
+    <header id="mainAppHeader" class="fixed top-0 left-0 right-0 z-50 w-full max-w-full bg-white/95 backdrop-blur-md border-b border-[#E8E2D8] shadow-xs transition-all duration-200" role="banner">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div class="flex items-center justify-between h-16 gap-2">
                 <!-- Brand Logo -->
@@ -682,7 +681,7 @@
         </div>
 
         <!-- Mobile Drawer Navigation -->
-        <div id="mobileMenu" class="hidden lg:hidden border-t border-[#E8E2D8] bg-white px-4 pt-3 pb-4 space-y-1 shadow-lg" role="navigation" aria-label="Navigasi Menu Ponsel">
+        <div id="mobileMenu" class="hidden lg:hidden border-t border-[#E8E2D8] bg-white px-4 pt-3 pb-4 space-y-1 shadow-lg max-h-[calc(100vh-4.5rem)] overflow-y-auto" role="navigation" aria-label="Navigasi Menu Ponsel">
             @if($isMember)
                 <div class="flex items-center justify-between pb-3 mb-2 border-b border-slate-100">
                     <div class="flex items-center gap-2">
@@ -727,6 +726,9 @@
             @endif
         </div>
     </header>
+
+    <!-- Header Spacer untuk menjaga aliran tata letak konten saat navbar fixed -->
+    <div class="h-16 w-full shrink-0" aria-hidden="true"></div>
 
     <!-- Main Content Container Publik & Member -->
     <main id="main-content" class="flex-1 w-full max-w-full min-w-0 @yield('container-class', 'max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6')">
@@ -996,6 +998,22 @@
     <!-- Interactive Scripts for Public & Internal Sidebar Navigations -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Efek Header Mengikuti Scroll dengan Elevasi Shadow
+            const mainHeader = document.getElementById('mainAppHeader');
+            if (mainHeader) {
+                const handleHeaderScroll = function () {
+                    if (window.scrollY > 8) {
+                        mainHeader.classList.add('shadow-md');
+                        mainHeader.classList.remove('shadow-xs');
+                    } else {
+                        mainHeader.classList.remove('shadow-md');
+                        mainHeader.classList.add('shadow-xs');
+                    }
+                };
+                window.addEventListener('scroll', handleHeaderScroll, { passive: true });
+                handleHeaderScroll();
+            }
+
             // Public Navigation Hamburger
             const pubBtn = document.getElementById('mobileMenuBtn');
             const pubMenu = document.getElementById('mobileMenu');

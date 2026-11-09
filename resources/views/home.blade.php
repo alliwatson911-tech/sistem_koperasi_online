@@ -8,6 +8,7 @@
 <style>
     html {
         scroll-behavior: smooth;
+        scroll-padding-top: 4.5rem;
     }
     .hero-gradient {
         background: radial-gradient(120% 120% at 50% 10%, #FFFFFF 0%, #F8F5F0 45%, #EAF6F5 80%, #DBEFEF 100%);
