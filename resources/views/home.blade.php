@@ -150,34 +150,59 @@
                                     </a>
                                 @endif
                             </div>
-                            <h2 class="text-base sm:text-lg font-extrabold text-slate-900 truncate sm:whitespace-normal">Billboard Pengumuman Koperasi</h2>
+                            <h2 class="text-base sm:text-lg font-extrabold text-slate-900 break-words">Billboard Pengumuman Koperasi</h2>
                         </div>
                     </div>
 
-                    {{-- Navigasi Tab Billboard --}}
+                    {{-- Navigasi Tab Billboard: Fleksibel Responsif di Ponsel (Tanpa Potongan Teks & Tanpa Slide Samping) --}}
                     @php
                         $displayBillboards = (isset($billboards) && $billboards->isNotEmpty()) ? $billboards : null;
                     @endphp
-                    <div class="w-full sm:w-auto min-w-0 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
-                        <div class="inline-flex items-center gap-1.5 bg-[#F8F5F0] border border-[#E8E2D8] p-1 rounded-xl text-xs whitespace-nowrap min-w-max" role="tablist">
+                    <div class="w-full sm:w-auto min-w-0">
+                        <div class="flex flex-wrap sm:inline-flex items-stretch sm:items-center gap-1.5 bg-[#F8F5F0] border border-[#E8E2D8] p-1.5 sm:p-1 rounded-2xl sm:rounded-xl text-xs w-full sm:w-auto" role="tablist" aria-label="Tab Pilihan Billboard Pengumuman">
                             @if($displayBillboards)
                                 @foreach($displayBillboards as $idx => $bb)
-                                    <button type="button" onclick="switchBillboard({{ $idx }})" id="bb-tab-{{ $idx }}" class="billboard-tab-btn px-3 py-1.5 rounded-lg whitespace-nowrap {{ $idx === 0 ? 'font-bold bg-[#0F4C81] text-white shadow-2xs' : 'font-semibold text-slate-600 hover:text-[#0F4C81]' }} transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]" role="tab" aria-selected="{{ $idx === 0 ? 'true' : 'false' }}">
-                                        {{ $bb->tab_title }}
+                                    <button type="button" 
+                                            onclick="switchBillboard({{ $idx }})" 
+                                            id="bb-tab-{{ $idx }}" 
+                                            class="billboard-tab-btn flex-1 sm:flex-none text-center justify-center min-w-[110px] sm:min-w-0 px-2.5 sm:px-3 py-2 sm:py-1.5 rounded-xl sm:rounded-lg text-2xs sm:text-xs leading-snug whitespace-normal sm:whitespace-nowrap transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] flex items-center {{ $idx === 0 ? 'font-bold bg-[#0F4C81] text-white shadow-2xs' : 'font-semibold text-slate-600 hover:text-[#0F4C81]' }}" 
+                                            role="tab" 
+                                            aria-selected="{{ $idx === 0 ? 'true' : 'false' }}">
+                                        <span>{{ $bb->tab_title }}</span>
                                     </button>
                                 @endforeach
                             @else
-                                <button type="button" onclick="switchBillboard(0)" id="bb-tab-0" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-bold bg-[#0F4C81] text-white shadow-2xs transition-all" role="tab" aria-selected="true">
-                                    RAT & SHU
+                                <button type="button" 
+                                        onclick="switchBillboard(0)" 
+                                        id="bb-tab-0" 
+                                        class="billboard-tab-btn flex-1 sm:flex-none text-center justify-center min-w-[110px] sm:min-w-0 px-2.5 sm:px-3 py-2 sm:py-1.5 rounded-xl sm:rounded-lg text-2xs sm:text-xs leading-snug whitespace-normal sm:whitespace-nowrap transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] flex items-center font-bold bg-[#0F4C81] text-white shadow-2xs" 
+                                        role="tab" 
+                                        aria-selected="true">
+                                    <span>RAT &amp; SHU</span>
                                 </button>
-                                <button type="button" onclick="switchBillboard(1)" id="bb-tab-1" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-[#0F4C81] transition-all" role="tab" aria-selected="false">
-                                    Modal UMKM
+                                <button type="button" 
+                                        onclick="switchBillboard(1)" 
+                                        id="bb-tab-1" 
+                                        class="billboard-tab-btn flex-1 sm:flex-none text-center justify-center min-w-[110px] sm:min-w-0 px-2.5 sm:px-3 py-2 sm:py-1.5 rounded-xl sm:rounded-lg text-2xs sm:text-xs leading-snug whitespace-normal sm:whitespace-nowrap transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] flex items-center font-semibold text-slate-600 hover:text-[#0F4C81]" 
+                                        role="tab" 
+                                        aria-selected="false">
+                                    <span>Modal UMKM</span>
                                 </button>
-                                <button type="button" onclick="switchBillboard(2)" id="bb-tab-2" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-[#0F4C81] transition-all" role="tab" aria-selected="false">
-                                    Pembayaran QRIS & VA
+                                <button type="button" 
+                                        onclick="switchBillboard(2)" 
+                                        id="bb-tab-2" 
+                                        class="billboard-tab-btn flex-1 sm:flex-none text-center justify-center min-w-[110px] sm:min-w-0 px-2.5 sm:px-3 py-2 sm:py-1.5 rounded-xl sm:rounded-lg text-2xs sm:text-xs leading-snug whitespace-normal sm:whitespace-nowrap transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] flex items-center font-semibold text-slate-600 hover:text-[#0F4C81]" 
+                                        role="tab" 
+                                        aria-selected="false">
+                                    <span>Pembayaran QRIS &amp; VA</span>
                                 </button>
-                                <button type="button" onclick="switchBillboard(3)" id="bb-tab-3" class="billboard-tab-btn px-3 py-1.5 rounded-lg font-semibold text-slate-600 hover:text-[#0F4C81] transition-all" role="tab" aria-selected="false">
-                                    Hasil Audit
+                                <button type="button" 
+                                        onclick="switchBillboard(3)" 
+                                        id="bb-tab-3" 
+                                        class="billboard-tab-btn flex-1 sm:flex-none text-center justify-center min-w-[110px] sm:min-w-0 px-2.5 sm:px-3 py-2 sm:py-1.5 rounded-xl sm:rounded-lg text-2xs sm:text-xs leading-snug whitespace-normal sm:whitespace-nowrap transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] flex items-center font-semibold text-slate-600 hover:text-[#0F4C81]" 
+                                        role="tab" 
+                                        aria-selected="false">
+                                    <span>Hasil Audit</span>
                                 </button>
                             @endif
                         </div>
@@ -189,18 +214,18 @@
                     @if($displayBillboards)
                         @foreach($displayBillboards as $idx => $bb)
                             <div id="bb-slide-{{ $idx }}" class="billboard-slide {{ $idx === 0 ? 'active' : '' }} space-y-3">
-                                <div class="flex items-center gap-2">
+                                <div class="flex flex-wrap items-center gap-2">
                                     <span class="badge {{ $bb->badge_class }} text-2xs font-bold">{{ $bb->badge_text }}</span>
                                     @if($bb->meta_text)
                                         <span class="text-xs text-slate-400">{{ $bb->meta_text }}</span>
                                     @endif
                                 </div>
-                                <h3 class="text-xl font-black text-slate-900">{{ $bb->title }}</h3>
-                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
+                                <h3 class="text-lg sm:text-xl font-black text-slate-900 break-words leading-snug">{{ $bb->title }}</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl break-words">
                                     {!! nl2br(e($bb->content)) !!}
                                 </p>
                                 @if($bb->status_text || ($bb->link_url && $bb->link_text))
-                                    <div class="pt-2 flex flex-wrap items-center gap-4 text-xs font-bold text-[#0F4C81]">
+                                    <div class="pt-2 flex flex-wrap items-center gap-2 sm:gap-4 text-xs font-bold text-[#0F4C81]">
                                         @if($bb->status_text)
                                             <span>{{ $bb->status_text }}</span>
                                         @endif
@@ -220,15 +245,15 @@
                     @else
                         {{-- Fallback Slide 0 --}}
                         <div id="bb-slide-0" class="billboard-slide active space-y-3">
-                            <div class="flex items-center gap-2">
+                            <div class="flex flex-wrap items-center gap-2">
                                 <span class="badge badge-warning text-2xs font-bold">Pengumuman Utama</span>
                                 <span class="text-xs text-slate-400">Dipublikasikan: 01 November 2026</span>
                             </div>
-                            <h3 class="text-xl font-black text-slate-900">Rapat Anggota Tahunan (RAT) Tahun Buku Berjalan & Alokasi Pembagian SHU</h3>
-                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
+                            <h3 class="text-lg sm:text-xl font-black text-slate-900 break-words leading-snug">Rapat Anggota Tahunan (RAT) Tahun Buku Berjalan & Alokasi Pembagian SHU</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl break-words">
                                 Pengurus mengumumkan bahwa Rapat Anggota Tahunan (RAT) telah menetapkan alokasi Sisa Hasil Usaha (SHU) sebesar <strong>40% untuk Jasa Modal dan Jasa Anggota</strong>. Anggota yang telah melunasi Simpanan Pokok dan Wajib dapat langsung memeriksa simulasi hak perolehan SHU pada menu akuntansi di dashboard anggota.
                             </p>
-                            <div class="pt-2 flex items-center gap-4 text-xs font-bold text-[#0F4C81]">
+                            <div class="pt-2 flex flex-wrap items-center gap-2 sm:gap-4 text-xs font-bold text-[#0F4C81]">
                                 <span>Status: Pelaksanaan Berjalan</span>
                                 <span>&bull;</span>
                                 <a href="#panduan" class="hover:underline flex items-center gap-1">Pelajari Alur SHU &rarr;</a>
@@ -237,45 +262,45 @@
 
                         {{-- Fallback Slide 1 --}}
                         <div id="bb-slide-1" class="billboard-slide space-y-3">
-                            <div class="flex items-center gap-2">
+                            <div class="flex flex-wrap items-center gap-2">
                                 <span class="badge badge-success text-2xs font-bold">Program Permodalan</span>
                                 <span class="text-xs text-slate-400">Berlaku untuk Anggota Aktif</span>
                             </div>
-                            <h3 class="text-xl font-black text-slate-900">Skema Pinjaman Mikro Mingguan Khusus Pelaku Usaha UMKM</h3>
-                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
+                            <h3 class="text-lg sm:text-xl font-black text-slate-900 break-words leading-snug">Skema Pinjaman Mikro Mingguan Khusus Pelaku Usaha UMKM</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl break-words">
                                 KSP Sahabat Sejahtera meluncurkan fasilitas pembiayaan mikro mingguan (tenor 4 s.d. 24 minggu) dengan margin anuitas bersahabat mulai 0.40% per minggu. Persyaratan mudah: cukup upload foto tempat usaha saat mengajukan permohonan melalui sistem koperasi online ini.
                             </p>
-                            <div class="pt-2 flex items-center gap-4 text-xs font-bold text-[#0F4C81]">
+                            <div class="pt-2 flex flex-wrap items-center gap-2 sm:gap-4 text-xs font-bold text-[#0F4C81]">
                                 <a href="#produk" class="hover:underline">Lihat Rincian Plafon Produk Pinjaman &rarr;</a>
                             </div>
                         </div>
 
                         {{-- Fallback Slide 2 --}}
                         <div id="bb-slide-2" class="billboard-slide space-y-3">
-                            <div class="flex items-center gap-2">
+                            <div class="flex flex-wrap items-center gap-2">
                                 <span class="badge badge-info text-2xs font-bold">Teknologi Pembayaran</span>
                                 <span class="text-xs text-slate-400">Layanan Otomatis 24 Jam</span>
                             </div>
-                            <h3 class="text-xl font-black text-slate-900">Setoran Simpanan Sukarela & Angsuran Melalui QRIS dan Virtual Account Bank</h3>
-                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
+                            <h3 class="text-lg sm:text-xl font-black text-slate-900 break-words leading-snug">Setoran Simpanan Sukarela & Angsuran Melalui QRIS dan Virtual Account Bank</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl break-words">
                                 Anggota kini dapat melakukan setoran simpanan sukarela dan pembayaran angsuran menggunakan QRIS dinamis serta Virtual Account resmi Bank Mandiri, BRI, BCA, dan BNI. Transaksi terverifikasi otomatis melalui webhook server-to-server tanpa perlu konfirmasi manual bukti transfer.
                             </p>
-                            <div class="pt-2 flex items-center gap-4 text-xs font-bold text-[#0F4C81]">
+                            <div class="pt-2 flex flex-wrap items-center gap-2 sm:gap-4 text-xs font-bold text-[#0F4C81]">
                                 <a href="#panduan" class="hover:underline">Lihat Panduan Pembayaran Digital &rarr;</a>
                             </div>
                         </div>
 
                         {{-- Fallback Slide 3 --}}
                         <div id="bb-slide-3" class="billboard-slide space-y-3">
-                            <div class="flex items-center gap-2">
+                            <div class="flex flex-wrap items-center gap-2">
                                 <span class="badge badge-gray text-2xs font-bold">Kepatuhan Hukum</span>
                                 <span class="text-xs text-slate-400">Audit Berkala Kemenkop UKM</span>
                             </div>
-                            <h3 class="text-xl font-black text-slate-900">Hasil Audit Pengawasan Koperasi: Predikat Sehat & Akuntabel</h3>
-                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl">
+                            <h3 class="text-lg sm:text-xl font-black text-slate-900 break-words leading-snug">Hasil Audit Pengawasan Koperasi: Predikat Sehat & Akuntabel</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-4xl break-words">
                                 Berdasarkan hasil pengawasan dan audit independen tata kelola koperasi, KSP Sahabat Sejahtera dinyatakan berstatus <strong>KOPERASI SEHAT</strong> dengan rasio likuiditas aman, kepatuhan batas maksimal denda non-compounding, serta pemisahan tugas kewenangan <em>(Maker-Checker Segregation of Duties)</em>.
                             </p>
-                            <div class="pt-2 flex items-center gap-4 text-xs font-bold text-[#0F4C81]">
+                            <div class="pt-2 flex flex-wrap items-center gap-2 sm:gap-4 text-xs font-bold text-[#0F4C81]">
                                 <a href="#tentang-kami" class="hover:underline">Informasi Legalitas & Kontak Pengurus &rarr;</a>
                             </div>
                         </div>
