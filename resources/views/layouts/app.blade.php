@@ -765,8 +765,8 @@
         @yield('content')
     </main>
 
-    <!-- Footer Publik & Portal Anggota Sesuai Desain Modern Referensi Foto -->
-    <footer class="bg-[#101927] text-slate-300 border-t border-[#24344E] mt-auto pt-12 pb-8 w-full max-w-full overflow-hidden" role="contentinfo">
+    <!-- Footer Publik & Portal Anggota Selaras Palet Warna Elegan Admin KSP -->
+    <footer class="bg-[#1B263B] text-slate-300 border-t border-[#24344E] mt-auto pt-12 pb-8 w-full max-w-full overflow-hidden" role="contentinfo">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- 4 Kolom Utama -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-10">
@@ -774,11 +774,16 @@
                 <!-- Kolom 1: Profil & Brand (lg:col-span-4) -->
                 <div class="lg:col-span-4 space-y-4">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-xl bg-[#0F4C81] border border-[#2A9D8F]/50 flex items-center justify-center text-white font-extrabold text-xl shadow-xs shrink-0">
+                        <div class="w-10 h-10 rounded-xl bg-[#0F4C81] border border-[#2A9D8F]/60 flex items-center justify-center text-white font-extrabold text-xl shadow-xs shrink-0">
                             K
                         </div>
-                        <div class="text-lg font-black tracking-tight leading-tight">
-                            <span class="text-[#D4AF37]">KSP</span> <span class="text-white">SAHABAT SEJAHTERA</span>
+                        <div>
+                            <div class="text-lg font-black tracking-tight leading-tight">
+                                <span class="text-[#D4AF37]">KSP</span> <span class="text-white">SAHABAT SEJAHTERA</span>
+                            </div>
+                            <div class="text-[10px] font-bold text-[#2A9D8F] uppercase tracking-wider">
+                                Koperasi Simpan Pinjam Digital
+                            </div>
                         </div>
                     </div>
 
@@ -786,46 +791,48 @@
                         Lembaga keuangan koperasi modern berasaskan kekeluargaan dan gotong-royong. Layanan simpanan bagi hasil berkah bulanan, permodalan mikro UMKM tanpa agunan rumit, dan pembukuan transparan berstandar SAK EP.
                     </p>
 
-                    <!-- Trust Badge dengan Ikon Perisai (Sesuai Referensi Foto) -->
-                    <div class="pt-2 flex items-center gap-2 text-xs font-bold text-[#D4AF37] uppercase tracking-wider">
-                        <svg class="w-4 h-4 text-[#D4AF37] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                        </svg>
-                        <span>BADAN HUKUM RESMI &amp; SIMPANAN TERJAMIN</span>
+                    <!-- Trust Badge dengan Ikon Perisai (Palet Emas & Biru Finansial) -->
+                    <div class="pt-2">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0F4C81]/80 border border-[#2A9D8F]/50 text-xs font-bold text-[#D4AF37] uppercase tracking-wider shadow-2xs">
+                            <svg class="w-4 h-4 text-[#D4AF37] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                            <span>BADAN HUKUM RESMI &amp; SIMPANAN TERJAMIN</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Kolom 2: Navigasi (lg:col-span-2) -->
                 <div class="lg:col-span-2 space-y-3.5">
-                    <h3 class="text-xs sm:text-sm font-extrabold text-white uppercase tracking-wider">Navigasi</h3>
+                    <h3 class="text-xs sm:text-sm font-extrabold text-[#A3B18A] uppercase tracking-wider">Navigasi</h3>
                     <ul class="space-y-2 text-xs">
                         <li>
-                            <a href="{{ url('/#dashboard') }}" class="text-slate-300 hover:text-[#D4AF37] transition-colors flex items-center gap-1.5 group">
-                                <span class="text-[#D4AF37] font-bold group-hover:translate-x-0.5 transition-transform">&rsaquo;</span>
+                            <a href="{{ url('/#dashboard') }}" class="text-slate-200 hover:text-white transition-colors flex items-center gap-1.5 group">
+                                <span class="text-[#2A9D8F] font-bold group-hover:text-[#D4AF37] group-hover:translate-x-1 transition-all">&rsaquo;</span>
                                 <span>BERANDA UTAMA</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('/#produk') }}" class="text-slate-300 hover:text-[#D4AF37] transition-colors flex items-center gap-1.5 group">
-                                <span class="text-[#D4AF37] font-bold group-hover:translate-x-0.5 transition-transform">&rsaquo;</span>
+                            <a href="{{ url('/#produk') }}" class="text-slate-200 hover:text-white transition-colors flex items-center gap-1.5 group">
+                                <span class="text-[#2A9D8F] font-bold group-hover:text-[#D4AF37] group-hover:translate-x-1 transition-all">&rsaquo;</span>
                                 <span>PRODUK SIMPAN PINJAM</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('/#panduan') }}" class="text-slate-300 hover:text-[#D4AF37] transition-colors flex items-center gap-1.5 group">
-                                <span class="text-[#D4AF37] font-bold group-hover:translate-x-0.5 transition-transform">&rsaquo;</span>
+                            <a href="{{ url('/#panduan') }}" class="text-slate-200 hover:text-white transition-colors flex items-center gap-1.5 group">
+                                <span class="text-[#2A9D8F] font-bold group-hover:text-[#D4AF37] group-hover:translate-x-1 transition-all">&rsaquo;</span>
                                 <span>PANDUAN ANGGOTA &amp; e-KYC</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('/#simulasi') }}" class="text-slate-300 hover:text-[#D4AF37] transition-colors flex items-center gap-1.5 group">
-                                <span class="text-[#D4AF37] font-bold group-hover:translate-x-0.5 transition-transform">&rsaquo;</span>
+                            <a href="{{ url('/#simulasi') }}" class="text-slate-200 hover:text-white transition-colors flex items-center gap-1.5 group">
+                                <span class="text-[#2A9D8F] font-bold group-hover:text-[#D4AF37] group-hover:translate-x-1 transition-all">&rsaquo;</span>
                                 <span>SIMULASI PINJAMAN ONLINE</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('/#tentang-kami') }}" class="text-slate-300 hover:text-[#D4AF37] transition-colors flex items-center gap-1.5 group">
-                                <span class="text-[#D4AF37] font-bold group-hover:translate-x-0.5 transition-transform">&rsaquo;</span>
+                            <a href="{{ url('/#tentang-kami') }}" class="text-slate-200 hover:text-white transition-colors flex items-center gap-1.5 group">
+                                <span class="text-[#2A9D8F] font-bold group-hover:text-[#D4AF37] group-hover:translate-x-1 transition-all">&rsaquo;</span>
                                 <span>TENTANG KAMI &amp; KONTAK</span>
                             </a>
                         </li>
@@ -834,13 +841,16 @@
 
                 <!-- Kolom 3: Jam Operasional (lg:col-span-3) -->
                 <div class="lg:col-span-3 space-y-3.5">
-                    <h3 class="text-xs sm:text-sm font-extrabold text-white uppercase tracking-wider">Jam Operasional</h3>
-                    <div class="space-y-1">
-                        <div class="text-2xs sm:text-xs text-slate-400 font-bold tracking-wider uppercase">
+                    <h3 class="text-xs sm:text-sm font-extrabold text-[#A3B18A] uppercase tracking-wider">Jam Operasional</h3>
+                    <div class="space-y-1.5">
+                        <div class="text-2xs sm:text-xs text-slate-300 font-bold tracking-wider uppercase">
                             SENIN &mdash; MINGGU (SETIAP HARI)
                         </div>
-                        <div class="text-base sm:text-lg font-black text-[#D4AF37]">
-                            Buka 24 Jam Nonstop
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#0F4C81] border border-[#2A9D8F]/50 shadow-xs">
+                            <span class="w-2 h-2 rounded-full bg-[#2A9D8F] animate-pulse"></span>
+                            <span class="text-base sm:text-lg font-black text-[#D4AF37]">
+                                Buka 24 Jam Nonstop
+                            </span>
                         </div>
                     </div>
                     <p class="text-xs text-slate-300 leading-relaxed">
@@ -850,48 +860,58 @@
 
                 <!-- Kolom 4: Hubungi Kami (lg:col-span-3) -->
                 <div class="lg:col-span-3 space-y-3.5">
-                    <h3 class="text-xs sm:text-sm font-extrabold text-white uppercase tracking-wider">Hubungi Kami</h3>
+                    <h3 class="text-xs sm:text-sm font-extrabold text-[#A3B18A] uppercase tracking-wider">Hubungi Kami</h3>
                     <ul class="space-y-2.5 text-xs">
-                        <li class="flex items-start gap-2.5">
-                            <svg class="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            </svg>
+                        <li class="flex items-start gap-2.5 group">
+                            <div class="w-7 h-7 rounded-lg bg-[#0F4C81] border border-[#2A9D8F]/50 flex items-center justify-center text-[#2A9D8F] group-hover:text-[#D4AF37] group-hover:border-[#D4AF37]/60 shrink-0 transition-colors mt-0.5">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                            </div>
                             <span class="text-slate-300 leading-relaxed">
                                 Gedung Graha Sahabat Sejahtera Lantai 1-2, Jl. Perintis Kemerdekaan KM 9 No. 45, Tamalanrea, Kota Makassar, Sulawesi Selatan 90245
                             </span>
                         </li>
-                        <li class="flex items-center gap-2.5">
-                            <svg class="w-4 h-4 text-[#D4AF37] shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.954.557 3.864 1.615 5.517L2 22l4.61-1.579c1.583.947 3.411 1.458 5.421 1.458 5.536 0 10.031-4.495 10.031-10.031C22.062 6.495 17.567 2 12.031 2zm5.882 14.28c-.244.685-1.42 1.309-1.97 1.385-.515.071-1.187.1-3.414-.823-2.85-1.181-4.664-4.086-4.805-4.275-.14-.188-1.144-1.524-1.144-2.906 0-1.382.723-2.063.98-2.348.257-.285.56-.356.746-.356.187 0 .374.002.537.01.173.008.406-.065.635.485.244.585.83 2.023.902 2.17.072.147.12.32.024.513-.096.194-.144.314-.288.482-.144.168-.303.376-.433.505-.144.143-.294.298-.126.586.168.288.748 1.233 1.605 1.996 1.103.982 2.033 1.286 2.32 1.43.288.144.456.12.624-.072.168-.192.72-838.912-1.126.192-.288.384-.24.648-.144.264.096 1.679.792 1.967.936.288.144.48.216.552.336.072.12.072.696-.172 1.381z"/>
-                            </svg>
-                            <a href="https://wa.me/6282197233174" target="_blank" rel="noopener" class="text-slate-300 hover:text-[#D4AF37] font-semibold transition-colors">
+                        <li class="flex items-center gap-2.5 group">
+                            <div class="w-7 h-7 rounded-lg bg-[#0F4C81] border border-[#2A9D8F]/50 flex items-center justify-center text-[#2A9D8F] group-hover:text-[#D4AF37] group-hover:border-[#D4AF37]/60 shrink-0 transition-colors">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.954.557 3.864 1.615 5.517L2 22l4.61-1.579c1.583.947 3.411 1.458 5.421 1.458 5.536 0 10.031-4.495 10.031-10.031C22.062 6.495 17.567 2 12.031 2zm5.882 14.28c-.244.685-1.42 1.309-1.97 1.385-.515.071-1.187.1-3.414-.823-2.85-1.181-4.664-4.086-4.805-4.275-.14-.188-1.144-1.524-1.144-2.906 0-1.382.723-2.063.98-2.348.257-.285.56-.356.746-.356.187 0 .374.002.537.01.173.008.406-.065.635.485.244.585.83 2.023.902 2.17.072.147.12.32.024.513-.096.194-.144.314-.288.482-.144.168-.303.376-.433.505-.144.143-.294.298-.126.586.168.288.748 1.233 1.605 1.996 1.103.982 2.033 1.286 2.32 1.43.288.144.456.12.624-.072.168-.192.72-838.912-1.126.192-.288.384-.24.648-.144.264.096 1.679.792 1.967.936.288.144.48.216.552.336.072.12.072.696-.172 1.381z"/>
+                                </svg>
+                            </div>
+                            <a href="https://wa.me/6282197233174" target="_blank" rel="noopener" class="text-slate-200 hover:text-[#D4AF37] font-semibold transition-colors">
                                 +62 821-9723-3174
                             </a>
                         </li>
-                        <li class="flex items-center gap-2.5">
-                            <svg class="w-4 h-4 text-[#D4AF37] shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.954.557 3.864 1.615 5.517L2 22l4.61-1.579c1.583.947 3.411 1.458 5.421 1.458 5.536 0 10.031-4.495 10.031-10.031C22.062 6.495 17.567 2 12.031 2zm5.882 14.28c-.244.685-1.42 1.309-1.97 1.385-.515.071-1.187.1-3.414-.823-2.85-1.181-4.664-4.086-4.805-4.275-.14-.188-1.144-1.524-1.144-2.906 0-1.382.723-2.063.98-2.348.257-.285.56-.356.746-.356.187 0 .374.002.537.01.173.008.406-.065.635.485.244.585.83 2.023.902 2.17.072.147.12.32.024.513-.096.194-.144.314-.288.482-.144.168-.303.376-.433.505-.144.143-.294.298-.126.586.168.288.748 1.233 1.605 1.996 1.103.982 2.033 1.286 2.32 1.43.288.144.456.12.624-.072.168-.192.72-838.912-1.126.192-.288.384-.24.648-.144.264.096 1.679.792 1.967.936.288.144.48.216.552.336.072.12.072.696-.172 1.381z"/>
-                            </svg>
-                            <a href="https://wa.me/6282235585445" target="_blank" rel="noopener" class="text-slate-300 hover:text-[#D4AF37] font-semibold transition-colors">
+                        <li class="flex items-center gap-2.5 group">
+                            <div class="w-7 h-7 rounded-lg bg-[#0F4C81] border border-[#2A9D8F]/50 flex items-center justify-center text-[#2A9D8F] group-hover:text-[#D4AF37] group-hover:border-[#D4AF37]/60 shrink-0 transition-colors">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.954.557 3.864 1.615 5.517L2 22l4.61-1.579c1.583.947 3.411 1.458 5.421 1.458 5.536 0 10.031-4.495 10.031-10.031C22.062 6.495 17.567 2 12.031 2zm5.882 14.28c-.244.685-1.42 1.309-1.97 1.385-.515.071-1.187.1-3.414-.823-2.85-1.181-4.664-4.086-4.805-4.275-.14-.188-1.144-1.524-1.144-2.906 0-1.382.723-2.063.98-2.348.257-.285.56-.356.746-.356.187 0 .374.002.537.01.173.008.406-.065.635.485.244.585.83 2.023.902 2.17.072.147.12.32.024.513-.096.194-.144.314-.288.482-.144.168-.303.376-.433.505-.144.143-.294.298-.126.586.168.288.748 1.233 1.605 1.996 1.103.982 2.033 1.286 2.32 1.43.288.144.456.12.624-.072.168-.192.72-838.912-1.126.192-.288.384-.24.648-.144.264.096 1.679.792 1.967.936.288.144.48.216.552.336.072.12.072.696-.172 1.381z"/>
+                                </svg>
+                            </div>
+                            <a href="https://wa.me/6282235585445" target="_blank" rel="noopener" class="text-slate-200 hover:text-[#D4AF37] font-semibold transition-colors">
                                 +62 822-3558-5445
                             </a>
                         </li>
-                        <li class="flex items-center gap-2.5">
-                            <svg class="w-4 h-4 text-[#D4AF37] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                            </svg>
-                            <a href="mailto:layanan@koperasi.systemlji.com" class="text-slate-300 hover:text-[#D4AF37] font-semibold transition-colors">
+                        <li class="flex items-center gap-2.5 group">
+                            <div class="w-7 h-7 rounded-lg bg-[#0F4C81] border border-[#2A9D8F]/50 flex items-center justify-center text-[#2A9D8F] group-hover:text-[#D4AF37] group-hover:border-[#D4AF37]/60 shrink-0 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <a href="mailto:layanan@koperasi.systemlji.com" class="text-slate-200 hover:text-[#D4AF37] font-semibold transition-colors">
                                 layanan@koperasi.systemlji.com
                             </a>
                         </li>
-                        <li class="flex items-center gap-2.5">
-                            <svg class="w-4 h-4 text-[#D4AF37] shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                            </svg>
-                            <a href="https://instagram.com" target="_blank" rel="noopener" class="text-slate-300 hover:text-[#D4AF37] font-semibold transition-colors flex items-center gap-1">
+                        <li class="flex items-center gap-2.5 group">
+                            <div class="w-7 h-7 rounded-lg bg-[#0F4C81] border border-[#2A9D8F]/50 flex items-center justify-center text-[#2A9D8F] group-hover:text-[#D4AF37] group-hover:border-[#D4AF37]/60 shrink-0 transition-colors">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                </svg>
+                            </div>
+                            <a href="https://instagram.com" target="_blank" rel="noopener" class="text-slate-200 hover:text-[#D4AF37] font-semibold transition-colors flex items-center gap-1">
                                 <span>@ksp.sahabatsejahtera</span>
-                                <span class="text-3xs font-mono text-[#D4AF37]">&nearr;</span>
+                                <span class="text-3xs font-mono text-[#2A9D8F]">&nearr;</span>
                             </a>
                         </li>
                     </ul>
@@ -899,26 +919,30 @@
             </div>
 
             <!-- Garis Pembatas Horisontal -->
-            <div class="border-t border-[#24344E] pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+            <div class="border-t border-[#24344E] pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-300">
                 <!-- Kiri: Hak Cipta & Pengembang -->
-                <div class="text-center md:text-left">
-                    &copy; {{ date('Y') }} <strong>KSP Sahabat Sejahtera</strong>. Hak Cipta Dilindungi Undang-Undang. Badan Hukum No. AHU-0012345.AH.01.26.TAHUN 2026. Developed by <a href="https://www.linyjayainformatika.co.id/" target="_blank" rel="noopener" class="font-bold text-slate-200 hover:text-[#D4AF37] underline transition-colors">Liny Jaya Informatika</a>.
+                <div class="text-center md:text-left leading-relaxed">
+                    &copy; {{ date('Y') }} <strong class="text-white">KSP Sahabat Sejahtera</strong>. Hak Cipta Dilindungi Undang-Undang. Badan Hukum No. <span class="text-[#A3B18A] font-semibold font-mono">AHU-0012345.AH.01.26.TAHUN 2026</span>. Developed by <a href="https://www.linyjayainformatika.co.id/" target="_blank" rel="noopener" class="font-bold text-[#2A9D8F] hover:text-[#D4AF37] underline transition-colors">Liny Jaya Informatika</a>.
                 </div>
 
                 <!-- Tengah: Kebijakan Privasi & Syarat Layanan Modal Triggers -->
                 <div class="flex items-center gap-3 text-2xs sm:text-xs">
-                    <button type="button" onclick="openFooterModal('footerPrivacyModal')" class="hover:text-white transition-colors cursor-pointer underline hover:no-underline">
+                    <button type="button" onclick="openFooterModal('footerPrivacyModal')" class="hover:text-[#2A9D8F] transition-colors cursor-pointer underline hover:no-underline">
                         Kebijakan Privasi
                     </button>
-                    <span>&bull;</span>
-                    <button type="button" onclick="openFooterModal('footerTermsModal')" class="hover:text-white transition-colors cursor-pointer underline hover:no-underline">
+                    <span class="text-[#A3B18A]">&bull;</span>
+                    <button type="button" onclick="openFooterModal('footerTermsModal')" class="hover:text-[#2A9D8F] transition-colors cursor-pointer underline hover:no-underline">
                         Syarat Layanan
                     </button>
                 </div>
 
-                <!-- Kanan: Lokasi Wilayah Sesuai Foto -->
-                <div class="text-center md:text-right font-bold text-[#D4AF37]">
-                    Makassar, Sulawesi Selatan
+                <!-- Kanan: Lokasi Wilayah Sesuai Palet Emas & Toska Admin -->
+                <div class="text-center md:text-right font-extrabold text-[#D4AF37] flex items-center justify-center md:justify-end gap-1.5">
+                    <svg class="w-3.5 h-3.5 text-[#2A9D8F] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span>Makassar, Sulawesi Selatan</span>
                 </div>
             </div>
         </div>
@@ -929,12 +953,12 @@
         <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 space-y-4 shadow-2xl border border-[#E8E2D8] relative text-slate-800">
             <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-lg bg-[#EAF6F5] text-[#0F4C81] flex items-center justify-center font-bold">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                    <div class="w-8 h-8 rounded-lg bg-[#EAF6F5] text-[#0F4C81] border border-[#2A9D8F]/30 flex items-center justify-center font-bold">
+                        <svg class="w-4 h-4 text-[#2A9D8F]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                     </div>
                     <h3 id="privacyModalTitle" class="text-base font-bold text-[#1B263B]">Kebijakan Privasi KSP Sahabat Sejahtera</h3>
                 </div>
-                <button type="button" onclick="closeFooterModal('footerPrivacyModal')" class="text-slate-400 hover:text-slate-600 text-xl font-bold p-1 leading-none">&times;</button>
+                <button type="button" onclick="closeFooterModal('footerPrivacyModal')" class="text-slate-400 hover:text-[#1B263B] text-xl font-bold p-1 leading-none">&times;</button>
             </div>
             <div class="text-xs text-slate-600 space-y-2.5 leading-relaxed max-h-80 overflow-y-auto pr-1">
                 <p>KSP Sahabat Sejahtera berkomitmen melindungi data pribadi seluruh anggota sesuai Undang-Undang No. 27 Tahun 2022 tentang Pelindungan Data Pribadi (UU PDP).</p>
@@ -943,7 +967,7 @@
                 <p><strong>3. Kerahasiaan Finansial:</strong> Data mutasi rekening simpanan dan pinjaman anggota bersifat rahasia dan tidak diperjualbelikan kepada pihak ketiga manapun.</p>
             </div>
             <div class="pt-3 border-t border-slate-100 flex justify-end">
-                <button type="button" onclick="closeFooterModal('footerPrivacyModal')" class="btn btn-secondary btn-sm px-4 py-2 font-bold">Tutup</button>
+                <button type="button" onclick="closeFooterModal('footerPrivacyModal')" class="px-5 py-2 rounded-xl bg-[#0F4C81] hover:bg-[#1B263B] text-white font-bold text-xs shadow-xs transition-colors">Tutup</button>
             </div>
         </div>
     </div>
@@ -953,12 +977,12 @@
         <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 space-y-4 shadow-2xl border border-[#E8E2D8] relative text-slate-800">
             <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 rounded-lg bg-[#FFF9E6] text-[#D4AF37] flex items-center justify-center font-bold">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    <div class="w-8 h-8 rounded-lg bg-[#FFF9E6] text-[#D4AF37] border border-[#F5E0A0] flex items-center justify-center font-bold">
+                        <svg class="w-4 h-4 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                     </div>
                     <h3 id="termsModalTitle" class="text-base font-bold text-[#1B263B]">Syarat &amp; Ketentuan Layanan Koperasi</h3>
                 </div>
-                <button type="button" onclick="closeFooterModal('footerTermsModal')" class="text-slate-400 hover:text-slate-600 text-xl font-bold p-1 leading-none">&times;</button>
+                <button type="button" onclick="closeFooterModal('footerTermsModal')" class="text-slate-400 hover:text-[#1B263B] text-xl font-bold p-1 leading-none">&times;</button>
             </div>
             <div class="text-xs text-slate-600 space-y-2.5 leading-relaxed max-h-80 overflow-y-auto pr-1">
                 <p>Ketentuan layanan keanggotaan dan transaksi simpan pinjam online berlandaskan Anggaran Dasar dan Anggaran Rumah Tangga (AD/ART) KSP Sahabat Sejahtera:</p>
@@ -967,7 +991,7 @@
                 <p><strong>3. Pinjaman &amp; Denda Adil:</strong> Pembiayaan disalurkan setelah melalui analisis survei kelayakan. Denda keterlambatan dibatasi maksimal 10% per angsuran non-compounding.</p>
             </div>
             <div class="pt-3 border-t border-slate-100 flex justify-end">
-                <button type="button" onclick="closeFooterModal('footerTermsModal')" class="btn btn-secondary btn-sm px-4 py-2 font-bold">Saya Mengerti</button>
+                <button type="button" onclick="closeFooterModal('footerTermsModal')" class="px-5 py-2 rounded-xl bg-[#D4AF37] hover:bg-[#C59F2D] text-[#1B263B] font-bold text-xs shadow-xs transition-colors">Saya Mengerti</button>
             </div>
         </div>
     </div>
@@ -1233,6 +1257,7 @@
                     });
                 }
             });
+
             // Efek Header Mengikuti Scroll dengan Elevasi Shadow
             const mainHeader = document.getElementById('mainAppHeader');
             if (mainHeader) {
