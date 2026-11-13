@@ -32,25 +32,43 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
+        ], [
+            'email.required' => 'Kolom akun wajib diisi.',
+            'email.email' => 'Format email akun tidak valid.',
+            'password.required' => 'Kolom kata sandi wajib diisi.',
         ]);
 
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
-            $request->session()->regenerate();
-            $user = Auth::user();
+        $email = strtolower(trim($credentials['email']));
+        $user = User::where('email', $email)->first();
 
-            if (!$user->is_active) {
-                Auth::logout();
-                return back()->with('error', 'Akun Anda dinonaktifkan oleh pengurus koperasi.');
-            }
-
-            AuditLog::log('login', $user);
-
-            return redirect()->intended(route('dashboard'))->with('success', "Selamat datang kembali, {$user->name}!");
+        // 1. Validasi: Akun tidak ditemukan / salah
+        if (!$user) {
+            return back()->withErrors([
+                'email' => 'Akun salah.',
+            ])->onlyInput('email');
         }
 
-        return back()->withErrors([
-            'email' => 'Email atau kata sandi tidak cocok dengan data kami.',
-        ])->onlyInput('email');
+        // 2. Validasi: Akun ditemukan tetapi kata sandi salah
+        if (!Hash::check($credentials['password'], $user->password)) {
+            return back()->withErrors([
+                'password' => 'Kata sandi salah.',
+            ])->onlyInput('email');
+        }
+
+        // 3. Validasi: Status akun dinonaktifkan
+        if (!$user->is_active) {
+            return back()->withErrors([
+                'email' => 'Akun Anda dinonaktifkan oleh pengurus koperasi.',
+            ])->onlyInput('email');
+        }
+
+        // 4. Kredensial benar: Autentikasi dan login pengguna
+        Auth::login($user, $request->boolean('remember'));
+        $request->session()->regenerate();
+
+        AuditLog::log('login', $user);
+
+        return redirect()->intended(route('dashboard'))->with('success', "Selamat datang kembali, {$user->name}!");
     }
 
     public function showRegister()
