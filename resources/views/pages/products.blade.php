@@ -144,6 +144,16 @@
                             Pinjaman <strong>Rp 200.000</strong> tenor 10 minggu &bull; Angsuran <strong>Rp 24.000 / minggu</strong> &bull; Diterima bersih <strong>Rp 180.000</strong> (potongan simpanan Rp 10.000 + admin Rp 10.000).
                         </p>
                     </div>
+                    @else
+                    <div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-[11px] text-emerald-900 space-y-1">
+                        <div class="font-bold flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5 text-emerald-700 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            <span>Ketentuan Pencairan Sesuai Tabel:</span>
+                        </div>
+                        <p class="text-slate-600">
+                            Administrasi <strong>5%</strong> &bull; Simpanan Wajib <strong>5%</strong> (dialokasikan ke buku tabungan) &bull; Dana diterima bersih <strong>90%</strong>.
+                        </p>
+                    </div>
                     @endif
                 </div>
 

@@ -112,5 +112,41 @@ class NavbarPagesTest extends TestCase
         $response->assertSee(route('loans.simulation'));
         $response->assertSee(route('about'));
     }
+
+    /**
+     * Uji bahwa SELURUH produk pinjaman mengadopsi aturan tabel resmi:
+     * - Simpanan 5% (savings_percentage = 5.00)
+     * - Administrasi 5% (admin_fee_percentage = 5.00, admin_fee_fixed = 0)
+     * - Jumlah yang diterima (net disbursement) tepat 90% dari plafon
+     */
+    public function test_all_loan_products_adopt_official_table_provisions_5_percent()
+    {
+        $products = LoanProduct::where('is_active', true)->get();
+        $this->assertNotEmpty($products);
+
+        foreach ($products as $p) {
+            $this->assertEquals(5.00, (float) $p->savings_percentage, "Produk {$p->code} wajib memiliki simpanan 5%");
+            $this->assertEquals(5.00, (float) $p->admin_fee_percentage, "Produk {$p->code} wajib memiliki administrasi 5%");
+            $this->assertEquals(0, (int) $p->admin_fee_fixed, "Produk {$p->code} tidak boleh memiliki fixed admin fee");
+
+            // Uji simulasi tiap produk
+            $amount = 1000000;
+            $adminFee = (int) round(($amount * ($p->admin_fee_percentage / 100)) + $p->admin_fee_fixed);
+            $savingsDeduction = (int) round($amount * ($p->savings_percentage / 100));
+
+            $this->assertEquals(50000, $adminFee, "Biaya admin 5% dari 1jt harus 50rb untuk {$p->code}");
+            $this->assertEquals(50000, $savingsDeduction, "Potongan simpanan 5% dari 1jt harus 50rb untuk {$p->code}");
+
+            $netDisbursed = $amount - $adminFee - $savingsDeduction;
+            $this->assertEquals(900000, $netDisbursed, "Dana diterima bersih harus 90% (900rb) untuk {$p->code}");
+
+            // Verifikasi halaman simulasi menampilkan rincian resmi
+            $simResponse = $this->get(route('loans.simulation', ['product_id' => $p->id, 'amount' => $amount]));
+            $simResponse->assertStatus(200);
+            $simResponse->assertSee('Simpanan 5%');
+            $simResponse->assertSee('Administrasi 5%');
+            $simResponse->assertSee('Jumlah yang Diterima');
+        }
+    }
 }
 
