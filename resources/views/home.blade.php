@@ -8,7 +8,7 @@
 <style>
     html {
         scroll-behavior: smooth;
-        scroll-padding-top: 4.5rem;
+        scroll-padding-top: 4rem;
     }
     .hero-gradient {
         background: radial-gradient(120% 120% at 50% 10%, #FFFFFF 0%, #F8F5F0 45%, #EAF6F5 80%, #DBEFEF 100%);
@@ -34,11 +34,11 @@
          1. FITUR NAV HEADER PERTAMA: DASHBOARD / BERANDA UTAMA
          (Sambutan & Ringkasan Organisasi, Billboard Pengumuman, Standar Layanan, FAQ)
        ========================================================================= --}}
-    <section id="dashboard" class="hero-gradient border-b border-[#E8E2D8] pt-8 pb-12 sm:pt-10 sm:pb-16 lg:pt-16 lg:pb-24 overflow-hidden w-full max-w-full" aria-labelledby="heading-dashboard">
+    <section id="dashboard" class="hero-gradient border-b border-[#E8E2D8] pt-3.5 pb-12 sm:pt-4 sm:pb-16 lg:pt-5 lg:pb-24 overflow-hidden w-full max-w-full" aria-labelledby="heading-dashboard">
         <div class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12 min-w-0">
             
             {{-- Sambutan & Ringkasan Organisasi Koperasi --}}
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
                 <div class="lg:col-span-7 space-y-5 sm:space-y-6 min-w-0">
                     <div class="inline-flex max-w-full items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-xl sm:rounded-full text-[10px] sm:text-xs font-bold bg-[#EAF6F5] text-[#0F4C81] border border-[#2A9D8F]/40 shadow-2xs leading-snug">
                         <span class="w-2 h-2 rounded-full bg-[#2A9D8F] animate-pulse shrink-0"></span>

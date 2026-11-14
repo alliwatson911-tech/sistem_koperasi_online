@@ -66,7 +66,7 @@
         * { box-sizing: border-box; }
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: 4.5rem;
+            scroll-padding-top: 4rem;
             max-width: 100vw;
         }
         body {
