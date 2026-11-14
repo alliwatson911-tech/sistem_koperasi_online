@@ -51,13 +51,19 @@ class LoanService
 
         $ratePerPeriod = (float) $product->interest_rate_per_period;
         $adminFee = (int) round(($amount * ($product->admin_fee_percentage / 100)) + $product->admin_fee_fixed);
+        $savingsPercentage = (float) ($product->savings_percentage ?? 0);
+        $savingsAmount = (int) round($amount * ($savingsPercentage / 100));
+        $netDisbursement = max(0, $amount - $adminFee - $savingsAmount);
+
         $sim = $this->calculator->simulate(
             $amount,
             $tenor,
             $ratePerPeriod,
             $product->calculation_method,
             $adminFee,
-            $product->tenor_unit ?? 'month'
+            $product->tenor_unit ?? 'month',
+            null,
+            $savingsAmount
         );
 
         $appNo = 'APP-' . date('Ymd') . '-' . strtoupper(Str::random(5));
@@ -91,6 +97,9 @@ class LoanService
             'interest_rate_monthly' => $product->interest_rate_monthly,
             'interest_rate_per_period' => $ratePerPeriod,
             'admin_fee' => $adminFee,
+            'savings_percentage' => $savingsPercentage,
+            'savings_amount' => $savingsAmount,
+            'net_disbursement_amount' => $netDisbursement,
             'monthly_installment_estimate' => $sim['first_installment'] ?? $sim['first_month_installment'],
             'status' => LoanApplication::STATUS_SUBMITTED,
             'submitted_at' => now(),
@@ -507,13 +516,18 @@ class LoanService
                 $app->update(['status' => LoanApplication::STATUS_APPROVED]);
                 $application->refresh();
 
+                $savingsAmount = $app->savings_amount ?? (int) round($app->amount * (($app->savings_percentage ?? 0) / 100));
+                $netDisbursement = $app->net_disbursement_amount ?? max(0, $app->amount - $app->admin_fee - $savingsAmount);
+
                 $sim = $this->calculator->simulate(
                     $app->amount,
                     $app->tenor_count,
                     (float) $app->interest_rate_per_period,
                     $app->calculation_method,
                     $app->admin_fee,
-                    $app->tenor_unit ?? 'month'
+                    $app->tenor_unit ?? 'month',
+                    null,
+                    $savingsAmount
                 );
 
                 $loanNo = 'LOAN-' . date('Ymd') . '-' . strtoupper(Str::random(5));
@@ -525,6 +539,9 @@ class LoanService
                     'principal_amount' => $app->amount,
                     'total_interest' => $sim['total_interest'],
                     'total_admin_fee' => $app->admin_fee,
+                    'savings_percentage' => $app->savings_percentage ?? 0,
+                    'total_savings_deduction' => $savingsAmount,
+                    'net_disbursement_amount' => $netDisbursement,
                     'total_loan_amount' => $app->amount + $sim['total_interest'],
                     'outstanding_principal' => $app->amount,
                     'outstanding_interest' => $sim['total_interest'],
@@ -659,18 +676,39 @@ class LoanService
 
             // Jurnal double-entry pencairan pinjaman:
             // Debit: Piutang Pinjaman Anggota (1201) [Plafon Pokok]
-            // Credit: Kas/Bank (1101/1102) [Plafon dikurangi biaya admin]
+            // Credit: Kas/Bank (1101/1102) [Plafon dikurangi biaya admin & potongan simpanan]
             // Credit: Pendapatan Administrasi (4102) [Biaya admin]
+            // Credit: Simpanan Wajib Anggota (2102) [Potongan simpanan, misal 5%]
             $kasCode = $paymentMethod === 'transfer' ? '1102' : '1101';
-            $disbursedCash = $loan->principal_amount - $loan->total_admin_fee;
+            $savingsDeduction = $loan->total_savings_deduction ?? (int) round($loan->principal_amount * (($loan->savings_percentage ?? 0) / 100));
+            $disbursedCash = $loan->principal_amount - $loan->total_admin_fee - $savingsDeduction;
+
+            $journalEntries = [
+                ['account_code' => '1201', 'type' => 'debit', 'amount' => $loan->principal_amount],
+                ['account_code' => $kasCode, 'type' => 'credit', 'amount' => $disbursedCash],
+                ['account_code' => '4102', 'type' => 'credit', 'amount' => $loan->total_admin_fee],
+            ];
+
+            if ($savingsDeduction > 0) {
+                $journalEntries[] = [
+                    'account_code' => '2102',
+                    'type' => 'credit',
+                    'amount' => $savingsDeduction,
+                ];
+
+                // Setorkan saldo potongan simpanan ke rekening simpanan anggota
+                if ($loan->member) {
+                    $savingsAcc = $loan->member->savingsAccounts()->where('type', 'wajib')->first()
+                               ?: $loan->member->savingsAccounts()->where('type', 'sukarela')->first();
+                    if ($savingsAcc) {
+                        $savingsAcc->increment('balance', $savingsDeduction);
+                    }
+                }
+            }
 
             $this->journals->record(
                 "Pencairan Pinjaman Anggota #{$loan->loan_no} ({$loan->member->user->name})",
-                [
-                    ['account_code' => '1201', 'type' => 'debit', 'amount' => $loan->principal_amount],
-                    ['account_code' => $kasCode, 'type' => 'credit', 'amount' => $disbursedCash],
-                    ['account_code' => '4102', 'type' => 'credit', 'amount' => $loan->total_admin_fee],
-                ],
+                $journalEntries,
                 'loan_disbursement',
                 $loan->id
             );

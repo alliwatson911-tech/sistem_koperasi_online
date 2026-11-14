@@ -28,7 +28,7 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
                     <span style="color: var(--gray);">Plafon Pinjaman:</span>
-                    <strong>Rp {{ number_format($p->min_amount/1000000, 1) }}jt - Rp {{ number_format($p->max_amount/1000000, 1) }}jt</strong>
+                    <strong>Rp {{ $p->min_amount >= 1000000 ? number_format($p->min_amount/1000000, 1) . 'jt' : number_format($p->min_amount, 0, ',', '.') }} - Rp {{ number_format($p->max_amount/1000000, 1) }}jt</strong>
                 </div>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
                     <span style="color: var(--gray);">Pilihan Tenor:</span>
@@ -36,8 +36,14 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
                     <span style="color: var(--gray);">Biaya Admin:</span>
-                    <strong>{{ $p->admin_fee_percentage }}% + Rp {{ number_format($p->admin_fee_fixed, 0, ',', '.') }}</strong>
+                    <strong>{{ $p->admin_fee_fixed > 0 ? "{$p->admin_fee_percentage}% + Rp " . number_format($p->admin_fee_fixed, 0, ',', '.') : "{$p->admin_fee_percentage}%" }}</strong>
                 </div>
+                @if($p->savings_percentage > 0)
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                    <span style="color: var(--gray);">Simpanan Wajib:</span>
+                    <strong style="color: var(--secondary);">{{ $p->savings_percentage }}% (Masuk Tabungan)</strong>
+                </div>
+                @endif
                 <div style="display: flex; justify-content: space-between;">
                     <span style="color: var(--gray);">Denda Keterlambatan:</span>
                     <strong style="color: var(--danger);">{{ $p->penalty_rate_daily * 100 }}% / hari (Maks 10%)</strong>

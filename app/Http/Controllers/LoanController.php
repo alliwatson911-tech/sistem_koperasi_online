@@ -45,7 +45,7 @@ class LoanController extends Controller
 
         if ($productId && $products->isNotEmpty()) {
             $selectedProduct = $products->firstWhere('id', (int) $productId) ?: $products->first();
-            $defaultAmount = $selectedProduct->isDaily() ? 500000 : ($selectedProduct->isWeekly() ? 3000000 : 10000000);
+            $defaultAmount = $selectedProduct->isDaily() ? 500000 : ($selectedProduct->isWeekly() ? 200000 : 10000000);
             $defaultTenor = $selectedProduct->isDaily() ? 14 : ($selectedProduct->isWeekly() ? 10 : 12);
 
             $amount = (int) $request->get('amount', $defaultAmount);
@@ -54,13 +54,16 @@ class LoanController extends Controller
             $method = $request->get('calculation_method', $selectedProduct->calculation_method);
 
             $adminFee = (int) round(($amount * ($selectedProduct->admin_fee_percentage / 100)) + $selectedProduct->admin_fee_fixed);
+            $savingsDeduction = (int) round($amount * (($selectedProduct->savings_percentage ?? 0) / 100));
             $simulationResult = $this->calculator->simulate(
                 $amount,
                 $tenor,
                 (float) $selectedProduct->interest_rate_per_period,
                 $method,
                 $adminFee,
-                $selectedProduct->tenor_unit ?? 'month'
+                $selectedProduct->tenor_unit ?? 'month',
+                null,
+                $savingsDeduction
             );
         }
 

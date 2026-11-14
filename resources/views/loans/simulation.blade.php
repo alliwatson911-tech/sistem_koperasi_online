@@ -54,8 +54,8 @@
                 <div class="form-group">
                     <label for="sim_amount" class="form-label">Nominal Plafon (Rp) <span class="text-rose-500">*</span></label>
                     <input type="number" id="sim_amount" name="amount" class="form-control text-xs"
-                           value="{{ request('amount', ($selectedProduct && $selectedProduct->isDaily() ? 500000 : ($selectedProduct && $selectedProduct->isWeekly() ? 3000000 : 10000000))) }}"
-                           required min="{{ $selectedProduct->min_amount ?? 100000 }}" max="{{ $selectedProduct->max_amount ?? 100000000 }}" step="{{ $selectedProduct && $selectedProduct->isDaily() ? 50000 : 250000 }}">
+                           value="{{ request('amount', ($selectedProduct && $selectedProduct->isDaily() ? 500000 : ($selectedProduct && $selectedProduct->isWeekly() ? 200000 : 10000000))) }}"
+                           required min="{{ $selectedProduct->min_amount ?? 100000 }}" max="{{ $selectedProduct->max_amount ?? 100000000 }}" step="{{ $selectedProduct && $selectedProduct->isDaily() ? 50000 : ($selectedProduct && $selectedProduct->isWeekly() ? 100000 : 250000) }}">
                     <div class="flex items-center gap-1.5 mt-1.5 flex-wrap">
                         @if($selectedProduct && $selectedProduct->isDaily())
                             <button type="button" onclick="document.getElementById('sim_amount').value=100000" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">100 Rb</button>
@@ -64,8 +64,10 @@
                             <button type="button" onclick="document.getElementById('sim_amount').value=750000" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">750 Rb</button>
                             <button type="button" onclick="document.getElementById('sim_amount').value=1000000" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">1 Jt</button>
                         @elseif($selectedProduct && $selectedProduct->isWeekly())
+                            <button type="button" onclick="document.getElementById('sim_amount').value=200000" class="text-3xs px-2 py-0.5 rounded bg-[#EAF6F5] text-[#0F4C81] border border-[#2A9D8F]/40 font-bold hover:bg-[#d5eeec]">200 Rb</button>
+                            <button type="button" onclick="document.getElementById('sim_amount').value=500000" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">500 Rb</button>
                             <button type="button" onclick="document.getElementById('sim_amount').value=1000000" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">1 Jt</button>
-                            <button type="button" onclick="document.getElementById('sim_amount').value=2500000" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">2.5 Jt</button>
+                            <button type="button" onclick="document.getElementById('sim_amount').value=2000000" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">2 Jt</button>
                             <button type="button" onclick="document.getElementById('sim_amount').value=5000000" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">5 Jt</button>
                         @else
                             <button type="button" onclick="document.getElementById('sim_amount').value=5000000" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">5 Jt</button>
@@ -92,9 +94,9 @@
                             <button type="button" onclick="document.getElementById('sim_tenor').value=21" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">21 Hari</button>
                             <button type="button" onclick="document.getElementById('sim_tenor').value=30" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">30 Hari</button>
                         @elseif($selectedProduct && $selectedProduct->isWeekly())
+                            <button type="button" onclick="document.getElementById('sim_tenor').value=10" class="text-3xs px-2 py-0.5 rounded bg-[#EAF6F5] text-[#0F4C81] border border-[#2A9D8F]/40 font-bold hover:bg-[#d5eeec]">10 Mgg (Standar)</button>
                             <button type="button" onclick="document.getElementById('sim_tenor').value=4" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">4 Mgg</button>
                             <button type="button" onclick="document.getElementById('sim_tenor').value=8" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">8 Mgg</button>
-                            <button type="button" onclick="document.getElementById('sim_tenor').value=10" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">10 Mgg</button>
                             <button type="button" onclick="document.getElementById('sim_tenor').value=16" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">16 Mgg</button>
                             <button type="button" onclick="document.getElementById('sim_tenor').value=24" class="text-3xs px-2 py-0.5 rounded bg-slate-100 text-slate-600 hover:bg-slate-200">24 Mgg</button>
                         @else
@@ -125,6 +127,36 @@
     <!-- Hasil Perhitungan & Tabel Angsuran (Kanan) -->
     <div class="lg:col-span-2 space-y-6">
         @if($simulationResult)
+            @if(!empty($simulationResult['savings_deduction']) && $simulationResult['savings_deduction'] > 0)
+                <div class="bg-[#F8F5F0] border-2 border-[#2A9D8F]/40 rounded-2xl p-4 sm:p-5 shadow-2xs space-y-3">
+                    <div class="flex items-center justify-between pb-2 border-b border-[#E8E2D8]">
+                        <span class="text-xs font-bold uppercase tracking-wider text-[#0F4C81] flex items-center gap-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#2A9D8F] animate-pulse"></span>
+                            Ketentuan Resmi Pencairan Sesuai Tabel Koperasi
+                        </span>
+                        <span class="badge badge-success text-2xs">Resmi & Transparan</span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 text-center">
+                        <div class="p-3 bg-white rounded-xl border border-[#E8E2D8] shadow-2xs">
+                            <span class="text-3xs font-bold text-slate-500 uppercase block">Besar Pinjaman</span>
+                            <span class="text-base font-extrabold text-slate-900 mt-0.5 block">Rp {{ number_format($simulationResult['principal'], 0, ',', '.') }}</span>
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-[#E8E2D8] shadow-2xs">
+                            <span class="text-3xs font-bold text-slate-500 uppercase block">Simpanan 5%</span>
+                            <span class="text-base font-extrabold text-[#2A9D8F] mt-0.5 block">Rp {{ number_format($simulationResult['savings_deduction'], 0, ',', '.') }}</span>
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-[#E8E2D8] shadow-2xs">
+                            <span class="text-3xs font-bold text-slate-500 uppercase block">Administrasi 5%</span>
+                            <span class="text-base font-extrabold text-[#0F4C81] mt-0.5 block">Rp {{ number_format($simulationResult['admin_fee'], 0, ',', '.') }}</span>
+                        </div>
+                        <div class="p-3 bg-[#EAF6F5] rounded-xl border-2 border-[#2A9D8F] shadow-2xs">
+                            <span class="text-3xs font-extrabold text-[#0F4C81] uppercase block">Jumlah yang Diterima</span>
+                            <span class="text-base font-black text-[#0F4C81] mt-0.5 block">Rp {{ number_format($simulationResult['net_disbursement_amount'], 0, ',', '.') }}</span>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <!-- Ringkasan Biaya Simulasi -->
             <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
                 <div class="bg-white rounded-2xl p-4 border border-[#E8E2D8] shadow-xs border-l-4 border-l-[#0F4C81]">

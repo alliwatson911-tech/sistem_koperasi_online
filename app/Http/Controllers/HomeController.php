@@ -28,23 +28,26 @@ class HomeController extends Controller
         $selectedProductId = $request->get('product_id', $products->first()?->id);
         $selectedProduct = $products->firstWhere('id', (int) $selectedProductId) ?: $products->first();
 
-        $defaultAmount = ($selectedProduct && $selectedProduct->isDaily()) ? 500000 : (($selectedProduct && $selectedProduct->isWeekly()) ? 3000000 : 10000000);
+        $defaultAmount = ($selectedProduct && $selectedProduct->isDaily()) ? 500000 : (($selectedProduct && $selectedProduct->isWeekly()) ? 200000 : 10000000);
         $defaultTenor = ($selectedProduct && $selectedProduct->isDaily()) ? 14 : (($selectedProduct && $selectedProduct->isWeekly()) ? 10 : 12);
 
         $amount = (int) $request->get('amount', $defaultAmount);
         $tenor = (int) $request->get('tenor', $defaultTenor);
-        $method = $request->get('calculation_method', $selectedProduct?->calculation_method ?? 'annuity');
+        $method = $request->get('calculation_method', $selectedProduct?->calculation_method ?? 'flat');
 
         $simulationResult = null;
         if ($selectedProduct) {
             $adminFee = (int) round(($amount * ($selectedProduct->admin_fee_percentage / 100)) + $selectedProduct->admin_fee_fixed);
+            $savingsDeduction = (int) round($amount * (($selectedProduct->savings_percentage ?? 0) / 100));
             $simulationResult = $this->calculator->simulate(
                 $amount,
                 $tenor,
                 (float) $selectedProduct->interest_rate_per_period,
                 $method,
                 $adminFee,
-                $selectedProduct->tenor_unit
+                $selectedProduct->tenor_unit,
+                null,
+                $savingsDeduction
             );
         }
 

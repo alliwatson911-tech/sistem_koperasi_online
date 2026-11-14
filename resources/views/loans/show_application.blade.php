@@ -236,6 +236,27 @@
                             <span class="text-xs font-normal text-slate-400">({{ $application->loanProduct->admin_fee_percentage }}% + Rp {{ number_format($application->loanProduct->admin_fee_fixed) }})</span>
                         </span>
                     </div>
+                    @php
+                        $savPct = $application->savings_percentage ?? $application->loanProduct->savings_percentage ?? 0;
+                        $savAmt = $application->savings_amount ?? ($application->amount * $savPct / 100);
+                        $adminFeeAmt = ($application->amount * $application->loanProduct->admin_fee_percentage / 100) + $application->loanProduct->admin_fee_fixed;
+                        $netDisburseAmt = $application->net_disbursement_amount ?: ($application->amount - $adminFeeAmt - $savAmt);
+                    @endphp
+                    @if($savPct > 0 || $savAmt > 0)
+                    <div>
+                        <span class="text-xs text-slate-400 block">Potongan Simpanan Wajib ({{ $savPct }}%)</span>
+                        <span class="font-bold text-slate-800">
+                            Rp {{ number_format($savAmt, 0, ',', '.') }}
+                            <span class="text-xs font-normal text-slate-400">(Dialokasikan ke buku simpanan)</span>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-400 block">Jumlah Bersih Diterima Anggota</span>
+                        <span class="font-black text-emerald-700 text-base">
+                            Rp {{ number_format($netDisburseAmt, 0, ',', '.') }}
+                        </span>
+                    </div>
+                    @endif
                     <div>
                         <span class="text-xs text-slate-400 block">Estimasi Angsuran Per {{ $application->tenor_unit_label }}</span>
                         <span class="font-bold text-slate-800">

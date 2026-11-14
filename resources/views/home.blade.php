@@ -474,8 +474,14 @@
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <span class="text-slate-500">Biaya Administrasi:</span>
-                                    <strong class="text-slate-800">{{ $p->admin_fee_percentage }}% + Rp {{ number_format($p->admin_fee_fixed, 0, ',', '.') }}</strong>
+                                    <strong class="text-slate-800">{{ $p->admin_fee_fixed > 0 ? "{$p->admin_fee_percentage}% + Rp " . number_format($p->admin_fee_fixed, 0, ',', '.') : "{$p->admin_fee_percentage}%" }}</strong>
                                 </div>
+                                @if($p->savings_percentage > 0)
+                                <div class="flex items-center justify-between">
+                                    <span class="text-slate-500">Simpanan Wajib:</span>
+                                    <strong class="text-[#2A9D8F]">{{ $p->savings_percentage }}% (Masuk Saldo Simpanan)</strong>
+                                </div>
+                                @endif
                                 <div class="flex items-center justify-between pt-1 border-t border-slate-200/60">
                                     <span class="text-slate-500">Batas Denda Maksimal:</span>
                                     <strong class="text-amber-800">Maks. 10% (Non-Compounding)</strong>
@@ -748,10 +754,11 @@
                                     <button type="button" onclick="setAmount(750000)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">750 Rb</button>
                                     <button type="button" onclick="setAmount(1000000)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">1 Jt</button>
                                 @elseif($selectedProduct && $selectedProduct->isWeekly())
+                                    <button type="button" onclick="setAmount(200000)" class="text-3xs px-2.5 py-1 rounded-lg bg-[#EAF6F5] text-[#0F4C81] border border-[#2A9D8F]/40 font-bold hover:bg-[#d5eeec]">200 Rb</button>
+                                    <button type="button" onclick="setAmount(500000)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">500 Rb</button>
                                     <button type="button" onclick="setAmount(1000000)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">1 Jt</button>
-                                    <button type="button" onclick="setAmount(2500000)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">2.5 Jt</button>
+                                    <button type="button" onclick="setAmount(2000000)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">2 Jt</button>
                                     <button type="button" onclick="setAmount(5000000)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">5 Jt</button>
-                                    <button type="button" onclick="setAmount(10000000)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">10 Jt</button>
                                 @else
                                     <button type="button" onclick="setAmount(5000000)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">5 Jt</button>
                                     <button type="button" onclick="setAmount(10000000)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">10 Jt</button>
@@ -778,9 +785,9 @@
                                     <button type="button" onclick="setTenor(21)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">21 Hari</button>
                                     <button type="button" onclick="setTenor(30)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">30 Hari</button>
                                 @elseif($selectedProduct && $selectedProduct->isWeekly())
+                                    <button type="button" onclick="setTenor(10)" class="text-3xs px-2.5 py-1 rounded-lg bg-[#EAF6F5] text-[#0F4C81] border border-[#2A9D8F]/40 font-bold hover:bg-[#d5eeec]">10 Mgg (Standar)</button>
                                     <button type="button" onclick="setTenor(4)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">4 Mgg</button>
                                     <button type="button" onclick="setTenor(8)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">8 Mgg</button>
-                                    <button type="button" onclick="setTenor(10)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">10 Mgg</button>
                                     <button type="button" onclick="setTenor(16)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">16 Mgg</button>
                                     <button type="button" onclick="setTenor(24)" class="text-3xs px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold">24 Mgg</button>
                                 @else
@@ -827,6 +834,33 @@
                             </div>
                             <span class="text-2xs text-slate-500 block">Selama {{ $tenor }} {{ $selectedProduct ? $selectedProduct->tenor_unit_label : 'Periode' }} (Metode: {{ ucfirst($method) }})</span>
                         </div>
+
+                        {{-- Rincian Pencairan Bersih Sesuai Tabel Resmi Produk --}}
+                        @if(!empty($simulationResult['savings_deduction']) && $simulationResult['savings_deduction'] > 0)
+                            <div class="p-4 bg-[#F8F5F0] rounded-2xl border border-[#2A9D8F]/30 space-y-2.5">
+                                <div class="flex items-center justify-between text-2xs font-bold text-[#0F4C81]">
+                                    <span class="flex items-center gap-1.5">
+                                        <span class="w-2 h-2 rounded-full bg-[#2A9D8F] animate-pulse"></span>
+                                        Ketentuan Resmi Pencairan Sesuai Tabel Produk
+                                    </span>
+                                    <span class="text-3xs bg-[#EAF6F5] text-[#2A9D8F] px-2.5 py-0.5 rounded-full font-black border border-[#2A9D8F]/30">Besar Pinjaman: Rp {{ number_format($amount, 0, ',', '.') }}</span>
+                                </div>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+                                    <div class="p-2.5 bg-white rounded-xl border border-[#E8E2D8]">
+                                        <span class="text-slate-400 block text-3xs uppercase font-bold">Simpanan 5%</span>
+                                        <strong class="text-[#2A9D8F] text-xs">Rp {{ number_format($simulationResult['savings_deduction'], 0, ',', '.') }}</strong>
+                                    </div>
+                                    <div class="p-2.5 bg-white rounded-xl border border-[#E8E2D8]">
+                                        <span class="text-slate-400 block text-3xs uppercase font-bold">Administrasi 5%</span>
+                                        <strong class="text-[#0F4C81] text-xs">Rp {{ number_format($simulationResult['admin_fee'], 0, ',', '.') }}</strong>
+                                    </div>
+                                    <div class="p-2.5 bg-[#EAF6F5] rounded-xl border-2 border-[#2A9D8F] col-span-2">
+                                        <span class="text-[#0F4C81] block text-3xs uppercase font-black">Jumlah yang Diterima (Bersih)</span>
+                                        <strong class="text-[#0F4C81] text-sm">Rp {{ number_format($simulationResult['net_disbursement_amount'], 0, ',', '.') }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
 
                         {{-- Grid Ringkasan Finansial --}}
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">

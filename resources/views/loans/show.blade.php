@@ -58,12 +58,15 @@
             @endif
 
             @if($loan->status === 'approved_awaiting_disbursement' && $loan->agreed_at && in_array(auth()->user()->role, ['teller', 'admin']))
+                @php
+                    $netDisburse = $loan->net_disbursement_amount ?: ($loan->principal_amount - $loan->total_admin_fee - ($loan->total_savings_deduction ?? 0));
+                @endphp
                 <form action="{{ route('loans.disburse', $loan->id) }}" method="POST">
                     @csrf
                     <input type="hidden" name="payment_method" value="transfer">
-                    <button type="submit" onclick="return confirm('Cairkan dana pinjaman sebesar Rp {{ number_format($loan->principal_amount - $loan->total_admin_fee) }} ke anggota sekarang?')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold shadow transition">
+                    <button type="submit" onclick="return confirm('Cairkan dana pinjaman bersih sebesar Rp {{ number_format($netDisburse, 0, ',', '.') }} ke anggota sekarang? (Pokok: Rp {{ number_format($loan->principal_amount, 0, ',', '.') }}, Admin: Rp {{ number_format($loan->total_admin_fee, 0, ',', '.') }}@if(($loan->total_savings_deduction ?? 0) > 0), Simpanan: Rp {{ number_format($loan->total_savings_deduction, 0, ',', '.') }}@endif)')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold shadow transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        Cairkan Dana Pinjaman
+                        Cairkan Dana Pinjaman (Bersih Rp {{ number_format($netDisburse, 0, ',', '.') }})
                     </button>
                 </form>
             @endif
@@ -359,10 +362,22 @@
             @endif
 
             <!-- Detail Akad & Pencairan -->
-            <div class="pt-3 border-t border-slate-100 grid grid-cols-2 gap-3 text-xs">
+            <div class="pt-3 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs">
                 <div>
-                    <span class="text-slate-400 block">Tanda Tangan Akad Digital:</span>
+                    <span class="text-slate-400 block">Tanda Tangan Akad:</span>
                     <strong class="text-slate-800">{{ $loan->agreed_at ? $loan->agreed_at->format('d/m/Y H:i') . ' WITA' : 'Belum' }}</strong>
+                </div>
+                <div>
+                    <span class="text-slate-400 block">Biaya Administrasi:</span>
+                    <strong class="text-slate-800">Rp {{ number_format($loan->total_admin_fee, 0, ',', '.') }}</strong>
+                </div>
+                <div>
+                    <span class="text-slate-400 block">Simpanan Wajib (5%):</span>
+                    <strong class="text-slate-800">Rp {{ number_format($loan->total_savings_deduction ?? 0, 0, ',', '.') }}</strong>
+                </div>
+                <div>
+                    <span class="text-slate-400 block">Dana Bersih Diterima:</span>
+                    <strong class="text-emerald-700 font-bold">Rp {{ number_format($loan->net_disbursement_amount ?: ($loan->principal_amount - $loan->total_admin_fee - ($loan->total_savings_deduction ?? 0)), 0, ',', '.') }}</strong>
                 </div>
                 <div>
                     <span class="text-slate-400 block">Dicairkan Oleh:</span>

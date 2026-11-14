@@ -20,6 +20,7 @@ class LoanCalculationService
      * @param int $adminFee Biaya administrasi dalam Rupiah
      * @param string $tenorUnit Satuan tenor: 'month' | 'week'
      * @param DateTimeInterface|null $startDate Tanggal awal kalkulasi jadwal
+     * @param int $savingsDeduction Potongan simpanan (misal simpanan 5%) dalam Rupiah
      * @return array
      */
     public function simulate(
@@ -29,7 +30,8 @@ class LoanCalculationService
         string $method = 'effective',
         int $adminFee = 50000,
         string $tenorUnit = 'month',
-        ?DateTimeInterface $startDate = null
+        ?DateTimeInterface $startDate = null,
+        int $savingsDeduction = 0
     ): array {
         $rateDecimal = $ratePerPeriod / 100.0;
         $schedules = [];
@@ -155,6 +157,7 @@ class LoanCalculationService
 
         $totalCost = $totalInterest + $adminFee;
         $totalPayable = $principal + $totalCost;
+        $netDisbursementAmount = max(0, $principal - $adminFee - $savingsDeduction);
 
         // Perhitungan Suku Bunga Setara Per Tahun (Transparansi Finansial):
         // 1. Suku bunga nominal tahunan (r * periode per tahun)
@@ -180,6 +183,9 @@ class LoanCalculationService
             'periods_per_year' => $periodsPerYear,
             'total_interest' => $totalInterest,
             'admin_fee' => $adminFee,
+            'savings_deduction' => $savingsDeduction,
+            'net_disbursement_amount' => $netDisbursementAmount,
+            'disbursed_net_amount' => $netDisbursementAmount,
             'total_cost' => $totalCost,
             'total_payable' => $totalPayable,
             'first_month_installment' => $schedules[0]['total_amount'] ?? 0,

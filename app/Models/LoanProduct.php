@@ -26,6 +26,7 @@ class LoanProduct extends Model
         'max_tenor',
         'admin_fee_percentage',
         'admin_fee_fixed',
+        'savings_percentage',
         'penalty_rate_daily',
         'is_active',
     ];
@@ -42,6 +43,7 @@ class LoanProduct extends Model
         'max_tenor' => 'integer',
         'admin_fee_percentage' => 'decimal:2',
         'admin_fee_fixed' => 'integer',
+        'savings_percentage' => 'decimal:2',
         'penalty_rate_daily' => 'decimal:4',
         'is_active' => 'boolean',
     ];
@@ -87,6 +89,26 @@ class LoanProduct extends Model
     public function getInterestRatePerPeriodAttribute($value): float
     {
         return (float) ($value ?? $this->interest_rate_monthly ?? 0);
+    }
+
+    public function getSavingsPercentageAttribute($value): float
+    {
+        return (float) ($value ?? ($this->isWeekly() ? 5.00 : 0.00));
+    }
+
+    public function calculateAdminFee(int $amount): int
+    {
+        return (int) round(($amount * ($this->admin_fee_percentage / 100)) + $this->admin_fee_fixed);
+    }
+
+    public function calculateSavingsDeduction(int $amount): int
+    {
+        return (int) round($amount * ($this->savings_percentage / 100));
+    }
+
+    public function calculateNetDisbursement(int $amount): int
+    {
+        return max(0, $amount - $this->calculateAdminFee($amount) - $this->calculateSavingsDeduction($amount));
     }
 
     public function loanApplications()

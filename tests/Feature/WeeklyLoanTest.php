@@ -481,4 +481,174 @@ class WeeklyLoanTest extends TestCase
         $firstSchedule->refresh();
         $this->assertEquals(LoanSchedule::STATUS_PAID, $firstSchedule->status);
     }
+
+    /**
+     * Uji Ketentuan Resmi Tabel Pinjaman Mingguan Sesuai Dokumen Fisik:
+     * - Besar pinjaman: Rp 200.000
+     * - Simpanan 5%: Rp 10.000
+     * - Administrasi 5%: Rp 10.000
+     * - Besar angsuran: Rp 24.000 (10x angsuran)
+     * - Jumlah yang diterima (bersih): Rp 180.000
+     * - Banyak angsuran: 10
+     */
+    public function test_weekly_loan_matches_official_table_provisions_from_image()
+    {
+        $this->seed();
+
+        $member = Member::where('status', Member::STATUS_ACTIVE)->first();
+        $teller = User::where('role', User::ROLE_TELLER)->first();
+        $analyst = User::where('role', User::ROLE_ANALYST)->first();
+        $manager = User::where('role', User::ROLE_MANAGER)->first();
+
+        // Ambil produk resmi PRD-MGN atau buat produk mingguan mikro flat
+        $product = LoanProduct::where('code', 'PRD-MGN')->first();
+        if (!$product) {
+            $product = LoanProduct::create([
+                'name' => 'Pinjaman Mingguan Mikro',
+                'code' => 'PRD-MGN',
+                'description' => 'Pinjaman mingguan untuk pedagang pasar & mikro',
+                'interest_rate_annual' => 104.00,
+                'interest_rate_monthly' => 8.00,
+                'interest_rate_per_period' => 2.00,
+                'calculation_method' => 'flat',
+                'tenor_unit' => 'week',
+                'min_amount' => 200000,
+                'max_amount' => 5000000,
+                'min_tenor_months' => 1,
+                'max_tenor_months' => 6,
+                'min_tenor' => 4,
+                'max_tenor' => 24,
+                'admin_fee_percentage' => 5.00,
+                'admin_fee_fixed' => 0,
+                'savings_percentage' => 5.00,
+                'penalty_rate_daily' => 0.0010,
+                'is_active' => true,
+            ]);
+        } else {
+            $product->update([
+                'calculation_method' => 'flat',
+                'interest_rate_per_period' => 2.00,
+                'admin_fee_percentage' => 5.00,
+                'admin_fee_fixed' => 0,
+                'savings_percentage' => 5.00,
+                'min_amount' => 200000,
+            ]);
+        }
+
+        // 1. Verifikasi kalkulator simulasi
+        $principal = 200000;
+        $tenor = 10;
+        $adminFee = (int) round($principal * ($product->admin_fee_percentage / 100)); // 10.000
+        $savingsDeduction = (int) round($principal * ($product->savings_percentage / 100)); // 10.000
+
+        $simulation = $this->calculator->simulate(
+            $principal,
+            $tenor,
+            (float) $product->interest_rate_per_period,
+            'flat',
+            $adminFee,
+            'week',
+            null,
+            $savingsDeduction
+        );
+
+        $this->assertEquals(200000, $simulation['principal'], 'Besar pinjaman harus Rp 200.000');
+        $this->assertEquals(10000, $simulation['admin_fee'], 'Administrasi 5% harus Rp 10.000');
+        $this->assertEquals(10000, $simulation['savings_deduction'], 'Simpanan 5% harus Rp 10.000');
+        $this->assertEquals(180000, $simulation['net_disbursement_amount'], 'Jumlah yang diterima harus Rp 180.000');
+        $this->assertEquals(24000, $simulation['first_installment'], 'Besar angsuran harus Rp 24.000 per minggu');
+        $this->assertEquals(40000, $simulation['total_interest'], 'Total bunga pinjaman 10 minggu harus Rp 40.000');
+        $this->assertEquals(250000, $simulation['total_payable'], 'Total pengeluaran (pokok + bunga + admin) harus Rp 250.000');
+        $sumInstallments = array_sum(array_column($simulation['schedules'], 'total_amount'));
+        $this->assertEquals(240000, $sumInstallments, 'Total angsuran pengembalian 10 kali harus Rp 240.000');
+        $this->assertCount(10, $simulation['schedules'], 'Banyak angsuran harus 10');
+
+        foreach ($simulation['schedules'] as $s) {
+            $this->assertEquals(20000, $s['principal_amount'], 'Pokok per minggu Rp 20.000');
+            $this->assertEquals(4000, $s['interest_amount'], 'Bunga per minggu Rp 4.000');
+            $this->assertEquals(24000, $s['total_amount'], 'Angsuran per minggu Rp 24.000');
+        }
+
+        // 2. Lifecycle pengajuan pinjaman
+        $app = $this->loanService->apply(
+            $member,
+            $product,
+            200000,
+            10,
+            'Modal usaha dagang mikro sesuai ketentuan tabel'
+        );
+
+        $this->assertEquals(200000, $app->amount);
+        $this->assertEquals(10, $app->tenor_count);
+        $this->assertEquals(5.00, $app->savings_percentage);
+        $this->assertEquals(10000, $app->savings_amount);
+        $this->assertEquals(180000, $app->net_disbursement_amount);
+        $this->assertEquals(24000, $app->monthly_installment_estimate);
+
+        // 3. Teller terima & verifikasi berkas
+        $this->loanService->claimByTeller($app, $teller);
+        $checklist = LoanApplication::defaultChecklistItems();
+        foreach ($checklist as $key => &$item) {
+            $item['verified'] = true;
+        }
+        $this->loanService->receiveByTeller($app, $teller, $checklist, 'Berkas pengajuan Rp 200.000 lengkap');
+
+        // 4. Analis review
+        $this->actingAs($analyst);
+        $this->loanService->reviewByAnalyst($app, 'recommend', 'Rekomendasi pinjaman mikro Rp 200.000 tenor 10 minggu', 'Rp 200.000');
+
+        // 5. Manajer setujui
+        $this->actingAs($manager);
+        $this->loanService->approveByManager($app, 'approve', 'Disetujui sesuai tabel resmi');
+
+        $loan = Loan::where('loan_application_id', $app->id)->first();
+        $this->assertNotNull($loan);
+        $this->assertEquals(200000, $loan->principal_amount);
+        $this->assertEquals(10000, $loan->total_admin_fee);
+        $this->assertEquals(10000, $loan->total_savings_deduction);
+        $this->assertEquals(180000, $loan->net_disbursement_amount);
+
+        // 6. Anggota tanda tangani akad
+        $this->loanService->signAgreement($loan);
+
+        // 7. Saldo simpanan wajib anggota sebelum pencairan
+        $wajibAccount = $member->savingsAccounts()->firstOrCreate(
+            ['type' => 'wajib'],
+            [
+                'account_number' => 'SW-' . $member->member_no,
+                'balance' => 0,
+                'status' => 'active',
+                'interest_rate' => 0,
+                'opened_at' => now(),
+            ]
+        );
+        $initialBalance = $wajibAccount->balance;
+
+        // 8. Teller cairkan pinjaman
+        $this->actingAs($teller);
+        $this->loanService->disburse($loan, 'cash');
+        $loan->refresh();
+        $wajibAccount->refresh();
+
+        $this->assertEquals(Loan::STATUS_ACTIVE, $loan->status);
+        $this->assertEquals($initialBalance + 10000, $wajibAccount->balance, 'Simpanan 5% (Rp 10.000) masuk ke rekening simpanan wajib anggota');
+
+        // 9. Cek jadwal angsuran
+        $this->assertCount(10, $loan->schedules);
+        foreach ($loan->schedules as $sched) {
+            $this->assertEquals(24000, $sched->total_amount, 'Tiap angsuran tepat Rp 24.000');
+            $this->assertEquals(20000, $sched->principal_amount, 'Pokok tepat Rp 20.000');
+            $this->assertEquals(4000, $sched->interest_amount, 'Bunga tepat Rp 4.000');
+        }
+
+        // 10. Bayar angsuran pertama Rp 24.000
+        $firstSched = $loan->schedules->first();
+        $this->loanService->payInstallment($loan, 24000, 'cash', null, 'Angsuran 1 pinjaman mingguan');
+        $firstSched->refresh();
+        $this->assertEquals(LoanSchedule::STATUS_PAID, $firstSched->status);
+        $this->assertEquals(20000, $firstSched->paid_principal);
+        $this->assertEquals(4000, $firstSched->paid_interest);
+        $this->assertEquals(24000, $firstSched->paid_principal + $firstSched->paid_interest);
+        $this->assertNotNull($firstSched->paid_at);
+    }
 }

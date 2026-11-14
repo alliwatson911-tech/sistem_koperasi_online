@@ -52,8 +52,8 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="form-group">
                     <label for="input_amount" class="form-label font-bold text-slate-700" id="label_amount">Nominal Pengajuan (Rp) <span class="text-red-500" aria-hidden="true">*</span></label>
-                    <input type="number" id="input_amount" name="amount" class="form-control focus:ring-2 focus:ring-emerald-700" value="{{ old('amount', request('amount', 5000000)) }}" required min="500000" step="100000" aria-describedby="help_amount">
-                    <span class="form-text text-xs text-slate-500 mt-1" id="help_amount">Plafon pinjaman sesuai produk pilihan</span>
+                    <input type="number" id="input_amount" name="amount" class="form-control focus:ring-2 focus:ring-emerald-700" value="{{ old('amount', request('amount', $selectedProduct->min_amount ?? 200000)) }}" required min="{{ $selectedProduct->min_amount ?? 200000 }}" step="{{ ($selectedProduct->min_amount ?? 500000) <= 200000 ? 50000 : 100000 }}" aria-describedby="help_amount">
+                    <span class="form-text text-xs text-slate-500 mt-1" id="help_amount">Plafon: Rp {{ number_format($selectedProduct->min_amount ?? 200000, 0, ',', '.') }} s/d Rp {{ number_format($selectedProduct->max_amount ?? 5000000, 0, ',', '.') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="input_tenor" class="form-label font-bold text-slate-700" id="label_tenor">Tenor Pinjaman <span class="text-red-500" aria-hidden="true">*</span></label>
@@ -307,6 +307,7 @@
 
         document.getElementById('input_amount').min = minAmount;
         document.getElementById('input_amount').max = maxAmount;
+        document.getElementById('input_amount').step = (Number(minAmount) <= 200000) ? 50000 : 100000;
         document.getElementById('help_amount').innerText = 'Plafon: Rp ' + Number(minAmount).toLocaleString('id-ID') + ' s/d Rp ' + Number(maxAmount).toLocaleString('id-ID');
 
         // Otomatis tampilkan bagian sesuai jenis produk:
