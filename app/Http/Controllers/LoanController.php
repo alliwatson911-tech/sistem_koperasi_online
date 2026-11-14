@@ -30,8 +30,7 @@ class LoanController extends Controller
 
     public function products()
     {
-        $products = LoanProduct::where('is_active', true)->get();
-        return view('loans.products', compact('products'));
+        return app(HomeController::class)->products();
     }
 
     public function simulation(Request $request)

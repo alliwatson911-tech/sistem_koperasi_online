@@ -564,6 +564,12 @@
                 <span class="text-xs font-bold uppercase tracking-wider text-[#0F4C81]">Petunjuk Praktis</span>
                 <h2 id="heading-panduan" class="text-2xl sm:text-3xl font-black text-slate-900">Panduan Menjadi Anggota & Simpan Pinjam</h2>
                 <p class="text-xs sm:text-sm text-slate-500">Langkah mudah bergabung dan alur operasional koperasi online yang transparan dan aman.</p>
+                <div class="pt-1">
+                    <a href="{{ route('guide') }}" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#0F4C81] hover:text-[#1B263B] hover:underline">
+                        <span>Buka Halaman Panduan &amp; FAQ Lengkap</span>
+                        <span>&rarr;</span>
+                    </a>
+                </div>
             </div>
 
             {{-- 4 Langkah Menjadi Anggota --}}
@@ -712,6 +718,12 @@
                 <span class="text-xs font-bold uppercase tracking-wider text-[#0F4C81]">Kalkulator Finansial</span>
                 <h2 id="heading-simulasi" class="text-2xl sm:text-3xl font-black text-slate-900">Simulasi Perhitungan Pinjaman Online</h2>
                 <p class="text-xs sm:text-sm text-slate-500">Praktekkan simulasi angsuran secara transparan. Sesuaikan plafon, jangka waktu tenor, dan metode perhitungan bunga.</p>
+                <div class="pt-1">
+                    <a href="{{ route('loans.simulation') }}" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#0F4C81] hover:text-[#1B263B] hover:underline">
+                        <span>Buka Kalkulator Simulasi Penuh &amp; Jadwal Angsuran</span>
+                        <span>&rarr;</span>
+                    </a>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -940,6 +952,12 @@
                 <span class="text-xs font-bold uppercase tracking-wider text-[#0F4C81]">Hubungi & Kunjungi Kami</span>
                 <h2 id="heading-tentang" class="text-2xl sm:text-3xl font-black text-slate-900">Tentang Kami & Layanan Anggota</h2>
                 <p class="text-xs sm:text-sm text-slate-500">Pusat informasi kontak, alamat kantor operasional, jam layanan, dan peta lokasi kantor pusat KSP Sahabat Sejahtera.</p>
+                <div class="pt-1">
+                    <a href="{{ route('about') }}" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#0F4C81] hover:text-[#1B263B] hover:underline">
+                        <span>Lihat Profil Lengkap, Legalitas &amp; 7 Prinsip Koperasi</span>
+                        <span>&rarr;</span>
+                    </a>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">

@@ -35,9 +35,13 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Simulasi & Katalog Publik / Anggota
+// Halaman Publik (Navigasi Utama Landing & Edukasi Anggota)
+Route::get('/produk', [HomeController::class, 'products'])->name('products.index');
+Route::get('/produk-pinjaman', [HomeController::class, 'products'])->name('loans.products');
+Route::get('/panduan', [HomeController::class, 'guide'])->name('guide');
+Route::get('/simulasi', [LoanController::class, 'simulation'])->name('loans.simulation.alias');
 Route::get('/simulasi-pinjaman', [LoanController::class, 'simulation'])->name('loans.simulation');
-Route::get('/produk-pinjaman', [LoanController::class, 'products'])->name('loans.products');
+Route::get('/tentang-kami', [HomeController::class, 'about'])->name('about');
 
 /*
 |--------------------------------------------------------------------------

@@ -636,19 +636,19 @@
                 @else
                     {{-- Navigasi Publik Sesuai Urutan Standar --}}
                     <nav class="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Navigasi Utama Landing Page">
-                        <a href="{{ url('/#dashboard') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-[#0F4C81] hover:bg-[#F8F5F0] transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]">
+                        <a href="{{ route('home') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] {{ request()->routeIs('home') ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold border border-[#B8E4DF]' : 'text-slate-700 hover:text-[#0F4C81] hover:bg-[#F8F5F0]' }}">
                             Dashboard
                         </a>
-                        <a href="{{ url('/#produk') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-[#0F4C81] hover:bg-[#F8F5F0] transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]">
+                        <a href="{{ route('products.index') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] {{ (request()->routeIs('products.*') || request()->routeIs('loans.products')) ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold border border-[#B8E4DF]' : 'text-slate-700 hover:text-[#0F4C81] hover:bg-[#F8F5F0]' }}">
                             Produk
                         </a>
-                        <a href="{{ url('/#panduan') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-[#0F4C81] hover:bg-[#F8F5F0] transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]">
+                        <a href="{{ route('guide') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] {{ request()->routeIs('guide') ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold border border-[#B8E4DF]' : 'text-slate-700 hover:text-[#0F4C81] hover:bg-[#F8F5F0]' }}">
                             Panduan
                         </a>
-                        <a href="{{ url('/#simulasi') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-[#0F4C81] hover:bg-[#F8F5F0] transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]">
+                        <a href="{{ route('loans.simulation') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] {{ request()->routeIs('loans.simulation*') ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold border border-[#B8E4DF]' : 'text-slate-700 hover:text-[#0F4C81] hover:bg-[#F8F5F0]' }}">
                             Simulasi Pinjaman
                         </a>
-                        <a href="{{ url('/#tentang-kami') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold text-slate-700 hover:text-[#0F4C81] hover:bg-[#F8F5F0] transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F]">
+                        <a href="{{ route('about') }}" class="px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-[#2A9D8F] {{ request()->routeIs('about') ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold border border-[#B8E4DF]' : 'text-slate-700 hover:text-[#0F4C81] hover:bg-[#F8F5F0]' }}">
                             Tentang Kami
                         </a>
 
@@ -709,11 +709,11 @@
                     Profil Saya
                 </a>
             @else
-                <a href="{{ url('/#dashboard') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-[#F8F5F0]">Dashboard</a>
-                <a href="{{ url('/#produk') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-[#F8F5F0]">Produk</a>
-                <a href="{{ url('/#panduan') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-[#F8F5F0]">Panduan</a>
-                <a href="{{ url('/#simulasi') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-[#F8F5F0]">Simulasi Pinjaman</a>
-                <a href="{{ url('/#tentang-kami') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold text-slate-700 hover:bg-[#F8F5F0]">Tentang Kami</a>
+                <a href="{{ route('home') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold transition-colors {{ request()->routeIs('home') ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold' : 'text-slate-700 hover:bg-[#F8F5F0]' }}">Dashboard</a>
+                <a href="{{ route('products.index') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold transition-colors {{ (request()->routeIs('products.*') || request()->routeIs('loans.products')) ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold' : 'text-slate-700 hover:bg-[#F8F5F0]' }}">Produk</a>
+                <a href="{{ route('guide') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold transition-colors {{ request()->routeIs('guide') ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold' : 'text-slate-700 hover:bg-[#F8F5F0]' }}">Panduan</a>
+                <a href="{{ route('loans.simulation') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold transition-colors {{ request()->routeIs('loans.simulation*') ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold' : 'text-slate-700 hover:bg-[#F8F5F0]' }}">Simulasi Pinjaman</a>
+                <a href="{{ route('about') }}" class="block px-3 py-2 rounded-lg text-sm font-semibold transition-colors {{ request()->routeIs('about') ? 'bg-[#EAF6F5] text-[#0F4C81] font-bold' : 'text-slate-700 hover:bg-[#F8F5F0]' }}">Tentang Kami</a>
                 
                 <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 mt-2">
                     @auth
@@ -807,31 +807,31 @@
                     <h3 class="text-xs sm:text-sm font-extrabold text-[#A3B18A] uppercase tracking-wider">Navigasi</h3>
                     <ul class="space-y-2 text-xs">
                         <li>
-                            <a href="{{ url('/#dashboard') }}" class="text-slate-200 hover:text-white transition-colors flex items-center gap-1.5 group">
+                            <a href="{{ route('home') }}" class="text-slate-200 hover:text-white transition-colors flex items-center gap-1.5 group">
                                 <span class="text-[#2A9D8F] font-bold group-hover:text-[#D4AF37] group-hover:translate-x-1 transition-all">&rsaquo;</span>
                                 <span>BERANDA UTAMA</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('/#produk') }}" class="text-slate-200 hover:text-white transition-colors flex items-center gap-1.5 group">
+                            <a href="{{ route('products.index') }}" class="text-slate-200 hover:text-white transition-colors flex items-center gap-1.5 group">
                                 <span class="text-[#2A9D8F] font-bold group-hover:text-[#D4AF37] group-hover:translate-x-1 transition-all">&rsaquo;</span>
                                 <span>PRODUK SIMPAN PINJAM</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('/#panduan') }}" class="text-slate-200 hover:text-white transition-colors flex items-center gap-1.5 group">
+                            <a href="{{ route('guide') }}" class="text-slate-200 hover:text-white transition-colors flex items-center gap-1.5 group">
                                 <span class="text-[#2A9D8F] font-bold group-hover:text-[#D4AF37] group-hover:translate-x-1 transition-all">&rsaquo;</span>
                                 <span>PANDUAN ANGGOTA &amp; e-KYC</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('/#simulasi') }}" class="text-slate-200 hover:text-white transition-colors flex items-center gap-1.5 group">
+                            <a href="{{ route('loans.simulation') }}" class="text-slate-200 hover:text-white transition-colors flex items-center gap-1.5 group">
                                 <span class="text-[#2A9D8F] font-bold group-hover:text-[#D4AF37] group-hover:translate-x-1 transition-all">&rsaquo;</span>
                                 <span>SIMULASI PINJAMAN ONLINE</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ url('/#tentang-kami') }}" class="text-slate-200 hover:text-white transition-colors flex items-center gap-1.5 group">
+                            <a href="{{ route('about') }}" class="text-slate-200 hover:text-white transition-colors flex items-center gap-1.5 group">
                                 <span class="text-[#2A9D8F] font-bold group-hover:text-[#D4AF37] group-hover:translate-x-1 transition-all">&rsaquo;</span>
                                 <span>TENTANG KAMI &amp; KONTAK</span>
                             </a>

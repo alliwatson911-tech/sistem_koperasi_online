@@ -5,11 +5,11 @@
 @section('content')
 <!-- Navigasi Kembali ke Halaman Sebelumnya (Kiri Atas) -->
 <div class="mb-4">
-    <a href="{{ route('dashboard') }}" 
+    <a href="{{ auth()->check() ? route('dashboard') : route('home') }}" 
        class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-[#F8F5F0] text-[#0F4C81] hover:text-[#1B263B] border border-[#E8E2D8] text-xs font-bold transition-all shadow-2xs"
        title="Kembali ke halaman sebelumnya">
         <svg class="w-4 h-4 text-[#0F4C81]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-        <span>Kembali ke Halaman Sebelumnya</span>
+        <span>Kembali ke {{ auth()->check() ? 'Dasbor' : 'Beranda Utama' }}</span>
     </a>
 </div>
 
